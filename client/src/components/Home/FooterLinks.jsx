@@ -20,7 +20,7 @@ export const FooterLinks = [
     items: [
       { name: "Privacy", href: "/privacy" },
       { name: "Terms", href: "/terms" },
-      { name: " Policy", href: "/policy" },
+      { name: "Cookie Policy", href: "/cookie-policy" },
     ],
   },
 ];
