@@ -124,7 +124,7 @@ export default function SignUp() {
           </form>
           <div className="text-center lg:text-left">
             <p className="text-sm text-muted-foreground">
-              Already have an account?{" "}
+              Already have an account?{"  "}
               <Link
                 to="/sign-in"
                 className="font-medium text-primary hover:underline"
