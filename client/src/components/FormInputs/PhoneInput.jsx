@@ -1,172 +1,121 @@
-"use client";
-
-import React, { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
+import React, { useState } from "react";
+import { CircleHelp } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { CircleHelp } from "lucide-react";
-import Select from "react-tailwindcss-select";
-import { countries } from "@/lib/countryData";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import Combobox from "@/components/ui/combobox";
 
-export default function PhoneInput({
+const PhoneInput = ({
   register,
-  errors,
-  label,
-  name,
+  errors = {},
+  label = "Phone Number",
+  name = "phoneNumber",
   toolTipText,
-  placeholder,
-}) {
-  const initialCountryCode = "IN";
+  placeholder = "+1 (555) 123-4567",
+  required = true,
+  validation = {
+    pattern: {
+      value: /^\+?1?\s*\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})$/,
+      message: "Invalid phone number format",
+    },
+  },
+  countryOptions = [
+    { label: "Canada (+1)", value: "+1" },
+    { label: "United Kingdom (+44)", value: "+44" },
+    { label: "Australia (+61)", value: "+61" },
+    { label: "India (+91)", value: "+91" },
+  ],
+}) => {
+  const [value, setValue] = useState("");
+  const [countryCode, setCountryCode] = useState("+1");
 
-  const modifiedCountries = countries.map((country) => ({
-    value: country.countryCode,
-    label: `${country.countryCode} ${country.phoneCode}`,
-    phoneCode: country.phoneCode,
-    currencyCode: country.currencyCode,
-    countryCode: country.countryCode,
-    flag: country.flag,
-  }));
+  if (!register || !name) {
+    console.error("PhoneInput requires 'register' and 'name'");
+    return null;
+  }
 
-  const initialCountry = modifiedCountries.find(
-    (item) => item.countryCode === initialCountryCode
-  );
+  const registration = register(name, {
+    ...(required ? { required: `${label} is required` } : {}),
+    ...validation,
+  });
 
-  const [selectedCountry, setSelectedCountry] = useState(initialCountry);
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [touched, setTouched] = useState(false);
-
-  const formatPhoneNumber = (number) => {
-    return number.replace(/^0+/, "");
+  const handleChange = (e) => {
+    const rawValue = e.target.value;
+    setValue(rawValue);
+    registration.onChange(e);
   };
 
-  const fullNumber = (country, number) => {
-    if (!country || !country.phoneCode) return number;
-    const formattedNumber = formatPhoneNumber(number);
-    return `${country.phoneCode}${formattedNumber}`;
+  const handleCountryCodeChange = (code) => {
+    setCountryCode(code);
   };
 
-  const handleCountryChange = (country) => {
-    setSelectedCountry(country);
-    updatePhoneNumber(country, phoneNumber);
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = phoneNumber.replace(/\D/g, "");
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+
+    if (match) {
+      return `${countryCode} (${match[1]}) ${match[2]}-${match[3]}`;
+    }
+
+    return phoneNumber;
   };
-
-  const handlePhoneNumberChange = (e) => {
-    const value = e.target.value;
-    const cleanValue = value.replace(/\D/g, "");
-    setPhoneNumber(cleanValue);
-    updatePhoneNumber(selectedCountry, cleanValue);
-    setTouched(true);
-  };
-
-  const updatePhoneNumber = (country, number) => {
-    const fullPhoneNumber = fullNumber(country, number);
-    register(name, { required: true }).onChange({
-      target: {
-        name,
-        value: fullPhoneNumber,
-      },
-    });
-  };
-
-  useEffect(() => {
-    register(name, { required: true });
-  }, [register, name]);
-
-  const inputId = `phone-input-${name}`;
-  const selectId = `country-select-${name}`;
 
   return (
-    <div className="space-y-2">
-      <div className="flex space-x-2 items-center">
-        <Label
-          htmlFor={inputId}
-          className="text-sm font-medium"
-          id={`${inputId}-label`}
-        >
-          {label}
-        </Label>
+    <div className="space-y-2 relative w-full">
+      <div className="flex items-center gap-2">
+        <Label className="text-sm font-medium">{label}</Label>
         {toolTipText && (
           <TooltipProvider>
-            <Tooltip>
+            <Tooltip delayDuration={300}>
               <TooltipTrigger asChild>
-                <button type="button" aria-label="Help information">
-                  <CircleHelp className="w-4 h-4 text-muted-foreground" />
-                </button>
+                <Button variant="ghost" size="icon" className="h-6 w-6 p-0">
+                  <CircleHelp className="h-4 w-4 text-muted-foreground" />
+                </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>{toolTipText}</p>
+                <p className="text-sm">{toolTipText}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         )}
       </div>
-      <div className="mt-2">
-        <div className="flex gap-2">
-          <div className="w-28">
-            <Select
-              isSearchable
-              primaryColor="primary"
-              value={selectedCountry}
-              onChange={handleCountryChange}
-              options={modifiedCountries}
-              placeholder="Country"
-              id={selectId}
-              aria-labelledby={`${inputId}-label`}
-              formatOptionLabel={(option) => (
-                <li
-                  className={`block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
-                    !option.isSelected
-                      ? `text-foreground`
-                      : `bg-primary text-primary-foreground`
-                  }`}
-                >
-                  {option.countryCode} {option.phoneCode}
-                </li>
-              )}
-              classNames={{
-                menuButton: ({ isDisabled }) =>
-                  `flex text-sm text-foreground border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-full items-center justify-between rounded-md px-3 py-2 ${
-                    isDisabled && "opacity-50"
-                  }`,
-                menu: "absolute z-10 w-full bg-popover text-popover-foreground shadow-md rounded-md py-1 mt-1",
-                listItem: ({ isSelected }) =>
-                  `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
-                    isSelected
-                      ? `bg-primary text-primary-foreground`
-                      : `text-foreground hover:bg-accent hover:text-accent-foreground`
-                  }`,
-              }}
-            />
-          </div>
-          <div className="relative flex-1">
-            <Input
-              id={inputId}
-              type="tel"
-              value={phoneNumber}
-              onChange={handlePhoneNumberChange}
-              onBlur={() => setTouched(true)}
-              className={cn(
-                "w-full",
-                errors[name] &&
-                  "border-destructive focus-visible:ring-destructive"
-              )}
-              placeholder={placeholder || "Phone number"}
-              aria-invalid={errors[name] ? "true" : "false"}
-            />
-          </div>
+
+      <div className="flex gap-2 w-full">
+        <div className="w-1/3 gap-2">
+          <Combobox
+            value={countryCode}
+            onValueChange={handleCountryCodeChange}
+            options={countryOptions.map((option, index) => ({
+              label: option.label,
+              value: option.value,
+              key: `country-code-${option.value}`,
+            }))}
+            placeholder="Select country code"
+            emptyText="No country codes available"
+            showSearch
+          />
         </div>
-        {errors[name] && (
-          <span className="text-xs text-destructive" role="alert">
-            {label} is required
-          </span>
-        )}
+        <Input
+          type="tel"
+          placeholder={placeholder}
+          {...registration}
+          value={value}
+          onChange={handleChange}
+          className={`w-full ${errors[name] ? "border-destructive" : ""}`}
+        />
       </div>
+
+      {errors[name] && (
+        <p className="text-xs text-destructive">{errors[name].message}</p>
+      )}
     </div>
   );
-}
+};
+
+export default PhoneInput;

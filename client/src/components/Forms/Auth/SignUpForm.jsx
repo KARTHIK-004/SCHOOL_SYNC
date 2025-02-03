@@ -10,6 +10,10 @@ import { Lock, UserPlus, Mail, User } from "lucide-react";
 import { signUp } from "@/utils/authAPI";
 import { useToast } from "@/hooks/use-toast";
 import RadioInput from "@/components/FormInputs/RadioInput";
+import ComboboxInput from "@/components/FormInputs/ComboBoxInput";
+import MultiComboboxInput from "@/components/FormInputs/multi-combobox-input";
+import { countries } from "@/lib/CountryData";
+import PhoneInput from "@/components/FormInputs/PhoneInput";
 
 export default function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,6 +32,25 @@ export default function SignUpForm() {
     { value: "student", label: "Student" },
     { value: "parent", label: "Parent" },
   ];
+
+  const options = [
+    { value: "apple", label: "Apple" },
+    { value: "banana", label: "Banana" },
+    { value: "cherry", label: "Cherry" },
+    { value: "grape", label: "Grape" },
+    { value: "mango", label: "Mango" },
+    { value: "orange", label: "Orange" },
+    { value: "pineapple", label: "Pineapple" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "watermelon", label: "Watermelon" },
+    { value: "blueberry", label: "Blueberry" },
+    { value: "kiwi", label: "Kiwi" },
+    { value: "pear", label: "Pear" },
+    { value: "peach", label: "Peach" },
+    { value: "pomegranate", label: "Pomegranate" },
+    { value: "papaya", label: "Papaya" },
+  ];
+  const [phoneCode, setPhoneCode] = useState(false);
 
   async function onSubmit(data) {
     setIsLoading(true);
@@ -116,6 +139,36 @@ export default function SignUpForm() {
           label="Select your role"
           gridSize={2}
           options={roleOptions}
+        />
+
+        <ComboboxInput
+          register={register}
+          errors={errors}
+          name="category"
+          label="Category"
+          options={[
+            { value: "option1", label: "Option 1" },
+            { value: "option2", label: "Option 2" },
+          ]}
+          toolTipText="Select a category"
+        />
+        <PhoneInput
+          register={register}
+          errors={errors}
+          name="contactPhone"
+          label="Contact Phone"
+          toolTipText="Please provide a valid US phone number"
+        />
+
+        <MultiComboboxInput
+          register={register}
+          errors={errors}
+          name="fruits"
+          label="Select Fruits"
+          options={options}
+          placeholder="Choose fruits..."
+          showSearch={true}
+          toolTipText="Select one or more fruits"
         />
 
         <SubmitButton
