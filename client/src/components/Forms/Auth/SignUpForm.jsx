@@ -11,9 +11,7 @@ import { signUp } from "@/utils/authAPI";
 import { useToast } from "@/hooks/use-toast";
 import RadioInput from "@/components/FormInputs/RadioInput";
 import ComboboxInput from "@/components/FormInputs/ComboBoxInput";
-import MultiComboboxInput from "@/components/FormInputs/multi-combobox-input";
-import { countries } from "@/lib/CountryData";
-import PhoneInput from "@/components/FormInputs/PhoneInput";
+import MultiComboboxInput from "@/components/FormInputs/MultiComboboxInput";
 
 export default function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -151,13 +149,6 @@ export default function SignUpForm() {
             { value: "option2", label: "Option 2" },
           ]}
           toolTipText="Select a category"
-        />
-        <PhoneInput
-          register={register}
-          errors={errors}
-          name="contactPhone"
-          label="Contact Phone"
-          toolTipText="Please provide a valid US phone number"
         />
 
         <MultiComboboxInput

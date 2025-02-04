@@ -50,8 +50,14 @@ const TextInput = ({
         )}
         <Input
           id={name}
-          type={type}
-          {...register(name, { required: true })}
+          type={type === "number" ? "text" : type}
+          {...register(name, {
+            required: true,
+            pattern: {
+              value: type === "number" ? /^-?\d+(\.\d+)?$/ : /.+/,
+              message: type === "number" ? "Invalid number format" : "",
+            },
+          })}
           className={cn(
             "w-full",
             Icon && "pl-10",
@@ -66,7 +72,9 @@ const TextInput = ({
         )}
       </div>
       {errors[name] && (
-        <p className="text-xs text-destructive">{label} is required</p>
+        <p className="text-xs text-destructive">
+          {errors[name].message || `${label} is required`}
+        </p>
       )}
     </div>
   );

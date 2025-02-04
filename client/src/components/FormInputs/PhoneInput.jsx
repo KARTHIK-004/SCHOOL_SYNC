@@ -74,7 +74,7 @@ const PhoneInput = ({
           <TooltipProvider>
             <Tooltip delayDuration={300}>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-6 w-6 p-0">
+                <Button variant="ghost" size="icon" className="h-4 w-4 p-0">
                   <CircleHelp className="h-4 w-4 text-muted-foreground" />
                 </Button>
               </TooltipTrigger>

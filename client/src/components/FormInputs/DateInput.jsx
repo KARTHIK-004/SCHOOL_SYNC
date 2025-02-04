@@ -8,36 +8,41 @@ import {
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import MultiCombobox from "@/components/ui/multi-combobox";
+import { Input } from "@/components/ui/input";
+import { DatePicker } from "@/components/ui/date-picker";
 
-const MultiComboboxInput = ({
+const DateInput = ({
   register,
   errors = {},
-  label = "",
-  name = "",
+  label = "Date",
+  name = "date",
   toolTipText,
-  options = [],
-  placeholder = "Select options...",
-  emptyText = "No options available",
-  showSearch = false,
+  placeholder = "MM/DD/YYYY",
+  required = true,
+  validation = {
+    pattern: {
+      value: /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/,
+      message: "Invalid date format",
+    },
+  },
+  className = "w-full",
 }) => {
-  const [values, setValues] = useState([]);
+  const [value, setValue] = useState("");
 
-  if (!register || !name || !Array.isArray(options)) {
-    console.error(
-      "MultiComboboxInput requires 'register', 'name', and valid options array"
-    );
+  if (!register || !name) {
+    console.error("DateInput requires 'register' and 'name'");
     return null;
   }
 
   const registration = register(name, {
-    required: `${label} is required`,
+    ...(required ? { required: `${label} is required` } : {}),
+    ...validation,
   });
 
-  const handleValuesChange = (newValues) => {
-    setValues(newValues);
+  const handleChange = (newValue) => {
+    setValue(newValue);
     registration.onChange({
-      target: { name, value: newValues },
+      target: { name, value: newValue },
       type: "change",
     });
   };
@@ -62,15 +67,17 @@ const MultiComboboxInput = ({
         )}
       </div>
 
-      <MultiCombobox
-        values={values}
-        onValuesChange={handleValuesChange}
-        options={options}
-        placeholder={placeholder}
-        emptyText={emptyText}
-        label={label}
-        showSearch={showSearch}
-      />
+      <div className={`flex items-center gap-2 ${className}`}>
+        <Input
+          type="text"
+          placeholder={placeholder}
+          {...registration}
+          value={value}
+          readOnly
+          className="flex-1"
+        />
+        <DatePicker value={value} onChange={handleChange} />
+      </div>
 
       {errors[name] && (
         <p className="text-xs text-destructive">{errors[name].message}</p>
@@ -79,4 +86,4 @@ const MultiComboboxInput = ({
   );
 };
 
-export default MultiComboboxInput;
+export default DateInput;

@@ -8,24 +8,24 @@ import {
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import Combobox from "@/components/ui/combobox";
+import MultiCombobox from "@/components/ui/multi-combobox";
 
-const ComboboxInput = ({
+const MultiComboboxInput = ({
   register,
   errors = {},
   label = "",
   name = "",
   toolTipText,
   options = [],
-  placeholder = "Select option...",
+  placeholder = "Select options...",
   emptyText = "No options available",
   showSearch = false,
 }) => {
-  const [value, setValue] = useState("");
+  const [values, setValues] = useState([]);
 
   if (!register || !name || !Array.isArray(options)) {
     console.error(
-      "ComboboxInput requires 'register', 'name', and valid options array"
+      "MultiComboboxInput requires 'register', 'name', and valid options array"
     );
     return null;
   }
@@ -34,10 +34,10 @@ const ComboboxInput = ({
     required: `${label} is required`,
   });
 
-  const handleValueChange = (newValue) => {
-    setValue(newValue);
+  const handleValuesChange = (newValues) => {
+    setValues(newValues);
     registration.onChange({
-      target: { name, value: newValue },
+      target: { name, value: newValues },
       type: "change",
     });
   };
@@ -62,9 +62,9 @@ const ComboboxInput = ({
         )}
       </div>
 
-      <Combobox
-        value={value}
-        onValueChange={handleValueChange}
+      <MultiCombobox
+        values={values}
+        onValuesChange={handleValuesChange}
         options={options}
         placeholder={placeholder}
         emptyText={emptyText}
@@ -79,4 +79,4 @@ const ComboboxInput = ({
   );
 };
 
-export default ComboboxInput;
+export default MultiComboboxInput;
