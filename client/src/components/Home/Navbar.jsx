@@ -30,6 +30,7 @@ import {
   userNavigationItems,
 } from "@/components/Home/NavbarLinks";
 import Logo from "../ui/logo";
+import { ModeToggle } from "../theme/ModeToggle";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -143,6 +144,7 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex items-center space-x-4">
+          <ModeToggle />
           {localStorage.getItem("token") ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -191,10 +193,10 @@ const Navbar = () => {
             </DropdownMenu>
           ) : (
             <>
-              <Button variant="ghost" asChild>
+              <Button variant="outline" asChild>
                 <Link to="/sign-in">Sign in</Link>
               </Button>
-              <Button variant="outline" asChild>
+              <Button asChild>
                 <Link to="/sign-up">Sign up</Link>
               </Button>
             </>
