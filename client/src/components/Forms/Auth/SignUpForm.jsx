@@ -1,17 +1,13 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import CustomCarousel from "@/components/ui/custom-carousel";
 import TextInput from "@/components/FormInputs/TextInput";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
 import { Link, useNavigate } from "react-router-dom";
-import Logo from "@/components/ui/logo";
 import PasswordInput from "@/components/FormInputs/PasswordInput";
 import { Lock, UserPlus, Mail, User } from "lucide-react";
 import { signUp } from "@/utils/authAPI";
 import { useToast } from "@/hooks/use-toast";
-import RadioInput from "@/components/FormInputs/RadioInput";
 import ComboboxInput from "@/components/FormInputs/ComboBoxInput";
-import MultiComboboxInput from "@/components/FormInputs/MultiComboboxInput";
 
 export default function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -30,25 +26,6 @@ export default function SignUpForm() {
     { value: "student", label: "Student" },
     { value: "parent", label: "Parent" },
   ];
-
-  const options = [
-    { value: "apple", label: "Apple" },
-    { value: "banana", label: "Banana" },
-    { value: "cherry", label: "Cherry" },
-    { value: "grape", label: "Grape" },
-    { value: "mango", label: "Mango" },
-    { value: "orange", label: "Orange" },
-    { value: "pineapple", label: "Pineapple" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "watermelon", label: "Watermelon" },
-    { value: "blueberry", label: "Blueberry" },
-    { value: "kiwi", label: "Kiwi" },
-    { value: "pear", label: "Pear" },
-    { value: "peach", label: "Peach" },
-    { value: "pomegranate", label: "Pomegranate" },
-    { value: "papaya", label: "Papaya" },
-  ];
-  const [phoneCode, setPhoneCode] = useState(false);
 
   async function onSubmit(data) {
     setIsLoading(true);
@@ -92,15 +69,7 @@ export default function SignUpForm() {
   }
 
   return (
-    <div className="space-y-8 w-full max-w-md">
-      <div className="space-y-2">
-        <h1 className="text-4xl font-medium tracking-tight">
-          Create an account
-        </h1>
-        <p className="text-base">
-          Enter your details below to create your account
-        </p>
-      </div>
+    <>
       <form className="grid gap-4" onSubmit={handleSubmit(onSubmit)}>
         <TextInput
           icon={User}
@@ -129,39 +98,14 @@ export default function SignUpForm() {
           errors={errors}
           placeholder="******"
         />
-
-        <RadioInput
-          register={register}
-          errors={errors}
-          name="role"
-          label="Select your role"
-          gridSize={2}
-          options={roleOptions}
-        />
-
         <ComboboxInput
           register={register}
           errors={errors}
-          name="category"
-          label="Category"
-          options={[
-            { value: "option1", label: "Option 1" },
-            { value: "option2", label: "Option 2" },
-          ]}
-          toolTipText="Select a category"
+          name="role"
+          label="Select the role"
+          options={roleOptions}
+          toolTipText="Select a role"
         />
-
-        <MultiComboboxInput
-          register={register}
-          errors={errors}
-          name="fruits"
-          label="Select Fruits"
-          options={options}
-          placeholder="Choose fruits..."
-          showSearch={true}
-          toolTipText="Select one or more fruits"
-        />
-
         <SubmitButton
           buttonIcon={UserPlus}
           title="Create Account"
@@ -180,6 +124,6 @@ export default function SignUpForm() {
           </Link>
         </p>
       </div>
-    </div>
+    </>
   );
 }

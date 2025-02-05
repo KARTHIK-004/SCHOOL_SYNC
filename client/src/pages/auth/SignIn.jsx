@@ -1,25 +1,38 @@
-import { Outlet, useLocation, Link } from "react-router-dom";
-import CustomCarousel from "@/components/ui/custom-carousel";
+import React from "react";
 import Logo from "@/components/ui/logo";
 import SignInForm from "@/components/Forms/Auth/SignInForm";
 
-export default function SignIn() {
-  const location = useLocation();
-  const isSignUp = location.pathname.includes("sign-up");
-
+const SignIn = () => {
   return (
-    <div className="flex min-h-screen">
-      <div className="flex-1 flex flex-col p-8 lg:px-12">
-        <div className="flex-shrink-0">
-          <Logo />
+    <div className="min-h-screen flex">
+      {/* Left section with testimonial*/}
+      <div className="hidden md:flex md:flex-1 p-8 flex-col justify-between bg-muted bg-[url('/slide2.jpg')] bg-cover bg-center bg-no-repeat">
+        <Logo />
+        <div className="max-w-md">
+          <blockquote className="text-2xl font-medium">
+            "This system has made managing our school so much easier and more
+            efficient."
+          </blockquote>
+          <div className="mt-4">School Sync Administrator</div>
         </div>
-        <div className="flex-grow flex items-center justify-center mt-12">
+      </div>
+
+      {/* Right section with form */}
+      <div className="flex-1 p-8 flex items-center justify-center">
+        <div className="w-full max-w-md space-y-6">
+          <div className="space-y-2 text-center">
+            <h1 className="text-4xl font-medium tracking-tight">
+              Sign in to your account
+            </h1>
+            <p className="text-base ">
+              Enter your email below to sign in to your account
+            </p>
+          </div>
           <SignInForm />
         </div>
       </div>
-      <div className="hidden lg:block lg:w-1/2 relative">
-        <CustomCarousel />
-      </div>
     </div>
   );
-}
+};
+
+export default SignIn;

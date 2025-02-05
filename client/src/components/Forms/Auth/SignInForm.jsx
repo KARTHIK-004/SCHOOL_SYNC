@@ -55,14 +55,6 @@ export default function SignInForm() {
 
   return (
     <div className="space-y-8 w-full max-w-md">
-      <div className="space-y-2">
-        <h1 className="text-4xl font-medium tracking-tight">
-          Sign in to your account
-        </h1>
-        <p className="text-base ">
-          Enter your email below to sign in to your account
-        </p>
-      </div>
       <form className="grid gap-4" onSubmit={handleSubmit(onSubmit)}>
         <TextInput
           icon={Mail}

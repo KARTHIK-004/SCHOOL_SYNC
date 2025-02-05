@@ -1,21 +1,21 @@
 import React from "react";
 import {
-  AudioWaveform,
+  GraduationCap,
+  Users,
+  CalendarDays,
   BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
+  ClipboardList,
   Settings2,
-  SquareTerminal,
+  School,
+  DollarSign,
+  Bell,
+  LayoutDashboard,
 } from "lucide-react";
 
 import { NavMain } from "@/components/Sidebar/nav-main";
 import { NavProjects } from "@/components/Sidebar/nav-projects";
 import { NavUser } from "@/components/Sidebar/nav-user";
-import { TeamSwitcher } from "@/components/Sidebar/team-switcher";
+import { SidebarLogo } from "./sidebar-logo";
 import {
   Sidebar,
   SidebarContent,
@@ -24,43 +24,100 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-// This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
   navMain: [
     {
-      title: "Playground",
+      title: "Dashboard",
       url: "#",
-      icon: SquareTerminal,
+      icon: LayoutDashboard,
       isActive: true,
       items: [
         {
-          title: "History",
+          title: "Overview",
+          url: "/dashboard",
+        },
+      ],
+    },
+    {
+      title: "Students",
+      url: "#",
+      icon: Users,
+      items: [
+        {
+          title: "Directory",
           url: "#",
         },
         {
-          title: "Starred",
+          title: "Attendance",
+          url: "#",
+        },
+        {
+          title: "Performance",
+          url: "#",
+        },
+        {
+          title: "Behavior",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "Academics",
+      url: "#",
+      icon: BookOpen,
+      items: [
+        {
+          title: "Courses",
+          url: "#",
+        },
+        {
+          title: "Grades",
+          url: "#",
+        },
+        {
+          title: "Assignments",
+          url: "#",
+        },
+        {
+          title: "Resources",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "Schedule",
+      url: "#",
+      icon: CalendarDays,
+      items: [
+        {
+          title: "Calendar",
+          url: "#",
+        },
+        {
+          title: "Timetable",
+          url: "#",
+        },
+        {
+          title: "Events",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "Administration",
+      url: "#",
+      icon: Settings2,
+      items: [
+        {
+          title: "Staff",
+          url: "#",
+        },
+        {
+          title: "Departments",
+          url: "#",
+        },
+        {
+          title: "Facilities",
           url: "#",
         },
         {
@@ -69,87 +126,22 @@ const data = {
         },
       ],
     },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
   ],
   projects: [
     {
-      name: "Design Engineering",
+      name: "Fee Management",
       url: "#",
-      icon: Frame,
+      icon: DollarSign,
     },
     {
-      name: "Sales & Marketing",
+      name: "Examinations",
       url: "#",
-      icon: PieChart,
+      icon: ClipboardList,
     },
     {
-      name: "Travel",
+      name: "Announcements",
       url: "#",
-      icon: Map,
+      icon: Bell,
     },
   ],
 };
@@ -158,14 +150,14 @@ export function AppSidebar({ ...props }) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <SidebarLogo />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
