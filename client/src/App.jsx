@@ -6,7 +6,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Sidebar from "./pages/dashboard/Sidebar";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Settings from "./pages/dashboard/Setting";
-import StudentDirectory from "./pages/dashboard/student/StudentDirectory";
+import StudentDirectory from "./pages/dashboard/students/StudentDirectory";
+import ContactSubmissions from "./pages/dashboard/admin/contacts/Contacts";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
           <Route path="/contact-us" element={<BookNow />} />
           <Route path="/dashboard" element={<Sidebar />}>
             <Route index element={<Dashboard />} />
+            <Route path="contacts" element={<ContactSubmissions />} />
             <Route path="settings" element={<Settings />} />
             <Route path="students/directory" element={<StudentDirectory />} />
           </Route>
