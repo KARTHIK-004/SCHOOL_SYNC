@@ -47,7 +47,7 @@ function timeAgo(createdAt) {
 }
 
 export default function DateColumn({ row, accessorKey }) {
-  const createdAt = row.getValue(`${accessorKey}`);
+  const createdAt = row.getValue(`${accessorKey}`).toString();
   const date = getNormalDate(createdAt);
   const originalDate = new Date(createdAt);
 

@@ -66,9 +66,9 @@ export default function ActionColumn({ row, model, editEndpoint, id = "" }) {
             <Button
               variant="ghost"
               size="sm"
-              className="text-destructive hover:text-destructive transition-all duration-500 cursor-pointer "
+              className="text-destructive hover:text-destructive transition-all duration-500 cursor-pointer w-full justify-start"
             >
-              <Trash className="w-4 h-4  mr-2 flex-shrink-0" />
+              <Trash className="w-4 h-4 flex-shrink-0" />
               <span>Delete</span>
             </Button>
           </AlertDialogTrigger>
@@ -76,7 +76,7 @@ export default function ActionColumn({ row, model, editEndpoint, id = "" }) {
             <AlertDialogHeader>
               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete this{" "}
+                This action cannot be undone. This will permanently delete this
                 {model}.
               </AlertDialogDescription>
             </AlertDialogHeader>
@@ -88,16 +88,9 @@ export default function ActionColumn({ row, model, editEndpoint, id = "" }) {
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
-        {/* <DropdownMenuItem
-          className="text-red-600 hover:text-red-700 transition-all duration-500 cursor-pointer"
-          onClick={() => handleDelete()}
-        >
-          <Trash className="w-4 h-4  mr-2 flex-shrink-0" />
-          <span>Delete</span>
-        </DropdownMenuItem> */}
         <DropdownMenuItem>
-          <Link href={editEndpoint} className="flex item gap-2">
-            <Pencil className="w-4 h-4 " />
+          <Link to="#" className="flex item gap-2">
+            <Pencil className="w-4 h-4 mr-2" />
             <span>Edit</span>
           </Link>
         </DropdownMenuItem>

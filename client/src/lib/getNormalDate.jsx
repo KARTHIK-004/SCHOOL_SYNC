@@ -1,16 +1,20 @@
 export function getNormalDate(inputDate) {
+  const date = inputDate instanceof Date ? inputDate : new Date(inputDate);
+
+  if (isNaN(date.getTime())) {
+    throw new Error("Invalid date format");
+  }
+
   const options = {
     weekday: "short",
     month: "short",
     day: "numeric",
     year: "numeric",
   };
-  const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
-    inputDate
-  );
+  const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
 
   // Add ordinal suffix to the day
-  const day = inputDate.getDate();
+  const day = date.getDate();
   const suffix =
     day === 1 || day === 21 || day === 31
       ? "st"
@@ -19,5 +23,6 @@ export function getNormalDate(inputDate) {
       : day === 3 || day === 23
       ? "rd"
       : "th";
+
   return formattedDate.replace(/\b(\d{1,2})\b/, `$1${suffix}`);
 }

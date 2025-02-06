@@ -37,7 +37,10 @@ const Combobox = ({
           aria-expanded={open}
           className="w-full justify-between"
         >
-          {selectedOption ? selectedOption.label : placeholder}
+          <span className={selectedOption ? "" : "text-muted-foreground"}>
+            {selectedOption ? selectedOption.label : placeholder}
+          </span>
+
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>

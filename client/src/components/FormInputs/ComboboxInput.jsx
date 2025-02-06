@@ -43,7 +43,7 @@ const ComboboxInput = ({
   };
 
   return (
-    <div className="space-y-2 relative w-full">
+    <div className="space-y-2">
       <div className="flex items-center gap-2">
         <Label className="text-sm font-medium">{label}</Label>
         {toolTipText && (

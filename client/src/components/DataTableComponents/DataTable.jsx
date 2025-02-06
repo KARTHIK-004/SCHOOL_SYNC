@@ -23,13 +23,9 @@ import DateFilters from "./DateFilters";
 import DateRangeFilter from "./DateRangeFilter";
 import { DataTablePagination } from "./DataTablePagination";
 import { StatusFilter } from "./StatusFilter";
+import { ScrollArea } from "../ui/scroll-area";
 
 export default function DataTable({ columns, data }) {
-  const filters = [
-    { label: "Active", value: "active", checked: true },
-    { label: "Draft", value: "draft", checked: false },
-    { label: "Archived", value: "archived", checked: false },
-  ];
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState({});
   const [columnFilters, setColumnFilters] = useState([]);
@@ -85,7 +81,7 @@ export default function DataTable({ columns, data }) {
         </div>
       </div>
 
-      <div className="rounded-md border">
+      <ScrollArea className="rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -134,7 +130,7 @@ export default function DataTable({ columns, data }) {
             )}
           </TableBody>
         </Table>
-      </div>
+      </ScrollArea>
       <DataTablePagination table={table} />
     </div>
   );

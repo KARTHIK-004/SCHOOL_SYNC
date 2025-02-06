@@ -60,7 +60,6 @@ export default function TableHeader({
   } else if (model === "product") {
     excelDownload = "/Products.xlsx";
   }
-  console.log(excelFile);
   const options = [
     { value: "true", label: "Active" },
     { value: "false", label: "Disabled" },
@@ -326,9 +325,9 @@ export default function TableHeader({
                             </label>
                           </div>
                           {excelFile && (
-                            <div className="flex items-center shadow-lg rounded-md lg:py-3 py-2 px-6 bg-slate-100 dark:bg-slate-800 justify-between">
+                            <div className="flex items-center shadow-lg rounded-md lg:py-3 py-2 px-6 justify-between">
                               <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 lg:w-14 lg:h-14 p-2 lg:p-4 bg-slate-300 dark:bg-slate-500 rounded flex items-center justify-center flex-shrink-0">
+                                <div className="w-8 h-8 lg:w-14 lg:h-14 p-2 lg:p-4 rounded flex items-center justify-center flex-shrink-0">
                                   <FileSpreadsheet className="h-4 w-4" />
                                 </div>
                                 <div className="">
@@ -341,7 +340,7 @@ export default function TableHeader({
                                 </div>
                               </div>
                               <button onClick={() => setExcelFile(null)}>
-                                <X className="text-slate-600 w-5 h-5" />
+                                <X className="w-5 h-5" />
                               </button>
                             </div>
                           )}
@@ -377,7 +376,7 @@ export default function TableHeader({
             </Dialog>
           )}
           <Button size="sm" asChild className="h-8 gap-1">
-            <Link to="#">
+            <Link to={href}>
               <PlusCircle className="h-3.5 w-3.5" />
               <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                 {linkTitle}

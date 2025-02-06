@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { CircleHelp } from "lucide-react";
 import {
   Tooltip,
@@ -10,60 +10,81 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import Combobox from "@/components/ui/combobox";
+import countryOptions, { getCountryFormat } from "@/lib/countryData";
 
 const PhoneInput = ({
   register,
-  errors = {},
   label = "Phone Number",
   name = "phoneNumber",
   toolTipText,
-  placeholder = "+1 (555) 123-4567",
-  required = true,
-  validation = {
-    pattern: {
-      value: /^\+?1?\s*\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})$/,
-      message: "Invalid phone number format",
-    },
-  },
-  countryOptions = [
-    { label: "Canada (+1)", value: "+1" },
-    { label: "United Kingdom (+44)", value: "+44" },
-    { label: "Australia (+61)", value: "+61" },
-    { label: "India (+91)", value: "+91" },
-  ],
+  defaultCountry = "+91",
 }) => {
   const [value, setValue] = useState("");
-  const [countryCode, setCountryCode] = useState("+1");
+  const [countryCode, setCountryCode] = useState(defaultCountry);
+  const [placeholder, setPlaceholder] = useState("");
+
+  useEffect(() => {
+    const format = getCountryFormat(countryCode);
+    setPlaceholder(format.replace(/#/g, "0"));
+  }, [countryCode]);
 
   if (!register || !name) {
     console.error("PhoneInput requires 'register' and 'name'");
     return null;
   }
 
-  const registration = register(name, {
-    ...(required ? { required: `${label} is required` } : {}),
-    ...validation,
-  });
+  const registration = register(name);
+
+  const formatPhoneNumber = (value, countryCode) => {
+    let digits = value.replace(/\D/g, "");
+
+    if (countryCode === "+91") {
+      digits = digits.replace(/^91/, "");
+      digits = digits.slice(0, 10);
+
+      if (digits.length > 0) {
+        return `+91 ${digits.slice(0, 5)}${
+          digits.length > 5 ? "" + digits.slice(5) : ""
+        }`;
+      }
+    }
+
+    const format = getCountryFormat(countryCode);
+    let formatted = format;
+    let digitIndex = 0;
+
+    for (let i = 0; i < format.length && digitIndex < digits.length; i++) {
+      if (format[i] === "#") {
+        formatted = formatted.replace("#", digits[digitIndex]);
+        digitIndex++;
+      }
+    }
+    formatted = formatted.replace(/#/g, "");
+    return formatted;
+  };
 
   const handleChange = (e) => {
     const rawValue = e.target.value;
-    setValue(rawValue);
-    registration.onChange(e);
+    const formattedValue = formatPhoneNumber(rawValue, countryCode);
+    setValue(formattedValue);
+    const event = {
+      target: {
+        name: e.target.name,
+        value: formattedValue,
+      },
+    };
+    registration.onChange(event);
   };
 
   const handleCountryCodeChange = (code) => {
     setCountryCode(code);
-  };
-
-  const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = phoneNumber.replace(/\D/g, "");
-    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-
-    if (match) {
-      return `${countryCode} (${match[1]}) ${match[2]}-${match[3]}`;
-    }
-
-    return phoneNumber;
+    setValue("");
+    registration.onChange({
+      target: {
+        name: name,
+        value: "",
+      },
+    });
   };
 
   return (
@@ -87,17 +108,17 @@ const PhoneInput = ({
       </div>
 
       <div className="flex gap-2 w-full">
-        <div className="w-1/3 gap-2">
+        <div className="w-1/3">
           <Combobox
             value={countryCode}
             onValueChange={handleCountryCodeChange}
-            options={countryOptions.map((option, index) => ({
-              label: option.label,
+            options={countryOptions.map((option) => ({
+              label: option.code,
               value: option.value,
-              key: `country-code-${option.value}`,
+              key: `country-code-${option.code}`,
             }))}
-            placeholder="Select country code"
-            emptyText="No country codes available"
+            placeholder="Select country"
+            emptyText="No countries found"
             showSearch
           />
         </div>
@@ -107,13 +128,9 @@ const PhoneInput = ({
           {...registration}
           value={value}
           onChange={handleChange}
-          className={`w-full ${errors[name] ? "border-destructive" : ""}`}
+          className="w-full"
         />
       </div>
-
-      {errors[name] && (
-        <p className="text-xs text-destructive">{errors[name].message}</p>
-      )}
     </div>
   );
 };

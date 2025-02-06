@@ -1,10 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import CustomCarousel from "@/components/ui/custom-carousel";
 import TextInput from "@/components/FormInputs/TextInput";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
 import { Link, useNavigate } from "react-router-dom";
-import Logo from "@/components/ui/logo";
 import PasswordInput from "@/components/FormInputs/PasswordInput";
 import { Lock, LogIn, Mail } from "lucide-react";
 import { signIn } from "@/utils/authAPI";

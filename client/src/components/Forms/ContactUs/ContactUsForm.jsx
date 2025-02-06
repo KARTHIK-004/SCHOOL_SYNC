@@ -3,40 +3,54 @@ import PhoneInput from "@/components/FormInputs/PhoneInput";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
 import TextArea from "@/components/FormInputs/TextAreaInput";
 import TextInput from "@/components/FormInputs/TextInput";
-import { countries } from "@/lib/countryData";
-import { mediaSources, roles } from "@/lib/formOption";
+import { countries, mediaSources, roles } from "@/lib/formOption";
+import { submitContactForm } from "@/utils/contactAPI";
 import { Send } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
-function ContactUsForm({ editingId, initialData }) {
+function ContactUsForm() {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({
-    defaultValues: {},
-  });
-  const navigate = useNavigate();
+  } = useForm();
 
   const [isLoading, setIsLoading] = useState(false);
 
-  async function onSubmit(data) {
+  const onSubmit = async (data) => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-      if (editingId) {
-      } else {
-      }
-      //   reset();
+      const response = await submitContactForm(data);
+      toast({
+        title: "Success",
+        description: "Your message has been sent successfully!",
+        variant: "success",
+      });
+      reset();
     } catch (error) {
-      console.log(error);
+      console.error("Error submitting form:", error);
+      if (error.message.includes("email has already been submitted")) {
+        toast({
+          title: "Error",
+          description:
+            "This email has already been submitted. Please use a different email address.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description:
+            "An error occurred while submitting the form. Please try again.",
+          variant: "destructive",
+        });
+      }
     } finally {
       setIsLoading(false);
     }
-    console.log(data);
-  }
+  };
 
   return (
     <form className="grid gap-4" onSubmit={handleSubmit(onSubmit)}>
@@ -47,7 +61,7 @@ function ContactUsForm({ editingId, initialData }) {
         errors={errors}
         placeholder="John Doe"
       />
-      <div className="grid md:grid-cols-2 gap-4 mb-4">
+      <div className="grid md:grid-cols-2 gap-4">
         <TextInput
           label="Email Address"
           register={register}
@@ -59,12 +73,12 @@ function ContactUsForm({ editingId, initialData }) {
         <PhoneInput
           register={register}
           errors={errors}
-          name="contactPhone"
-          label="Contact Phone"
-          toolTipText="Please provide a valid US phone number"
+          name="phone"
+          label="Phone Number"
+          toolTipText="Please provide a valid phone number"
         />
       </div>
-      <div className="grid md:grid-cols-2 gap-4 mb-4">
+      <div className="grid md:grid-cols-2 gap-4">
         <TextInput
           label="School Name"
           register={register}
@@ -72,18 +86,18 @@ function ContactUsForm({ editingId, initialData }) {
           errors={errors}
           placeholder="Evernote High School"
         />
-
         <ComboboxInput
           register={register}
           errors={errors}
           name="country"
           label="Country"
           options={countries}
+          placeholder="Select a Country"
           showSearch
           toolTipText="Select a Country"
         />
       </div>
-      <div className="grid md:grid-cols-2 gap-4 mb-4">
+      <div className="grid md:grid-cols-2 gap-4">
         <TextInput
           label="School Website/Social Media Page(fb,linkedin)"
           register={register}
@@ -100,13 +114,14 @@ function ContactUsForm({ editingId, initialData }) {
           placeholder="500"
         />
       </div>
-      <div className="grid md:grid-cols-2 gap-4 mb-4">
+      <div className="grid md:grid-cols-2 gap-4">
         <ComboboxInput
           register={register}
           errors={errors}
           name="role"
           label="Role"
           options={roles}
+          placeholder="Select a role"
           toolTipText="Select a role that best describes your position."
           showSearch
         />
@@ -116,6 +131,7 @@ function ContactUsForm({ editingId, initialData }) {
           name="media"
           label="How did you hear about us?"
           options={mediaSources}
+          placeholder="Select a platform"
           toolTipText="Select the platform or source where you found us."
         />
       </div>

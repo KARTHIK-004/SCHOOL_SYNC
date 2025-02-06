@@ -1,40 +1,40 @@
-import { Checkbox } from "@/components/ui/checkbox";
 import DateColumn from "@/components/DataTableColumns/DateColumn";
 import SortableColumn from "@/components/DataTableColumns/SortableColumn";
 import ActionColumn from "@/components/DataTableColumns/ActionColumn";
+import ContactCard from "@/components/DataTableColumns/ContactCard";
 
 export const columns = [
-  // {
-  //   id: "select",
-  //   header: ({ table }) => (
-  //     <Checkbox
-  //       checked={
-  //         table.getIsAllPageRowsSelected() ||
-  //         (table.getIsSomePageRowsSelected() && "indeterminate")
-  //       }
-  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-  //       aria-label="Select all"
-  //     />
-  //   ),
-  //   cell: ({ row }) => (
-  //     <Checkbox
-  //       checked={row.getIsSelected()}
-  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
-  //       aria-label="Select row"
-  //     />
-  //   ),
-  //   enableSorting: false,
-  //   enableHiding: false,
-  // },
   {
-    accessorKey: "fullName",
-    header: ({ column }) => <SortableColumn column={column} title="Name" />,
+    accessorKey: "name",
+    header: ({ column }) => (
+      <SortableColumn column={column} title="Full Name" />
+    ),
+  },
+  {
+    accessorKey: "email",
+    header: ({ column }) => <SortableColumn column={column} title="Email" />,
+  },
+  {
+    accessorKey: "phone",
+    header: ({ column }) => <SortableColumn column={column} title="Phone" />,
+  },
+  {
+    accessorKey: "school",
+    header: ({ column }) => (
+      <SortableColumn column={column} title="School Name" />
+    ),
   },
   {
     accessorKey: "createdAt",
     header: "Date Created",
     cell: ({ row }) => <DateColumn row={row} accessorKey="createdAt" />,
   },
+  {
+    accessorKey: "view",
+    header: "View",
+    cell: ({ row }) => <ContactCard contact={row.original} />,
+  },
+
   {
     id: "actions",
     cell: ({ row }) => {

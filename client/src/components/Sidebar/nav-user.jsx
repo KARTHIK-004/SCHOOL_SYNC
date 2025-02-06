@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -16,7 +15,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { getCurrentUser, logout } from "@/utils/api";
+import { logout, getCurrentUser } from "@/utils/authAPI";
 import {
   BadgeCheck,
   Bell,
