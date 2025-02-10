@@ -11,6 +11,9 @@ import ContactSubmissions from "./pages/dashboard/admin/contacts/Contacts";
 import CreateStudents from "./pages/dashboard/students/CreateStudents";
 import StudentDetails from "./pages/dashboard/students/StudentDetails";
 import NotFound from "./pages/NotFound";
+import CreateParents from "./pages/dashboard/parents/CreateParents";
+import ParentDetails from "./pages/dashboard/parents/ParentDetails";
+import ParentDirectory from "./pages/dashboard/parents/ParentDirectory";
 
 export default function App() {
   return (
@@ -23,12 +26,19 @@ export default function App() {
           <Route path="/contact-us" element={<BookNow />} />
           <Route path="/dashboard" element={<Sidebar />}>
             <Route index element={<Dashboard />} />
+            {/* Configurations */}
             <Route path="contacts" element={<ContactSubmissions />} />
             <Route path="settings" element={<Settings />} />
+            {/* Students */}
             <Route path="students" element={<StudentDirectory />} />
+            <Route path="students/:id" element={<StudentDetails />} />
             <Route path="students/create" element={<CreateStudents />} />
             <Route path="students/edit/:id" element={<CreateStudents />} />
-            <Route path="students/:id" element={<StudentDetails />} />
+            {/* Parents */}
+            <Route path="parents" element={<ParentDirectory />} />
+            <Route path="parents/:id" element={<ParentDetails />} />
+            <Route path="parents/create" element={<CreateParents />} />
+            <Route path="parents/edit/:id" element={<CreateParents />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

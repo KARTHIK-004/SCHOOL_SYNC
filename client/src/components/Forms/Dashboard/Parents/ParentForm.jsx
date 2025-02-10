@@ -7,7 +7,6 @@ import { useToast } from "@/hooks/use-toast";
 import FormHeader from "../FormHeader";
 import FormFooter from "../FormFooter";
 import TextInput from "@/components/FormInputs/TextInput";
-import DateInput from "@/components/FormInputs/DateInput";
 import ComboboxInput from "@/components/FormInputs/ComboboxInput";
 import PasswordInput from "@/components/FormInputs/PasswordInput";
 import PhoneInput from "@/components/FormInputs/PhoneInput";
@@ -16,23 +15,22 @@ import ImageInput from "@/components/FormInputs/ImageInput";
 
 // Form Options
 import {
-  bloodGroups,
-  classes,
-  countries,
-  genders,
-  parents,
-  religions,
-  sections,
   titles,
+  occupations,
+  relationships,
+  countries,
+  religions,
+  educationLevels,
+  incomeRanges,
 } from "@/lib/formOption";
 
-export default function SingleStudent({ editingId, initialData }) {
+export default function ParentForm({ editingId, initialData }) {
   // Hooks
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState(
-    initialData?.imageUrl || "/student.png"
+    initialData?.imageUrl || "/parent.png"
   );
 
   const {
@@ -53,19 +51,19 @@ export default function SingleStudent({ editingId, initialData }) {
       setLoading(true);
 
       if (editingId) {
-        // await updateCategoryById(editingId, data);
+        // await updateParentById(editingId, data);
         setLoading(false);
         toast({
           title: "Success",
-          description: "Student created successfully!",
+          description: "Parent/Guardian updated successfully!",
           variant: "success",
         });
       } else {
-        // await createCategory(data);
+        // await createParent(data);
         setLoading(false);
         toast({
           title: "Success",
-          description: "Student updated successfully!",
+          description: "Parent/Guardian created successfully!",
           variant: "success",
         });
       }
@@ -79,9 +77,9 @@ export default function SingleStudent({ editingId, initialData }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormHeader
-        href="/students"
+        href="/parents"
         parent=""
-        title="Student"
+        title="Parent/Guardian"
         editingId={editingId}
         loading={loading}
       />
@@ -90,7 +88,15 @@ export default function SingleStudent({ editingId, initialData }) {
         <div className="lg:col-span-12 col-span-full space-y-3">
           <div className="grid gap-6">
             {/* Personal Information */}
-            <div className="grid sm:grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-3 gap-4">
+              <ComboboxInput
+                label="Title"
+                name="title"
+                placeholder="Select Title"
+                options={titles}
+                register={register}
+                errors={errors}
+              />
               <TextInput
                 label="First Name"
                 name="firstname"
@@ -107,34 +113,7 @@ export default function SingleStudent({ editingId, initialData }) {
               />
             </div>
 
-            {/* Basic Details */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-              <DateInput
-                label="Date of Birth"
-                name="birthDate"
-                placeholder="YYYY-MM-DD"
-                register={register}
-                errors={errors}
-              />
-              <ComboboxInput
-                label="Gender"
-                name="gender"
-                placeholder="Select Gender"
-                options={genders}
-                register={register}
-                errors={errors}
-              />
-              <ComboboxInput
-                label="Blood Group"
-                name="bloodGroup"
-                placeholder="Select Blood Group"
-                options={bloodGroups}
-                register={register}
-                errors={errors}
-              />
-            </div>
-
-            {/* Account Information */}
+            {/* Login Information */}
             <div className="grid sm:grid-cols-2 gap-4">
               <TextInput
                 label="Email"
@@ -154,74 +133,68 @@ export default function SingleStudent({ editingId, initialData }) {
               />
             </div>
 
-            {/* Admission Details */}
+            {/* Professional Information */}
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
-              <DateInput
-                label="Admission Date"
-                name="admissionDate"
-                placeholder="YYYY-MM-DD"
+              <ComboboxInput
+                label="Education Level"
+                name="educationLevel"
+                placeholder="Select Education Level"
+                options={educationLevels}
                 register={register}
                 errors={errors}
               />
-              <TextInput
-                label="Birth Certificate No"
-                name="birthcertificateno"
-                placeholder="Enter Birth Certificate Number"
+              <ComboboxInput
+                label="Occupation"
+                name="occupation"
+                placeholder="Select Occupation"
+                showSearch="true"
+                options={occupations}
                 register={register}
                 errors={errors}
               />
-              <TextInput
-                label="Register No"
-                name="regno"
-                placeholder="Enter Register Number"
+              <ComboboxInput
+                label="Income Range"
+                name="incomeRange"
+                placeholder="Select Income Range"
+                options={incomeRanges}
                 register={register}
                 errors={errors}
               />
             </div>
 
-            {/* Academic Information */}
+            {/* Contact Information */}
             <div className="grid sm:grid-cols-2 gap-4">
-              <ComboboxInput
-                label="Class"
-                name="class"
-                showSearch
-                options={classes}
+              <PhoneInput
+                label="Phone"
+                name="phoneNumber"
                 register={register}
                 errors={errors}
-                toolTipText="Add New Class"
-                href="/dashboard/academics/classes"
-              />
-              <ComboboxInput
-                label="Section"
-                name="section"
-                showSearch
-                options={sections}
-                register={register}
-                errors={errors}
-                toolTipText="Add New Stream"
-                href="/dashboard/academics/classes"
-              />
-            </div>
-
-            {/* Guardian Information */}
-            <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
-              <ComboboxInput
-                label="Parent Name"
-                name="parent"
-                placeholder="Select a parent"
-                showSearch
-                options={parents}
-                register={register}
-                errors={errors}
-                toolTipText="Add New Parent/Guardian"
-                href="/dashboard/parents/create"
               />
               <PhoneInput
-                label="Phone Number"
-                name="phone"
+                label="WhatsApp Phone"
+                name="whatsapp"
                 register={register}
                 errors={errors}
-                toolTipText="Please enter your contact number"
+                toolTipText="Please enter WhatsApp number"
+              />
+            </div>
+
+            {/* Relationship Information */}
+            <div className="grid sm:grid-cols-2 gap-4">
+              <ComboboxInput
+                label="Relationship to Student"
+                name="relationship"
+                placeholder="Select Relationship"
+                options={relationships}
+                register={register}
+                errors={errors}
+              />
+              <TextInput
+                label="National ID"
+                name="nationalId"
+                placeholder="Enter National ID Number"
+                register={register}
+                errors={errors}
               />
             </div>
 
@@ -254,10 +227,10 @@ export default function SingleStudent({ editingId, initialData }) {
               </div>
 
               <ImageInput
-                title="Student Profile Photo"
+                title="Parent/Guardian Photo"
                 imageUrl={imageUrl}
                 setImageUrl={setImageUrl}
-                endpoint="studentProfileImage"
+                endpoint="parentProfileImage"
                 className="object-contain"
               />
             </div>
@@ -266,9 +239,9 @@ export default function SingleStudent({ editingId, initialData }) {
       </div>
 
       <FormFooter
-        href="/students"
+        href="/parents"
         parent=""
-        title="Student"
+        title="Parent/Guardian"
         editingId={editingId}
         loading={loading}
       />
