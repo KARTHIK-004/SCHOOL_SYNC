@@ -11,15 +11,9 @@ import ContactSubmissions from "./pages/dashboard/admin/contacts/Contacts";
 import CreateStudents from "./pages/dashboard/students/CreateStudents";
 import StudentDetails from "./pages/dashboard/students/StudentDetails";
 import NotFound from "./pages/NotFound";
-<<<<<<< HEAD
 import CreateParents from "./pages/dashboard/parents/CreateParents";
 import ParentDetails from "./pages/dashboard/parents/ParentDetails";
 import ParentDirectory from "./pages/dashboard/parents/ParentDirectory";
-=======
-import ParentDirectory from "./pages/dashboard/parents/ParentDirectory";
-import ParentDetails from "./pages/dashboard/parents/ParentDetails";
-import CreateParents from "./pages/dashboard/parents/CreateParents";
->>>>>>> a1d8ad91df15095a531d4be4459849b98dc5903d
 
 export default function App() {
   return (

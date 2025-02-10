@@ -9,7 +9,7 @@ export default function TextArea({
   label,
   name,
   helperText = "",
-  rows = 5,
+  rows = 3,
   placeholder = "",
 }) {
   return (
