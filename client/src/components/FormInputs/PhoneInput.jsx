@@ -14,8 +14,8 @@ import countryOptions, { getCountryFormat } from "@/lib/countryData";
 
 const PhoneInput = ({
   register,
-  label = "Phone Number",
-  name = "phoneNumber",
+  label,
+  name,
   toolTipText,
   defaultCountry = "+91",
 }) => {
@@ -33,7 +33,9 @@ const PhoneInput = ({
     return null;
   }
 
-  const registration = register(name);
+  const registration = register(name, {
+    required: `${label} is required`,
+  });
 
   const formatPhoneNumber = (value, countryCode) => {
     let digits = value.replace(/\D/g, "");

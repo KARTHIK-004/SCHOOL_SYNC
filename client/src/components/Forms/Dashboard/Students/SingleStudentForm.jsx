@@ -247,7 +247,10 @@ export default function SingleStudent({ editingId, initialData }) {
                   label="Address"
                   name="address"
                   placeholder="Enter full address"
+<<<<<<< HEAD
                   rows="5"
+=======
+>>>>>>> a1d8ad91df15095a531d4be4459849b98dc5903d
                   register={register}
                   errors={errors}
                 />

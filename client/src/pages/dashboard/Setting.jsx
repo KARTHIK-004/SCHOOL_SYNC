@@ -1,10 +1,15 @@
-import React from "react";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { useTheme } from "@/components/theme/theme-provider";
 
 const Settings = () => {
+  const { theme, setTheme } = useTheme();
+
+  const handleThemeChange = (newTheme) => {
+    setTheme(newTheme);
+  };
+
   return (
     <div className="max-w-4xl w-full mx-auto p-6 space-y-8">
       {/* Header Section */}
@@ -29,7 +34,12 @@ const Settings = () => {
 
         <div className="grid grid-cols-2 gap-6 pt-2">
           {/* Light Theme Option */}
-          <Card className="p-4 border-2 cursor-pointer hover:border-primary">
+          <Card
+            className={`p-4 border-2 cursor-pointer hover:border-primary ${
+              theme === "light" ? "border-primary" : ""
+            }`}
+            onClick={() => handleThemeChange("light")}
+          >
             <div className="space-y-2 rounded-lg">
               <img src="/light.png" alt="light_image" />
             </div>
@@ -37,7 +47,12 @@ const Settings = () => {
           </Card>
 
           {/* Dark Theme Option */}
-          <Card className="p-4 border-2 cursor-pointer hover:border-primary">
+          <Card
+            className={`p-4 border-2 cursor-pointer hover:border-primary ${
+              theme === "dark" ? "border-primary" : ""
+            }`}
+            onClick={() => handleThemeChange("dark")}
+          >
             <div className="space-y-2 rounded-lg">
               <img src="/dark.png" alt="dark_image" />
             </div>
@@ -45,7 +60,6 @@ const Settings = () => {
           </Card>
         </div>
       </div>
-      <Button size="lg">Update preferences</Button>
     </div>
   );
 };
