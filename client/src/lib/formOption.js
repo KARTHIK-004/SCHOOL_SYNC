@@ -278,6 +278,38 @@ export const religions = [
   },
 ];
 
+// option.js
+
+export const Classes = [
+  { label: "Class 1", value: "class1" },
+  { label: "Class 2", value: "class2" },
+  { label: "Class 3", value: "class3" },
+  { label: "Class 4", value: "class4" },
+  { label: "Class 5", value: "class5" },
+];
+
+export const sections = [
+  { label: "Section A", value: "A" },
+  { label: "Section B", value: "B" },
+  { label: "Section C", value: "C" },
+  { label: "Section D", value: "D" },
+];
+
+export const parents = [
+  {
+    label: "Father",
+    value: "father",
+  },
+  {
+    label: "Mother",
+    value: "mother",
+  },
+  {
+    label: "Guardian",
+    value: "guardian",
+  },
+];
+
 export const roles = [
   {
     label: "Principal",

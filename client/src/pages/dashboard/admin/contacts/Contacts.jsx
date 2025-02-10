@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { columns } from "./columns";
+import { ContactColumns } from "./ContactColumns";
 import DataTable from "@/components/DataTableComponents/DataTable";
 import TableHeader from "@/components/Dashboard/Tables/TableHeader";
 import { getAllContacts } from "@/utils/contactAPI";
@@ -52,7 +52,7 @@ export default function ContactSubmissions() {
       />
       <div className="py-8">
         {contacts.length > 0 ? (
-          <DataTable data={contacts} columns={columns} />
+          <DataTable data={contacts} columns={ContactColumns} />
         ) : (
           <p className="text-center">No contacts found.</p>
         )}

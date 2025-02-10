@@ -8,6 +8,9 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import Settings from "./pages/dashboard/Setting";
 import StudentDirectory from "./pages/dashboard/students/StudentDirectory";
 import ContactSubmissions from "./pages/dashboard/admin/contacts/Contacts";
+import CreateStudents from "./pages/dashboard/students/CreateStudents";
+import StudentDetails from "./pages/dashboard/students/StudentDetails";
+import NotFound from "./pages/NotFound";
 
 export default function App() {
   return (
@@ -22,8 +25,12 @@ export default function App() {
             <Route index element={<Dashboard />} />
             <Route path="contacts" element={<ContactSubmissions />} />
             <Route path="settings" element={<Settings />} />
-            <Route path="students/directory" element={<StudentDirectory />} />
+            <Route path="students" element={<StudentDirectory />} />
+            <Route path="students/create" element={<CreateStudents />} />
+            <Route path="students/edit/:id" element={<CreateStudents />} />
+            <Route path="students/:id" element={<StudentDetails />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -27,7 +27,7 @@ export const navigationData = {
       url: "#",
       icon: Users,
       items: [
-        { title: "Directory", url: "/dashboard/students/directory" },
+        { title: "Directory", url: "/dashboard/students" },
         { title: "Attendance", url: "/dashboard/students/attendance" },
         { title: "Performance", url: "/dashboard/students/performance" },
         { title: "Behavior", url: "/dashboard/students/behavior" },

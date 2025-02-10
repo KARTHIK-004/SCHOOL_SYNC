@@ -3,7 +3,7 @@ import SortableColumn from "@/components/DataTableColumns/SortableColumn";
 import ActionColumn from "@/components/DataTableColumns/ActionColumn";
 import ContactCard from "@/components/DataTableColumns/ContactCard";
 
-export const columns = [
+export const ContactColumns = [
   {
     accessorKey: "name",
     header: ({ column }) => (

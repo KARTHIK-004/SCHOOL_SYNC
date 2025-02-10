@@ -9,12 +9,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import Combobox from "@/components/ui/combobox";
+import AddNewButton from "./AddNewButton";
 
 const ComboboxInput = ({
   register,
   errors = {},
   label = "",
   name = "",
+  href,
   toolTipText,
   options = [],
   placeholder = "Select option...",
@@ -23,20 +25,15 @@ const ComboboxInput = ({
 }) => {
   const [value, setValue] = useState("");
 
-  if (!register || !name || !Array.isArray(options)) {
-    console.error(
-      "ComboboxInput requires 'register', 'name', and valid options array"
-    );
-    return null;
-  }
-
   const registration = register(name, {
     required: `${label} is required`,
   });
 
   const handleValueChange = (newValue) => {
     setValue(newValue);
-    registration.onChange({
+    register(name, {
+      required: `${label} is required`,
+    }).onChange({
       target: { name, value: newValue },
       type: "change",
     });
@@ -61,16 +58,20 @@ const ComboboxInput = ({
           </TooltipProvider>
         )}
       </div>
-
-      <Combobox
-        value={value}
-        onValueChange={handleValueChange}
-        options={options}
-        placeholder={placeholder}
-        emptyText={emptyText}
-        label={label}
-        showSearch={showSearch}
-      />
+      <div className="flex gap-2">
+        <Combobox
+          value={value}
+          onValueChange={handleValueChange}
+          options={options}
+          placeholder={placeholder}
+          emptyText={emptyText}
+          label={label}
+          showSearch={showSearch}
+        />
+        {href && toolTipText && (
+          <AddNewButton toolTipText={toolTipText} href={href} />
+        )}
+      </div>
 
       {errors[name] && (
         <p className="text-xs text-destructive">{errors[name].message}</p>

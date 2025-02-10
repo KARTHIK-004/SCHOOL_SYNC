@@ -7,23 +7,22 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Input } from "@/components/ui/input";
 import { CircleHelp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const RadioInput = ({
+const DateInput = ({
   register,
   errors = {},
   label = "",
   name = "",
   toolTipText,
-  options = [],
-  gridSize = 3,
+  placeholder = "Select date",
+  min,
+  max,
 }) => {
-  if (!register || !name || !options) {
-    console.error(
-      "RadioInput requires 'register', 'name', and 'options' props"
-    );
+  if (!register || !name) {
+    console.error("DateInput requires 'register' and 'name' props");
     return null;
   }
 
@@ -51,45 +50,23 @@ const RadioInput = ({
         )}
       </div>
 
-      <RadioGroup
-        name={registration.name}
-        onValueChange={(value) => {
-          registration.onChange({
-            target: { name, value },
-            type: "change",
-          });
-        }}
-        className={`grid grid-cols-${gridSize} gap-3 w-full`}
-      >
-        {options.length > 0 ? (
-          options.map((option) => (
-            <div
-              key={option.value}
-              className="flex items-center bg-background border rounded-md transition-colors px-4 py-3 text-sm hover:bg-accent/50"
-            >
-              <RadioGroupItem
-                value={option.value}
-                id={`${name}-${option.value}`}
-                className="mr-2"
-              />
-              <Label
-                htmlFor={`${name}-${option.value}`}
-                className="cursor-pointer"
-              >
-                {option.label}
-              </Label>
-            </div>
-          ))
-        ) : (
-          <p className="text-sm text-muted-foreground">No options available</p>
+      <Input
+        type="date"
+        min={min}
+        max={max}
+        placeholder={placeholder}
+        {...registration}
+        className={cn(
+          "w-full",
+          errors[name] && "border-destructive focus-visible:ring-destructive"
         )}
-      </RadioGroup>
+      />
 
       {errors[name] && (
-        <p className="text-xs text-destructive">{label} is required</p>
+        <p className="text-xs text-destructive">{errors[name].message}</p>
       )}
     </div>
   );
 };
 
-export default RadioInput;
+export default DateInput;
