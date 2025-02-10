@@ -9,6 +9,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CircleHelp } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const TextInput = ({
   register,
@@ -31,8 +32,8 @@ const TextInput = ({
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button type="button">
-                  <CircleHelp className="w-4 h-4 text-muted-foreground" />
+                <Button variant="ghost" size="icon" className="h-4 w-4 p-0">
+                  <CircleHelp className="h-4 w-4 text-muted-foreground" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>

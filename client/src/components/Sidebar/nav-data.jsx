@@ -6,6 +6,8 @@ import {
   Settings2,
   Bell,
   Settings,
+  UserCircle,
+  GraduationCap,
 } from "lucide-react";
 
 export const navigationData = {
@@ -34,14 +36,36 @@ export const navigationData = {
       ],
     },
     {
+      title: "Parents",
+      url: "#",
+      icon: UserCircle,
+      items: [
+        { title: "Directory", url: "/dashboard/parents" },
+        { title: "Meetings", url: "/dashboard/parents/meetings" },
+        { title: "Communication", url: "/dashboard/parents/communication" },
+        { title: "Feedback", url: "/dashboard/parents/feedback" },
+      ],
+    },
+    {
+      title: "Teachers",
+      url: "#",
+      icon: GraduationCap,
+      items: [
+        { title: "Directory", url: "/dashboard/teachers" },
+        { title: "Meetings", url: "/dashboard/teachers/meetings" },
+        { title: "Communication", url: "/dashboard/teachers/communication" },
+        { title: "Feedback", url: "/dashboard/teachers/feedback" },
+      ],
+    },
+    {
       title: "Academics",
       url: "#",
       icon: BookOpen,
       items: [
-        { title: "Courses", url: "/dashboard/academics/courses" },
-        { title: "Grades", url: "/dashboard/academics/grades" },
-        { title: "Assignments", url: "/dashboard/academics/assignments" },
-        { title: "Resources", url: "/dashboard/academics/resources" },
+        { title: "Classes", url: "/dashboard/classes" },
+        { title: "Sections", url: "/dashboard/sections" },
+        { title: "Timetable", url: "/dashboard/classes/timetable" },
+        { title: "Assignments", url: "/dashboard/classes/assignments" },
       ],
     },
     {

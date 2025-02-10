@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
-// Component Imports
 import FormHeader from "../FormHeader";
 import FormFooter from "../FormFooter";
 import TextInput from "@/components/FormInputs/TextInput";
@@ -13,20 +12,18 @@ import PhoneInput from "@/components/FormInputs/PhoneInput";
 import TextArea from "@/components/FormInputs/TextAreaInput";
 import ImageInput from "@/components/FormInputs/ImageInput";
 
-// Form Options
 import {
   titles,
-  occupations,
-  relationships,
+  subjects,
+  departments,
   countries,
-  religions,
   educationLevels,
-  incomeRanges,
-  contactMethods,
+  qualifications,
+  teachingLevels,
+  contractTypes,
 } from "@/lib/formOption";
 
-export default function ParentForm({ editingId, initialData }) {
-  // Hooks
+export default function TeacherForm({ editingId, initialData }) {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
@@ -46,25 +43,21 @@ export default function ParentForm({ editingId, initialData }) {
     },
   });
 
-  // Form submission handler
   async function onSubmit(data) {
     try {
       setLoading(true);
-
       if (editingId) {
-        // Update existing parent
         setLoading(false);
         toast({
           title: "Success",
-          description: "Parent/Guardian updated successfully!",
+          description: "Teacher updated successfully!",
           variant: "success",
         });
       } else {
-        // Create new parent
         setLoading(false);
         toast({
           title: "Success",
-          description: "Parent/Guardian created successfully!",
+          description: "Teacher created successfully!",
           variant: "success",
         });
       }
@@ -72,16 +65,14 @@ export default function ParentForm({ editingId, initialData }) {
       setLoading(false);
       console.log(error);
     }
-    console.log(data);
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {/* Form Header */}
       <FormHeader
-        href="/parents"
+        href="/teachers"
         parent=""
-        title="Parent/Guardian"
+        title="Teacher"
         editingId={editingId}
         loading={loading}
       />
@@ -118,75 +109,73 @@ export default function ParentForm({ editingId, initialData }) {
             {/* Login Information */}
             <div className="grid sm:grid-cols-2 gap-4">
               <TextInput
-                label="Parent Portal Email"
+                label="School Email"
                 name="email"
                 type="email"
-                placeholder="Parent@example.com"
+                placeholder="teacher@school.com"
                 register={register}
                 errors={errors}
-                toolTipText="Enter the email address used for parent portal access."
+                toolTipText="Enter official school email address"
               />
               <PasswordInput
-                label="Parent Portal Password"
+                label="Portal Password"
                 name="password"
                 type="password"
                 placeholder="Enter a secure password"
                 register={register}
                 errors={errors}
-                toolTipText="This password will be used to log in to the parent portal."
+                toolTipText="Password for teacher portal access"
               />
             </div>
 
-            {/* Relationship Information */}
-            <div className="grid sm:grid-cols-1 lg:grid-cols-3 gap-4">
-              <ComboboxInput
-                label="Relationship to Student"
-                name="relationship"
-                placeholder="Select Relationship"
-                showSearch="true"
-                options={relationships}
-                register={register}
-                errors={errors}
-                toolTipText="Select the parent's or guardian's relationship to the student."
-              />
+            {/* Professional Information */}
+            <div className="grid sm:grid-cols-3 gap-4">
               <TextInput
-                label="National ID"
-                name="nationalId"
-                placeholder="Enter National ID Number"
+                label="Employee ID"
+                name="employeeId"
+                placeholder="Enter Employee ID"
                 register={register}
                 errors={errors}
               />
               <ComboboxInput
-                label="Preferred Contact"
-                name="contactmethods"
-                placeholder="Select Contact Method"
-                options={contactMethods}
+                label="Department"
+                name="department"
+                placeholder="Select Department"
+                options={departments}
+                register={register}
+                errors={errors}
+              />
+              <ComboboxInput
+                label="Contract Type"
+                name="contractType"
+                placeholder="Select Contract Type"
+                options={contractTypes}
                 register={register}
                 errors={errors}
               />
             </div>
 
             {/* Contact Information */}
-            <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-2 gap-4">
               <PhoneInput
-                label="Parent Mobile Number"
+                label="Mobile Number"
                 name="phoneNumber"
                 register={register}
                 errors={errors}
               />
               <PhoneInput
-                label="WhatsApp Phone"
-                name="whatsapp"
+                label="Emergency Contact"
+                name="emergencyContact"
                 register={register}
                 errors={errors}
-                toolTipText="Please enter WhatsApp number"
+                toolTipText="Emergency contact number"
               />
             </div>
 
-            {/* Professional Information */}
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {/* Academic Information */}
+            <div className="grid sm:grid-cols-3 gap-4">
               <ComboboxInput
-                label="Education Level"
+                label="Highest Education"
                 name="educationLevel"
                 placeholder="Select Education Level"
                 options={educationLevels}
@@ -194,19 +183,18 @@ export default function ParentForm({ editingId, initialData }) {
                 errors={errors}
               />
               <ComboboxInput
-                label="Occupation"
-                name="occupation"
-                placeholder="Select Occupation"
-                showSearch="true"
-                options={occupations}
+                label="Teaching Qualification"
+                name="qualification"
+                placeholder="Select Qualification"
+                options={qualifications}
                 register={register}
                 errors={errors}
               />
               <ComboboxInput
-                label="Income Range"
-                name="incomeRange"
-                placeholder="Select Income Range"
-                options={incomeRanges}
+                label="Teaching Level"
+                name="teachingLevel"
+                placeholder="Select Teaching Level"
+                options={teachingLevels}
                 register={register}
                 errors={errors}
               />
@@ -216,10 +204,10 @@ export default function ParentForm({ editingId, initialData }) {
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="space-y-4">
                 <ComboboxInput
-                  label="Religion"
-                  name="religion"
-                  placeholder="Select Religion"
-                  options={religions}
+                  label="Subject Specialization"
+                  name="subjects"
+                  placeholder="Select Subjects"
+                  options={subjects}
                   register={register}
                   errors={errors}
                 />
@@ -241,12 +229,11 @@ export default function ParentForm({ editingId, initialData }) {
                 />
               </div>
 
-              {/* Parent Photo */}
               <ImageInput
-                title="Parent/Guardian Photo"
+                title="Teacher Photo"
                 imageUrl={imageUrl}
                 setImageUrl={setImageUrl}
-                endpoint="parentProfileImage"
+                endpoint="teacherProfileImage"
                 className="object-contain"
               />
             </div>
@@ -254,11 +241,10 @@ export default function ParentForm({ editingId, initialData }) {
         </div>
       </div>
 
-      {/* Form Footer */}
       <FormFooter
-        href="/parents"
+        href="/teachers"
         parent=""
-        title="Parent/Guardian"
+        title="Teacher"
         editingId={editingId}
         loading={loading}
       />

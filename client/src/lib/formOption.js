@@ -336,7 +336,23 @@ export const religions = [
   },
 ];
 
-// option.js
+export const teachingLevels = [
+  { label: "Primary", value: "primary" },
+  { label: "Middle School", value: "middle_school" },
+  { label: "High School", value: "high_school" },
+  { label: "Higher Secondary", value: "higher_secondary" },
+  { label: "Undergraduate", value: "undergraduate" },
+  { label: "Postgraduate", value: "postgraduate" },
+];
+
+export const contractTypes = [
+  { label: "Permanent", value: "permanent" },
+  { label: "Temporary", value: "temporary" },
+  { label: "Part-Time", value: "part_time" },
+  { label: "Full-Time", value: "full_time" },
+  { label: "Contract", value: "contract" },
+  { label: "Internship", value: "internship" },
+];
 
 export const Classes = [
   { label: "Class 1", value: "class1" },

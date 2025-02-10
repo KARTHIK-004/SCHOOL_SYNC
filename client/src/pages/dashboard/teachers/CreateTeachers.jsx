@@ -11,54 +11,55 @@ import {
 } from "@/components/ui/tooltip";
 
 import { useToast } from "@/hooks/use-toast";
-import ParentForm from "@/components/Forms/Dashboard/Parents/ParentForm";
+import TeacherForm from "@/components/Forms/Dashboard/Teacher/TeacherForm";
 
-export default function CreateParents() {
+export default function CreateTeachers() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleSubmit = async (parentData) => {
+  const handleSubmit = async (teacherData) => {
     try {
       if (id) {
-        // await updateParent(id, parentData);
+        // await updateTeacher(id, teacherData);
         toast({
           title: "Success",
-          description: "Parent updated successfully",
+          description: "Teacher updated successfully",
         });
       } else {
-        // await createParent(parentData);
+        // await createTeacher(teacherData);
         toast({
           title: "Success",
-          description: "Parent created successfully",
+          description: "Teacher created successfully",
         });
       }
-      // navigate('/parents');
+      // navigate('/teachers');
     } catch (error) {
-      console.error("Error saving parent:", error);
+      console.error("Error saving teacher:", error);
       toast({
         title: "Error",
         description:
-          error.message || "An error occurred while saving the parent",
+          error.message || "An error occurred while saving the teacher",
         variant: "destructive",
       });
     }
   };
+
   return (
     <div className="container mx-auto py-8 px-4 max-w-6xl">
       <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">
-            Register Parents
+            Register Teachers
           </h1>
           <p className="text-muted-foreground mt-2">
-            Efficiently manage parent registrations
+            Efficiently manage teacher registrations
           </p>
         </div>
         <Button variant="outline" asChild>
-          <Link to="/dashboard/parents">
+          <Link to="/dashboard/teachers">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Parents
+            Back to Teachers
           </Link>
         </Button>
       </div>
@@ -66,7 +67,7 @@ export default function CreateParents() {
       <div className="container mx-auto max-w-6xl">
         <Card className="mt-4 border">
           <CardContent className="p-6">
-            <ParentForm editingId={id} onSubmit={handleSubmit} />
+            <TeacherForm editingId={id} onSubmit={handleSubmit} />
           </CardContent>
         </Card>
       </div>
@@ -84,22 +85,18 @@ export default function CreateParents() {
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Helpful tips for efficient parent registration</p>
+                  <p>Helpful tips for efficient teacher registration</p>
                 </TooltipContent>
               </Tooltip>
             </div>
           </CardHeader>
           <CardContent>
             <ul className="list-disc pl-5 space-y-2">
-              <li>Ensure all required fields are filled accurately.</li>
-              <li>Verify parent information before submission.</li>
-              <li>
-                Include preferred contact method and additional contact details.
-              </li>
-              <li>Double-check nationality and ID/passport information.</li>
-              <li>
-                Contact support if you encounter any issues during the process.
-              </li>
+              <li>Verify teaching credentials and certifications.</li>
+              <li>Include complete educational background details.</li>
+              <li>Specify subject specializations and grade levels.</li>
+              <li>Add professional experience and references.</li>
+              <li>Upload required documentation in the correct format.</li>
             </ul>
           </CardContent>
         </Card>
