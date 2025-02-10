@@ -112,6 +112,64 @@ export const qualifications = [
   },
 ];
 
+export const educationLevels = [
+  {
+    label: "Primary",
+    value: "primary",
+  },
+  {
+    label: "Secondary",
+    value: "secondary",
+  },
+  {
+    label: "Higher Secondary",
+    value: "higher_secondary",
+  },
+  {
+    label: "Diploma",
+    value: "diploma",
+  },
+  {
+    label: "Undergraduate",
+    value: "undergraduate",
+  },
+  {
+    label: "Postgraduate",
+    value: "postgraduate",
+  },
+  {
+    label: "Doctorate",
+    value: "doctorate",
+  },
+  {
+    label: "Other",
+    value: "other",
+  },
+];
+
+export const incomeRanges = [
+  {
+    label: "Below ₹1,00,000",
+    value: "below_1_lakh",
+  },
+  {
+    label: "₹1,00,000 - ₹3,00,000",
+    value: "1_3_lakh",
+  },
+  {
+    label: "₹3,00,000 - ₹6,00,000",
+    value: "3_6_lakh",
+  },
+  {
+    label: "₹6,00,000 - ₹10,00,000",
+    value: "6_10_lakh",
+  },
+  {
+    label: "Above ₹10,00,000",
+    value: "above_10_lakh",
+  },
+];
+
 export const designations = [
   {
     value: "teacher",
