@@ -30,8 +30,8 @@ import TeacherDirectory from "./pages/dashboard/teachers/TeacherDirectory";
 import TeacherDetails from "./pages/dashboard/teachers/TeacherDetails";
 import CreateTeachers from "./pages/dashboard/teachers/CreateTeachers";
 
-// Classes
-import ClassDirectory from "./pages/dashboard/academics/ClassDirectory";
+// Academic
+import AcademicOverview from "./pages/dashboard/academics/AcademicOverview";
 
 export default function App() {
   return (
@@ -69,7 +69,7 @@ export default function App() {
             <Route path="teachers/edit/:id" element={<CreateTeachers />} />
 
             {/* Classes Routes */}
-            <Route path="classes" element={<ClassDirectory />} />
+            <Route path="classes" element={<AcademicOverview />} />
           </Route>
 
           {/* 404 Page */}
