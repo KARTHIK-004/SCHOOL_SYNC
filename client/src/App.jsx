@@ -32,6 +32,10 @@ import CreateTeachers from "./pages/dashboard/teachers/CreateTeachers";
 
 // Academic
 import AcademicOverview from "./pages/dashboard/academics/AcademicOverview";
+import { SectionList } from "./pages/dashboard/academics/sections/SectionList";
+import AcademicPlaceholder from "./pages/dashboard/academics/AcademicPlaceholder";
+import CreateSection from "./pages/dashboard/academics/sections/CreateSections";
+import CreateClasses from "./pages/dashboard/academics/classes/CreateClasses";
 
 export default function App() {
   return (
@@ -69,7 +73,16 @@ export default function App() {
             <Route path="teachers/edit/:id" element={<CreateTeachers />} />
 
             {/* Classes Routes */}
-            <Route path="classes" element={<AcademicOverview />} />
+            <Route path="academics/classes" element={<AcademicOverview />}>
+              <Route index element={<AcademicPlaceholder />} />
+              <Route path="create" element={<CreateClasses />} />
+              <Route path="edit/:id" element={<CreateClasses />} />
+              <Route path=":classId/sections">
+                <Route index element={<SectionList />} />
+                <Route path="create" element={<CreateSection />} />
+                <Route path="edit/:sectionId" element={<CreateSection />} />
+              </Route>
+            </Route>
           </Route>
 
           {/* 404 Page */}

@@ -198,7 +198,10 @@ export const designations = [
 ];
 
 export const departments = [
-  { value: "science", label: "Science" },
+  {
+    value: "science",
+    label: "Science",
+  },
   {
     value: "mathematics",
     label: "Mathematics",
@@ -211,6 +214,27 @@ export const departments = [
     value: "social_studies",
     label: "Social Studies",
   },
+];
+
+export const academicYears = [
+  { value: "2023-2024", label: "2023-2024" },
+  { value: "2024-2025", label: "2024-2025" },
+  { value: "2025-2026", label: "2025-2026" },
+  { value: "2026-2027", label: "2026-2027" },
+];
+
+export const classTypes = [
+  { value: "primary", label: "Primary" },
+  { value: "secondary", label: "Secondary" },
+  { value: "higher_secondary", label: "Higher Secondary" },
+  { value: "college", label: "College" },
+];
+
+export const mediums = [
+  { value: "english", label: "English" },
+  { value: "hindi", label: "Hindi" },
+  { value: "tamil", label: "Tamil" },
+  { value: "french", label: "French" },
 ];
 
 export const subjects = [
