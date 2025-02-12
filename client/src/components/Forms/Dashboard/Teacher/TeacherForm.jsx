@@ -200,6 +200,33 @@ export default function TeacherForm({ editingId, initialData }) {
               />
             </div>
 
+            {/* Subject Information */}
+            <div className="grid sm:grid-cols-2 gap-4">
+              <ComboboxInput
+                label="Main Subject"
+                name="mainSubject"
+                placeholder="Select Main Subject"
+                showSearch="true"
+                options={[]}
+                register={register}
+                errors={errors}
+                toolTipText="Add New Subject"
+                href="/dashboard/academics/subject"
+              />
+
+              <ComboboxInput
+                label="Secondary Subject"
+                name="secondarySubject"
+                placeholder="Select Secondary Subject"
+                showSearch="true"
+                options={[]}
+                register={register}
+                errors={errors}
+                toolTipText="Add New Subject"
+                href="/dashboard/academics/subject"
+              />
+            </div>
+
             {/* Additional Information */}
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="space-y-4">

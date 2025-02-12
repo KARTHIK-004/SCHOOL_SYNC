@@ -58,7 +58,7 @@ export function ClassForm({ editingId, initialData }) {
           variant: "success",
         });
       }
-      navigate("/dashboard/academics/classes");
+      // navigate("/dashboard/academics/classes");
     } catch (error) {
       console.error(error);
       toast({

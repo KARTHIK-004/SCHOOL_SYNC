@@ -15,7 +15,7 @@ export default function AcademicSidebar() {
           <h2 className="text-xl font-semibold">Classes</h2>
         </div>
         <Button variant="ghost" size="icon" asChild>
-          <Link to="/dashboard/academics/classes/new">
+          <Link to="/dashboard/academics/classes/create">
             <Plus className="h-5 w-5" />
           </Link>
         </Button>
