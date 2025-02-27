@@ -112,23 +112,6 @@ export function ClassForm({ editingId, initialData }) {
               errors={errors}
               required
             />
-            <ComboboxInput
-              label="Department"
-              name="department"
-              options={departments}
-              register={register}
-              errors={errors}
-            />
-          </div>
-
-          <div className="grid sm:grid-cols-2 gap-4">
-            <ComboboxInput
-              label="Medium of Instruction"
-              name="medium"
-              options={mediums}
-              register={register}
-              errors={errors}
-            />
             <TextInput
               label="Maximum Students"
               name="maxStudents"

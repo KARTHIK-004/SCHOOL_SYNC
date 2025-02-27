@@ -59,8 +59,8 @@ export const navigationItems = [
     href: "/dashboard",
   },
   {
-    title: "Announcements",
-    href: "/announcements",
+    title: "How It Works",
+    href: "/how-it-works",
   },
 ];
 

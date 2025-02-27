@@ -36,6 +36,7 @@ import { SectionList } from "./pages/dashboard/academics/sections/SectionList";
 import AcademicPlaceholder from "./pages/dashboard/academics/AcademicPlaceholder";
 import CreateSection from "./pages/dashboard/academics/sections/CreateSections";
 import CreateClasses from "./pages/dashboard/academics/classes/CreateClasses";
+import HowItWorks from "./pages/HowItWorks";
 
 export default function App() {
   return (
@@ -44,6 +45,8 @@ export default function App() {
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
+
+          <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/contact-us" element={<BookNow />} />
