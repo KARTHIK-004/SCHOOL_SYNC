@@ -13,14 +13,20 @@ import {
 import { navigationData } from "./nav-data";
 
 export function AppSidebar({ ...props }) {
+  // Get user role from localStorage or context
+  const userRole = localStorage.getItem("userRole") || "schoolAdmin"; // Default to student if no role found
+
+  // Get navigation data based on user role
+  const roleNavigation = navigationData[userRole] || navigationData.schoolAdmin;
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <SidebarLogo />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={navigationData.navMain} />
-        <NavConfig configurations={navigationData.configurations} />
+        <NavMain items={roleNavigation.navMain} />
+        <NavConfig configurations={roleNavigation.configurations} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

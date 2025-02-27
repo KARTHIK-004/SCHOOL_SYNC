@@ -14,6 +14,7 @@ import Sidebar from "./pages/dashboard/Sidebar";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Settings from "./pages/dashboard/Setting";
 import ContactSubmissions from "./pages/dashboard/admin/contacts/Contacts";
+import Notifications from "./pages/dashboard/notifications/Notifications";
 
 // Students
 import StudentDirectory from "./pages/dashboard/students/StudentDirectory";
@@ -37,6 +38,7 @@ import AcademicPlaceholder from "./pages/dashboard/academics/AcademicPlaceholder
 import CreateSection from "./pages/dashboard/academics/sections/CreateSections";
 import CreateClasses from "./pages/dashboard/academics/classes/CreateClasses";
 import HowItWorks from "./pages/HowItWorks";
+import CreateSchool from "./pages/dashboard/schools/CreateSchool";
 
 export default function App() {
   return (
@@ -56,6 +58,7 @@ export default function App() {
             <Route index element={<Dashboard />} />
             <Route path="settings" element={<Settings />} />
             <Route path="contacts" element={<ContactSubmissions />} />
+            <Route path="notifications" element={<Notifications />} />
 
             {/* Students */}
             <Route path="students" element={<StudentDirectory />} />
@@ -86,6 +89,9 @@ export default function App() {
                 <Route path="edit/:sectionId" element={<CreateSection />} />
               </Route>
             </Route>
+
+            {/* School Routes */}
+            <Route path="schools/create" element={<CreateSchool />} />
           </Route>
 
           {/* 404 Page */}

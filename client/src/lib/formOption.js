@@ -170,6 +170,20 @@ export const incomeRanges = [
   },
 ];
 
+export const schoolTypes = [
+  { label: "Primary School", value: "primary" },
+  { label: "Secondary School", value: "secondary" },
+  { label: "High School", value: "high" },
+  { label: "International School", value: "international" },
+];
+
+export const curriculums = [
+  { label: "National Curriculum", value: "national" },
+  { label: "International Baccalaureate", value: "ib" },
+  { label: "Cambridge International", value: "cambridge" },
+  { label: "American Curriculum", value: "american" },
+];
+
 export const designations = [
   {
     value: "teacher",
