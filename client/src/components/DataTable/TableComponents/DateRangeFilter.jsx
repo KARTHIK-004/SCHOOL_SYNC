@@ -1,11 +1,4 @@
-import {
-  filterByDateRange,
-  filterByLast7Days,
-  filterByThisMonth,
-  filterByThisYear,
-  filterByToday,
-  filterByYesterday,
-} from "@/lib/dateFilters";
+import { filterByDateRange } from "@/lib/dateFilters";
 import React, { useState } from "react";
 import { addDays, format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
@@ -24,12 +17,11 @@ export default function DateRangeFilter({
   className,
 }) {
   const [date, setDate] = useState({
-    from: new Date(2024, 0, 20),
-    to: addDays(new Date(2024, 0, 20), 20),
+    from: addDays(new Date(), -30),
+    to: new Date(),
   });
-  // console.log(date);
+
   const handleChange = (selectedDate) => {
-    console.log(selectedDate);
     setDate(selectedDate);
     setIsSearch(false);
     const startDate = selectedDate.from;

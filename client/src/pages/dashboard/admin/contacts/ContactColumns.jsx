@@ -1,7 +1,7 @@
-import DateColumn from "@/components/DataTableColumns/DateColumn";
-import SortableColumn from "@/components/DataTableColumns/SortableColumn";
-import ActionColumn from "@/components/DataTableColumns/ActionColumn";
-import ContactCard from "@/components/DataTableColumns/ContactCard";
+import DateColumn from "@/components/DataTable/TableColumns/DateColumn";
+import SortableColumn from "@/components/DataTable/TableColumns/SortableColumn";
+import ActionColumn from "@/components/DataTable/TableColumns/ActionColumn";
+import ContactCard from "@/pages/dashboard/admin/contacts/ContactCard";
 
 export const ContactColumns = [
   {

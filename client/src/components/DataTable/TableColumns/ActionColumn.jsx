@@ -25,7 +25,6 @@ import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
 export default function ActionColumn({ row, model, editEndpoint, id = "" }) {
-  const isActive = row.isActive;
   const { toast } = useToast();
   async function handleDelete() {
     try {
@@ -35,7 +34,7 @@ export default function ActionColumn({ row, model, editEndpoint, id = "" }) {
           window.location.reload();
         }
         toast({
-          title: " Deleted Successfully",
+          title: "Deleted Successfully",
           description: `${model} Contact deleted sucessfully`,
           type: "success",
         });

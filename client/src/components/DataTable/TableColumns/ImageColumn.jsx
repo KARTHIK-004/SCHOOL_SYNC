@@ -2,8 +2,6 @@ import React from "react";
 
 export default function ImageColumn({ row, accessorKey }) {
   const imageUrl = row.getValue(`${accessorKey}`);
-  // const thum = row.getValue(`${accessorKey}`);
-  // console.log(imageUrl);
   return (
     <div className="shrink-0">
       <img

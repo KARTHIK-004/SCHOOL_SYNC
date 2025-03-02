@@ -22,8 +22,7 @@ import { DataTableViewOptions } from "./DataTableViewOptions";
 import DateFilters from "./DateFilters";
 import DateRangeFilter from "./DateRangeFilter";
 import { DataTablePagination } from "./DataTablePagination";
-import { StatusFilter } from "./StatusFilter";
-import { ScrollArea } from "../ui/scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function DataTable({ columns, data }) {
   const [rowSelection, setRowSelection] = useState({});
@@ -33,7 +32,6 @@ export default function DataTable({ columns, data }) {
   const [filteredData, setFilteredData] = useState(data);
   const [sorting, setSorting] = useState([]);
   const [isSearch, setIsSearch] = useState(true);
-  const handleFilterChange = (selectedStatuses) => {};
 
   const table = useReactTable({
     data: isSearch ? searchResults : filteredData,
@@ -76,7 +74,6 @@ export default function DataTable({ columns, data }) {
             onFilter={setFilteredData}
             setIsSearch={setIsSearch}
           />
-          <StatusFilter onFilterChange={handleFilterChange} />
           <DataTableViewOptions table={table} />
         </div>
       </div>

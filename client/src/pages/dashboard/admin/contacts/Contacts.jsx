@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ContactColumns } from "./ContactColumns";
-import DataTable from "@/components/DataTableComponents/DataTable";
-import TableHeader from "@/components/Dashboard/Tables/TableHeader";
+import DataTable from "@/components/DataTable/TableComponents/DataTable";
+import TableHeader from "@/components/DataTable/TableHeader/TableHeader";
 import { getAllContacts } from "@/utils/contactAPI";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";

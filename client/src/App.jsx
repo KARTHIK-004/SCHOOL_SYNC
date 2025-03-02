@@ -14,22 +14,22 @@ import Sidebar from "./pages/dashboard/Sidebar";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Settings from "./pages/dashboard/Setting";
 import ContactSubmissions from "./pages/dashboard/admin/contacts/Contacts";
-import Notifications from "./pages/dashboard/notifications/Notifications";
+import Notifications from "./pages/dashboard/Notifications";
 
 // Students
-import StudentDirectory from "./pages/dashboard/students/StudentDirectory";
-import StudentDetails from "./pages/dashboard/students/StudentDetails";
-import CreateStudents from "./pages/dashboard/students/CreateStudents";
+import StudentDirectory from "./pages/dashboard/school-admin/students/StudentDirectory.jsx";
+import StudentDetails from "./pages/dashboard/school-admin/students/StudentDetails";
+import CreateStudents from "./pages/dashboard/school-admin/students/CreateStudents";
 
 // Parents
-import ParentDirectory from "./pages/dashboard/parents/ParentDirectory";
-import ParentDetails from "./pages/dashboard/parents/ParentDetails";
-import CreateParents from "./pages/dashboard/parents/CreateParents";
+import ParentDirectory from "./pages/dashboard/school-admin/parents/ParentDirectory";
+import ParentDetails from "./pages/dashboard/school-admin/parents/ParentDetails";
+import CreateParents from "./pages/dashboard/school-admin/parents/CreateParents";
 
 // Teachers
-import TeacherDirectory from "./pages/dashboard/teachers/TeacherDirectory";
-import TeacherDetails from "./pages/dashboard/teachers/TeacherDetails";
-import CreateTeachers from "./pages/dashboard/teachers/CreateTeachers";
+import TeacherDirectory from "./pages/dashboard/school-admin/teachers/TeacherDirectory";
+import TeacherDetails from "./pages/dashboard/school-admin/teachers/TeacherDetails";
+import CreateTeachers from "./pages/dashboard/school-admin/teachers/CreateTeachers";
 
 // Academic
 import AcademicOverview from "./pages/dashboard/academics/AcademicOverview";
@@ -38,7 +38,7 @@ import AcademicPlaceholder from "./pages/dashboard/academics/AcademicPlaceholder
 import CreateSection from "./pages/dashboard/academics/sections/CreateSections";
 import CreateClasses from "./pages/dashboard/academics/classes/CreateClasses";
 import HowItWorks from "./pages/HowItWorks";
-import CreateSchool from "./pages/dashboard/schools/CreateSchool";
+import CreateSchool from "./pages/dashboard/school-admin/schools/CreateSchool";
 
 export default function App() {
   return (

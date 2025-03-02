@@ -2,7 +2,7 @@ import AdminDashboard from "./admin/AdminDashboard";
 import TeacherDashboard from "./teacher/TeacherDashboard";
 import StudentDashboard from "./student/StudentDashboard";
 import ParentDashboard from "./parent/ParentDashboard";
-import SchoolAdminDashboard from "./schoolAdmin/SchoolAdminDashboard";
+import SchoolAdminDashboard from "./school-admin/SchoolAdminDashboard";
 
 function Dashboard() {
   const userRole = localStorage.getItem("userRole") || "schoolAdmin";
