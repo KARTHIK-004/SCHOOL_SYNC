@@ -104,7 +104,6 @@ export default function SchoolForm({ onSubmit }) {
           options={countries}
           register={register}
           errors={errors}
-          required
           showSearch
         />
       </div>

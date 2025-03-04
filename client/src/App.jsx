@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import BookNow from "./pages/BookNow";
+import HowItWorks from "./pages/HowItWorks";
 
 // 404 NotFound
 import NotFound from "./pages/NotFound";
@@ -33,12 +34,12 @@ import CreateTeachers from "./pages/dashboard/school-admin/teachers/CreateTeache
 
 // Academic
 import AcademicOverview from "./pages/dashboard/academics/AcademicOverview";
-import { SectionList } from "./pages/dashboard/academics/sections/SectionList";
+import SectionList from "./pages/dashboard/academics/sections/SectionList";
 import AcademicPlaceholder from "./pages/dashboard/academics/AcademicPlaceholder";
 import CreateSection from "./pages/dashboard/academics/sections/CreateSections";
 import CreateClasses from "./pages/dashboard/academics/classes/CreateClasses";
-import HowItWorks from "./pages/HowItWorks";
 import CreateSchool from "./pages/dashboard/school-admin/schools/CreateSchool";
+import StudentList from "./pages/dashboard/academics/students/StudentList";
 
 export default function App() {
   return (
@@ -78,16 +79,25 @@ export default function App() {
             <Route path="teachers/:id" element={<TeacherDetails />} />
             <Route path="teachers/edit/:id" element={<CreateTeachers />} />
 
-            {/* Classes Routes */}
-            <Route path="academics/classes" element={<AcademicOverview />}>
-              <Route index element={<AcademicPlaceholder />} />
-              <Route path="create" element={<CreateClasses />} />
-              <Route path="edit/:id" element={<CreateClasses />} />
-              <Route path=":classId/sections">
-                <Route index element={<SectionList />} />
-                <Route path="create" element={<CreateSection />} />
-                <Route path="edit/:sectionId" element={<CreateSection />} />
+            {/* Classes and Sections Routes */}
+            <Route path="academics" element={<AcademicOverview />}>
+              {/* Classes Routes */}
+              <Route path="classes">
+                <Route index element={<AcademicPlaceholder />} />
+                <Route path="create" element={<CreateClasses />} />
+                <Route path="edit/:id" element={<CreateClasses />} />
+                {/* Sections Routes */}
+                <Route path=":classId/sections">
+                  <Route index element={<SectionList />} />
+                  <Route path="students" element={<StudentList />} />
+                  <Route path="create" element={<CreateSection />} />
+                  <Route path="edit/:sectionId" element={<CreateSection />} />
+                </Route>
               </Route>
+              <Route
+                path="sections/:sectionId/students"
+                element={<StudentList />}
+              />
             </Route>
 
             {/* School Routes */}

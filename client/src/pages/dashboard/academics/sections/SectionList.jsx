@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Pencil, Plus, Trash, Users } from "lucide-react";
 import {
@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { useParams, Link } from "react-router-dom";
 
-export function SectionList() {
+export default function SectionList() {
   const { classId } = useParams();
   const [sections, setSections] = useState([]);
 
@@ -22,46 +22,50 @@ export function SectionList() {
       { id: 1, name: "Section A" },
       { id: 2, name: "Section B" },
       { id: 3, name: "Section C" },
+      { id: 4, name: "Section D" },
+      { id: 5, name: "Section E" },
+      { id: 6, name: "Section F" },
+      { id: 7, name: "Section G" },
     ];
     setSections(mockSections);
   }, [classId]);
 
   return (
     <div className="flex-1 h-full overflow-hidden">
-      <ScrollArea className="h-full">
-        {/* Header */}
-        <header className="border-b bg-background">
-          <div className="container flex flex-col sm:flex-row h-auto sm:h-16 items-start sm:items-center justify-between p-4">
-            <div className="w-full sm:w-auto mb-4 sm:mb-0">
-              <h1 className="text-2xl font-semibold">
-                Sections in Class {classId}
-              </h1>
-              <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/dashboard/classes">
-                      Classes
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>Class {classId}</BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
-              </Breadcrumb>
-            </div>
-
-            {/* Add Section Button */}
-            <Link to={`/academics/classes/${classId}/sections/create`}>
-              <Button className="w-full sm:w-auto justify-center">
-                <Plus className="h-4 w-4 mr-2" />
-                Add Section
-              </Button>
-            </Link>
+      {/* Header */}
+      <header className="border-b bg-background">
+        <div className="container flex flex-col sm:flex-row h-auto sm:h-16 items-start sm:items-center justify-between p-4">
+          <div className="w-full sm:w-auto mb-4 sm:mb-0">
+            <h1 className="text-2xl font-semibold">
+              Sections in Class {classId}
+            </h1>
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/dashboard/academics/classes">
+                    Classes
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Class {classId}</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
           </div>
-        </header>
 
-        {/* Section Cards */}
+          {/* Add Section Button */}
+          <Link to={`/academics/classes/${classId}/sections/create`}>
+            <Button className="w-full sm:w-auto justify-center">
+              <Plus className="h-4 w-4 mr-2" />
+              Add Section
+            </Button>
+          </Link>
+        </div>
+      </header>
+
+      {/* Section Cards */}
+      <ScrollArea className="h-[calc(100vh-9rem)]">
         <main className="p-4 lg:p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
             {sections.map((section) => (
@@ -82,14 +86,32 @@ export function SectionList() {
                       </Button>
                     </div>
                   </div>
-                  <div className="mt-2 text-sm text-muted-foreground">
-                    Class Teacher: Jb web developer
-                  </div>
-                  <div className="mt-1 text-sm text-muted-foreground flex items-center gap-1">
-                    <Users className="h-3 w-3" />
-                    40 students
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Teacher:</span>
+                      <span className="font-medium">MR JOHN</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Students:</span>
+                      <span className="font-medium">20</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Class:</span>
+                      <span className="font-medium">5</span>
+                    </div>
                   </div>
                 </CardContent>
+                <CardFooter className="pt-0">
+                  <Link
+                    to={`/dashboard/academics/sections/${section.id}/students`}
+                    className="w-full"
+                  >
+                    <Button variant="outline" className="w-full" size="sm">
+                      <Users className="h-4 w-4 mr-2" />
+                      View Students
+                    </Button>
+                  </Link>
+                </CardFooter>
               </Card>
             ))}
           </div>

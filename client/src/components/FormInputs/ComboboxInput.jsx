@@ -31,16 +31,14 @@ const ComboboxInput = ({
 
   const handleValueChange = (newValue) => {
     setValue(newValue);
-    register(name, {
-      required: `${label} is required`,
-    }).onChange({
+    registration.onChange({
       target: { name, value: newValue },
       type: "change",
     });
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 relative">
       <div className="flex items-center gap-2">
         <Label className="text-sm font-medium">{label}</Label>
         {toolTipText && (

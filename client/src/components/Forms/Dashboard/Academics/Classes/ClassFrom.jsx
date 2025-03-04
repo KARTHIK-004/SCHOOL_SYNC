@@ -10,12 +10,7 @@ import TextInput from "@/components/FormInputs/TextInput";
 import ComboboxInput from "@/components/FormInputs/ComboboxInput";
 
 // Form Options
-import {
-  departments,
-  academicYears,
-  classTypes,
-  mediums,
-} from "@/lib/formOption";
+import { academicYears } from "@/lib/formOption";
 
 // Class Form Component
 export function ClassForm({ editingId, initialData }) {
@@ -73,8 +68,8 @@ export function ClassForm({ editingId, initialData }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormHeader
-        href="/dashboard/academics/classes"
-        parent="Academics"
+        href="/classes"
+        parent="academics"
         title="Class"
         editingId={editingId}
         loading={loading}
@@ -124,8 +119,8 @@ export function ClassForm({ editingId, initialData }) {
       </div>
 
       <FormFooter
-        href="/dashboard/academics/classes"
-        parent="Academics"
+        href="/classes"
+        parent="academics"
         title="Class"
         editingId={editingId}
         loading={loading}

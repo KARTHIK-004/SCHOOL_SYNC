@@ -9,6 +9,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { ClassForm } from "@/components/Forms/Dashboard/Academics/Classes/ClassFrom";
 
@@ -48,63 +49,67 @@ export default function CreateClasses() {
   };
 
   return (
-    <div className="container mx-auto py-8 px-4 max-w-6xl">
-      <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Register Class</h1>
-          <p className="text-muted-foreground mt-2">
-            Create and manage class configurations
-          </p>
+    <ScrollArea className="h-[calc(100vh-4rem)]">
+      <div className="container mx-auto py-8 px-4 max-w-6xl">
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">
+              Register Class
+            </h1>
+            <p className="text-muted-foreground mt-2">
+              Create and manage class configurations
+            </p>
+          </div>
+          <Button variant="outline" asChild>
+            <Link to="/dashboard/academics/classes">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Classes
+            </Link>
+          </Button>
         </div>
-        <Button variant="outline" asChild>
-          <Link to="/dashboard/academics/classes">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Classes
-          </Link>
-        </Button>
-      </div>
 
-      <div className="container mx-auto max-w-6xl">
-        <Card className="mt-4 border">
-          <CardContent className="p-6">
-            <ClassForm />
-          </CardContent>
-        </Card>
-      </div>
+        <div className="container mx-auto max-w-6xl">
+          <Card className="mt-4 border">
+            <CardContent className="p-6">
+              <ClassForm />
+            </CardContent>
+          </Card>
+        </div>
 
-      <TooltipProvider>
-        <Card className="mt-8">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-xl">
-                Class Configuration Guidelines
-              </CardTitle>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <HelpCircle className="h-4 w-4" />
-                    <span className="sr-only">
-                      Class configuration guidelines
-                    </span>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Important guidelines for configuring classes</p>
-                </TooltipContent>
-              </Tooltip>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <ul className="list-disc pl-5 space-y-2">
-              <li>Assign qualified teachers to each class.</li>
-              <li>Set up class schedules and time slots.</li>
-              <li>Configure room assignments and resources.</li>
-              <li>Define subject curriculum and learning objectives.</li>
-              <li>Specify assessment methods and grading criteria.</li>
-            </ul>
-          </CardContent>
-        </Card>
-      </TooltipProvider>
-    </div>
+        <TooltipProvider>
+          <Card className="mt-8 mb-8">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-xl">
+                  Class Configuration Guidelines
+                </CardTitle>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                      <HelpCircle className="h-4 w-4" />
+                      <span className="sr-only">
+                        Class configuration guidelines
+                      </span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Important guidelines for configuring classes</p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <ul className="list-disc pl-5 space-y-2">
+                <li>Assign qualified teachers to each class.</li>
+                <li>Set up class schedules and time slots.</li>
+                <li>Configure room assignments and resources.</li>
+                <li>Define subject curriculum and learning objectives.</li>
+                <li>Specify assessment methods and grading criteria.</li>
+              </ul>
+            </CardContent>
+          </Card>
+        </TooltipProvider>
+      </div>
+    </ScrollArea>
   );
 }

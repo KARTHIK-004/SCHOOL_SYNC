@@ -50,7 +50,7 @@ const Combobox = ({
         side="bottom"
         sideOffset={4}
       >
-        <div className="border-0 w-full">
+        <div className="border-0 w-full" onClick={(e) => e.stopPropagation()}>
           {showSearch && (
             <div className="flex items-center border-b px-3">
               <input
@@ -58,6 +58,7 @@ const Combobox = ({
                 placeholder={`Search ${label.toLowerCase()}...`}
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
+                onClick={(e) => e.stopPropagation()}
               />
             </div>
           )}
@@ -72,7 +73,9 @@ const Combobox = ({
                     "relative flex cursor-pointer select-none items-center rounded-sm px-3 py-2 text-sm outline-none hover:bg-accent hover:text-accent-foreground",
                     value === option.value && "bg-accent text-accent-foreground"
                   )}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
                     onValueChange(option.value);
                     setOpen(false);
                     setSearchValue("");

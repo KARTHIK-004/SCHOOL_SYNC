@@ -1,4 +1,10 @@
+import React, { useState } from "react";
+import { Outlet } from "react-router-dom";
+import { Menu } from "lucide-react";
+
+// UI Components
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Sheet,
   SheetContent,
@@ -7,16 +13,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { SidebarContent } from "@/components/ui/sidebar";
-import { Menu } from "lucide-react";
-import React, { useState } from "react";
-import AcademicSidebar from "./AcademicSidebar";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { SectionList } from "./sections/SectionList";
-import { Outlet } from "react-router-dom";
+
+// Custom Components
+import ClassList from "./classes/ClassList";
 
 export default function AcademicOverview() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+
   return (
     <div className="flex h-full w-full relative">
       {/* Mobile Sheet */}
@@ -37,14 +40,14 @@ export default function AcademicOverview() {
               Browse and manage your classes and sections
             </SheetDescription>
           </SheetHeader>
-          <AcademicSidebar />
+          <ClassList />
         </SheetContent>
       </Sheet>
 
-      {/* Desktop Sidebar */}
+      {/* Class List */}
       <div className="hidden md:block w-80 border-r bg-background">
         <div className="px-4 h-full">
-          <AcademicSidebar />
+          <ClassList />
         </div>
       </div>
 
