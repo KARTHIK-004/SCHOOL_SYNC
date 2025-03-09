@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Lock, Mail, Send, User } from "lucide-react";
+import { Globe, Mail, Send, User } from "lucide-react";
 
 import TextInput from "@/components/FormInputs/TextInput";
 import PhoneInput from "@/components/FormInputs/PhoneInput";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
-import PasswordInput from "@/components/FormInputs/PasswordInput";
 import { useNavigate } from "react-router-dom";
+import ComboboxInput from "@/components/FormInputs/ComboboxInput";
+import { curriculums, schoolTypes } from "@/lib/formOption";
 
-export default function SchoolAdminForm({ onSubmit }) {
+export default function SchoolDetailsForm({ onSubmit }) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -21,14 +22,16 @@ export default function SchoolAdminForm({ onSubmit }) {
   const handleFormSubmit = async (data) => {
     try {
       setLoading(true);
-
-      // Call the parent component's onSubmit function
       if (onSubmit) {
         await onSubmit(data);
       }
       navigate("/dashboard");
     } catch (error) {
-      console.error(error);
+      toast({
+        title: "Registration Failed",
+        description: error.message || "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
@@ -39,38 +42,46 @@ export default function SchoolAdminForm({ onSubmit }) {
       <div className="grid grid-cols-1 gap-4 ">
         <TextInput
           icon={User}
-          label="Admin Name"
+          label="School Admin Name"
           register={register}
           name="adminName"
           type="text"
           errors={errors}
           placeholder="John Doe"
         />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <ComboboxInput
+            label="School Type"
+            name="type"
+            placeholder="Select school type"
+            options={schoolTypes}
+            register={register}
+            errors={errors}
+          />
+          <ComboboxInput
+            label="Curriculum"
+            name="curriculum"
+            placeholder="Select curriculum"
+            options={curriculums}
+            register={register}
+            errors={errors}
+          />
+        </div>
         <TextInput
           icon={Mail}
-          label="Admin Email"
+          label="Contact Email"
           register={register}
-          name="adminEmail"
+          name="contactEmail"
           type="email"
           errors={errors}
-          placeholder="Eg. johndoe@gmail.com"
+          placeholder="contact@schoolname.com"
         />
         <PhoneInput
           register={register}
           errors={errors}
-          name="adminPhone"
-          label="Admin Number"
-          toolTipText="Please provide a valid admin number"
-        />
-        <PasswordInput
-          icon={Lock}
-          label="Password"
-          register={register}
-          name="password"
-          type="password"
-          errors={errors}
-          placeholder="******"
-          forgotPasswordLink="/forgot-password"
+          name="phone"
+          label="Contact Number"
+          toolTipText="Please provide a valid school contact number"
         />
         <SubmitButton
           buttonIcon={Send}

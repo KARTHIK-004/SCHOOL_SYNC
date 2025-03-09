@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 // Auth
 import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
+import SchoolRegistration from "./pages/auth/SchoolRegistration";
 
 // Dashboard & Sidebar
 import Sidebar from "./pages/dashboard/Sidebar";
@@ -40,7 +41,6 @@ import CreateSection from "./pages/dashboard/academics/sections/CreateSections";
 import CreateClasses from "./pages/dashboard/academics/classes/CreateClasses";
 import CreateSchool from "./pages/dashboard/school-admin/schools/CreateSchool";
 import StudentList from "./pages/dashboard/academics/students/StudentList";
-import SchoolRegistration from "./pages/auth/SchoolRegistration";
 
 export default function App() {
   const userRole = localStorage.getItem("role");
@@ -60,7 +60,7 @@ export default function App() {
           <Route path="/school-onboard" element={<SchoolRegistration />} />
 
           {/* Conditional Redirect for School Admin */}
-          {userRole === "schoolAdmin" && !hasCompletedOnboarding ? (
+          {userRole === "schoolAdmin" && hasCompletedOnboarding === false ? (
             <Route
               path="/dashboard"
               element={<Navigate to="/school-onboard" />}

@@ -39,7 +39,7 @@ export default function SignInForm() {
         description: "Welcome back!",
       });
       reset();
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       toast({
         title: "Sign In Failed",

@@ -170,6 +170,14 @@ export const incomeRanges = [
   },
 ];
 
+export const roleOptions = [
+  { value: "admin", label: "Admin" },
+  { value: "schoolAdmin", label: "School Admin" },
+  { value: "teacher", label: "Teacher" },
+  { value: "student", label: "Student" },
+  { value: "parent", label: "Parent" },
+];
+
 export const schoolTypes = [
   { label: "Primary School", value: "primary" },
   { label: "Secondary School", value: "secondary" },
@@ -182,6 +190,14 @@ export const curriculums = [
   { label: "International Baccalaureate", value: "ib" },
   { label: "Cambridge International", value: "cambridge" },
   { label: "American Curriculum", value: "american" },
+];
+
+export const schoolLevels = [
+  { label: "Preschool", value: "preschool" },
+  { label: "Primary", value: "primary" },
+  { label: "Middle", value: "middle" },
+  { label: "High School", value: "high" },
+  { label: "College/University", value: "college" },
 ];
 
 export const designations = [

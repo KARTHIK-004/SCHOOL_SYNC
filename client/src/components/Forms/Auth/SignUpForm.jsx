@@ -8,6 +8,7 @@ import { Lock, UserPlus, Mail, User } from "lucide-react";
 import { signUp } from "@/utils/authAPI";
 import { useToast } from "@/hooks/use-toast";
 import ComboboxInput from "@/components/FormInputs/ComboBoxInput";
+import { roleOptions } from "@/lib/formOption";
 
 export default function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,14 +20,6 @@ export default function SignUpForm() {
   } = useForm();
   const navigate = useNavigate();
   const { toast } = useToast();
-
-  const roleOptions = [
-    { value: "admin", label: "Admin" },
-    { value: "schoolAdmin", label: "School Admin" },
-    { value: "teacher", label: "Teacher" },
-    { value: "student", label: "Student" },
-    { value: "parent", label: "Parent" },
-  ];
 
   async function onSubmit(data) {
     setIsLoading(true);

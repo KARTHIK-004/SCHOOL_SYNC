@@ -7,37 +7,45 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { CheckCircle2 } from "lucide-react";
-import SchoolAdminForm from "@/components/Forms/Auth/SchoolAdminForm";
+import SchoolDetailsForm from "@/components/Forms/Auth/SchoolDetailsForm";
 import SchoolOnboardForm from "@/components/Forms/Auth/SchoolOnboardForm";
-import { completeRegistration } from "@/utils/registrationAPI";
+import { useToast } from "@/hooks/use-toast";
 
 export default function SchoolRegistration() {
+  const { toast } = useToast();
   const [step, setStep] = useState(1);
   const [schoolData, setSchoolData] = useState({});
 
   // Handle school data submission and move to next step
-  const handleSchoolSubmit = (data) => {
+  const handleSchoolOnboardSubmit = (data) => {
     setSchoolData(data);
     setStep(2);
   };
 
-  // Handle final submission with both school and admin data
-  const handleAdminSubmit = async (adminData) => {
+  const handleSchoolDetailsSubmit = async (detailsData) => {
     // Combine data from both steps
     const completeData = {
-      school: schoolData,
-      admin: adminData,
+      ...schoolData,
+      ...detailsData,
     };
 
     try {
-      // Send registration data to the backend
-      await completeRegistration(completeData);
-      console.log("Registration successful");
-      // Redirect or show success message
+      // await completeRegistration(completeData);
+      toast({
+        title: "Success",
+        description: "Registration completed successfully!",
+        variant: "success",
+      });
     } catch (error) {
       console.error("Registration failed:", error);
-      // Handle error
+
+      toast({
+        title: "Registration Failed",
+        description: error.message || "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
     }
+    console.log(completeData);
   };
 
   return (
@@ -49,8 +57,8 @@ export default function SchoolRegistration() {
           </CardTitle>
           <CardDescription className="text-muted-foreground">
             {step === 1
-              ? "Complete your school's profile to get started with SchoolPro."
-              : "Create the Admin for this School"}
+              ? "Complete your school's basic information to get started."
+              : "Add more details about your school to complete registration."}
           </CardDescription>
 
           {/* Stepper Component */}
@@ -84,13 +92,13 @@ export default function SchoolRegistration() {
         {step === 1 ? (
           <>
             <CardContent className="space-y-4 pt-4">
-              <SchoolOnboardForm onSubmit={handleSchoolSubmit} />
+              <SchoolOnboardForm onSubmit={handleSchoolOnboardSubmit} />
             </CardContent>
           </>
         ) : (
           <>
             <CardContent className="space-y-4 pt-4">
-              <SchoolAdminForm onSubmit={handleAdminSubmit} />
+              <SchoolDetailsForm onSubmit={handleSchoolDetailsSubmit} />
             </CardContent>
           </>
         )}
