@@ -10,13 +10,13 @@ import { CheckCircle2 } from "lucide-react";
 import SchoolDetailsForm from "@/components/Forms/Auth/SchoolDetailsForm";
 import SchoolOnboardForm from "@/components/Forms/Auth/SchoolOnboardForm";
 import { useToast } from "@/hooks/use-toast";
+import { updateOnboardingStatus } from "@/utils/onboardingAPI";
 
 export default function SchoolRegistration() {
   const { toast } = useToast();
   const [step, setStep] = useState(1);
   const [schoolData, setSchoolData] = useState({});
 
-  // Handle school data submission and move to next step
   const handleSchoolOnboardSubmit = (data) => {
     setSchoolData(data);
     setStep(2);
@@ -29,8 +29,22 @@ export default function SchoolRegistration() {
       ...detailsData,
     };
 
+    // Retrieve userId from localStorage or another reliable source
+    const userId = localStorage.getItem("userId");
+
+    if (!userId) {
+      console.error("User ID is not available.");
+      toast({
+        title: "Error",
+        description: "User ID is not available. Please try again.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
-      // await completeRegistration(completeData);
+      // Pass userId and hasCompletedOnboarding separately
+      await updateOnboardingStatus(userId, true);
       toast({
         title: "Success",
         description: "Registration completed successfully!",

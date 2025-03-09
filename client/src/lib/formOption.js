@@ -187,7 +187,7 @@ export const schoolTypes = [
 
 export const curriculums = [
   { label: "National Curriculum", value: "national" },
-  { label: "International Baccalaureate", value: "ib" },
+  { label: "International Baccalaureate", value: "international" },
   { label: "Cambridge International", value: "cambridge" },
   { label: "American Curriculum", value: "american" },
 ];

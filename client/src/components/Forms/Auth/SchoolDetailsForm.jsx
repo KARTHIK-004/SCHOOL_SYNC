@@ -52,7 +52,7 @@ export default function SchoolDetailsForm({ onSubmit }) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <ComboboxInput
             label="School Type"
-            name="type"
+            name="schoolType"
             placeholder="Select school type"
             options={schoolTypes}
             register={register}
