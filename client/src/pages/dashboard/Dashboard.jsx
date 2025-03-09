@@ -5,7 +5,7 @@ import ParentDashboard from "./parent/ParentDashboard";
 import SchoolAdminDashboard from "./school-admin/SchoolAdminDashboard";
 
 function Dashboard() {
-  const userRole = localStorage.getItem("userRole") || "schoolAdmin";
+  const userRole = localStorage.getItem("role") || "schoolAdmin";
 
   switch (userRole) {
     case "admin":

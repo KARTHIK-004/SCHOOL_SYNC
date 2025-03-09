@@ -15,6 +15,15 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    role: {
+      type: String,
+      enum: ["student", "teacher", "admin", "parent", "schoolAdmin"],
+      default: "student",
+    },
+    hasCompletedOnboarding: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

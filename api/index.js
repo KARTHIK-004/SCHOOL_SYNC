@@ -5,6 +5,7 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/user.routes.js";
 import contactRoutes from "./routes/contact.routes.js";
+import schoolRoutes from "./routes/school.routes.js";
 import { errorHandler } from "./middleware/error.middleware.js";
 
 dotenv.config();
@@ -17,6 +18,7 @@ app.use(bodyParser.json());
 
 app.use("/api/users", userRoutes);
 app.use("/api/contact", contactRoutes);
+app.use("/api/schools", schoolRoutes);
 
 app.use(errorHandler);
 

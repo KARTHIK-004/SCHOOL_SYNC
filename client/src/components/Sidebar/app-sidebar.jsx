@@ -14,7 +14,7 @@ import { navigationData } from "./nav-data";
 
 export function AppSidebar({ ...props }) {
   // Get user role from localStorage or context
-  const userRole = localStorage.getItem("userRole") || "schoolAdmin"; // Default to student if no role found
+  const userRole = localStorage.getItem("role") || "schoolAdmin"; // Default to student if no role found
 
   // Get navigation data based on user role
   const roleNavigation = navigationData[userRole] || navigationData.schoolAdmin;

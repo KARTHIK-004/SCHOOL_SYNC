@@ -5,6 +5,7 @@ export const signIn = async (email, password) => {
     const response = await api.post(`/users/signin`, { email, password });
     if (response.data.token) {
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("role", response.data.data.user.role); // Store role in localStorage
     }
     return response.data;
   } catch (error) {
@@ -17,6 +18,7 @@ export const signUp = async (userData) => {
     const response = await api.post(`/users/signup`, userData);
     if (response.data.token) {
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("role", response.data.data.user.role); // Store role in localStorage
     }
     return response.data;
   } catch (error) {

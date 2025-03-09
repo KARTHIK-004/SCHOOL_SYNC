@@ -21,7 +21,8 @@ export default function SignUpForm() {
   const { toast } = useToast();
 
   const roleOptions = [
-    { value: "admin", label: "Administrator" },
+    { value: "admin", label: "Admin" },
+    { value: "schoolAdmin", label: "School Admin" },
     { value: "teacher", label: "Teacher" },
     { value: "student", label: "Student" },
     { value: "parent", label: "Parent" },
