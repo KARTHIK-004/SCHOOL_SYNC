@@ -40,7 +40,7 @@ import CreateSection from "./pages/dashboard/academics/sections/CreateSections";
 import CreateClasses from "./pages/dashboard/academics/classes/CreateClasses";
 import CreateSchool from "./pages/dashboard/school-admin/schools/CreateSchool";
 import StudentList from "./pages/dashboard/academics/students/StudentList";
-import SchoolOnboard from "./pages/auth/Onboard";
+import SchoolRegistration from "./pages/auth/SchoolRegistration";
 
 export default function App() {
   const userRole = localStorage.getItem("role");
@@ -57,7 +57,7 @@ export default function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/contact-us" element={<BookNow />} />
-          <Route path="/school-onboard" element={<SchoolOnboard />} />
+          <Route path="/school-onboard" element={<SchoolRegistration />} />
 
           {/* Conditional Redirect for School Admin */}
           {userRole === "schoolAdmin" && !hasCompletedOnboarding ? (

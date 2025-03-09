@@ -6,9 +6,11 @@ import TextInput from "@/components/FormInputs/TextInput";
 import PhoneInput from "@/components/FormInputs/PhoneInput";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
 import PasswordInput from "@/components/FormInputs/PasswordInput";
+import { useNavigate } from "react-router-dom";
 
 export default function SchoolAdminForm({ onSubmit }) {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -19,6 +21,12 @@ export default function SchoolAdminForm({ onSubmit }) {
   const handleFormSubmit = async (data) => {
     try {
       setLoading(true);
+
+      // Call the parent component's onSubmit function
+      if (onSubmit) {
+        await onSubmit(data);
+      }
+      navigate("/dashboard");
     } catch (error) {
       console.error(error);
     } finally {

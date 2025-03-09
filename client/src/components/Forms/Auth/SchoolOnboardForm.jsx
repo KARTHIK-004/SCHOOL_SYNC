@@ -19,6 +19,16 @@ export default function SchoolOnboardForm({ onSubmit }) {
   const handleFormSubmit = async (data) => {
     try {
       setLoading(true);
+      // Include the image URL in the form data
+      const formData = {
+        ...data,
+        schoolLogo: imageUrl,
+      };
+
+      // Call the parent component's onSubmit function
+      if (onSubmit) {
+        onSubmit(formData);
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -37,6 +47,7 @@ export default function SchoolOnboardForm({ onSubmit }) {
           type="text"
           errors={errors}
           placeholder="School Sync"
+          rules={{ required: "School name is required" }}
         />
 
         <ImageInput
@@ -45,6 +56,7 @@ export default function SchoolOnboardForm({ onSubmit }) {
           setImageUrl={setImageUrl}
           endpoint="schoolLogo"
           className="object-contain"
+          size="sm"
         />
         <SubmitButton
           buttonIcon={Send}
