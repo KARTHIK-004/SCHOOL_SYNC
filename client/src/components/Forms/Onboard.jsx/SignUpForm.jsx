@@ -1,5 +1,7 @@
+"use client";
+
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TextInput from "@/components/FormInputs/TextInput";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,9 +11,11 @@ import { signUp } from "@/utils/authAPI";
 import { useToast } from "@/hooks/use-toast";
 import ComboboxInput from "@/components/FormInputs/ComboBoxInput";
 import { roleOptions } from "@/lib/formOption";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false);
+  const [isFormLoading, setIsFormLoading] = useState(true);
   const {
     register,
     handleSubmit,
@@ -20,6 +24,14 @@ export default function SignUpForm() {
   } = useForm();
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsFormLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   async function onSubmit(data) {
     setIsLoading(true);
@@ -60,6 +72,35 @@ export default function SignUpForm() {
     } finally {
       setIsLoading(false);
     }
+  }
+
+  if (isFormLoading) {
+    return (
+      <>
+        <div className="grid gap-4">
+          <div className="space-y-2">
+            <Skeleton className="h-5 w-24" />
+            <Skeleton className="h-10 w-full" />
+          </div>
+          <div className="space-y-2">
+            <Skeleton className="h-5 w-32" />
+            <Skeleton className="h-10 w-full" />
+          </div>
+          <div className="space-y-2">
+            <Skeleton className="h-5 w-24" />
+            <Skeleton className="h-10 w-full" />
+          </div>
+          <div className="space-y-2">
+            <Skeleton className="h-5 w-28" />
+            <Skeleton className="h-10 w-full" />
+          </div>
+          <Skeleton className="h-10 w-full mt-2" />
+        </div>
+        <div className="text-center lg:text-left mt-8">
+          <Skeleton className="h-5 w-48 mx-auto lg:mx-0" />
+        </div>
+      </>
+    );
   }
 
   return (

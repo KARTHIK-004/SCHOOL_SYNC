@@ -10,12 +10,14 @@ import { CheckCircle2 } from "lucide-react";
 import SchoolDetailsForm from "@/components/Forms/Auth/SchoolDetailsForm";
 import SchoolOnboardForm from "@/components/Forms/Auth/SchoolOnboardForm";
 import { useToast } from "@/hooks/use-toast";
-import { updateOnboardingStatus } from "@/utils/onboardingAPI";
+import { useNavigate } from "react-router-dom";
+import { createSchool } from "@/utils/schoolAPI";
 
 export default function SchoolRegistration() {
   const { toast } = useToast();
   const [step, setStep] = useState(1);
   const [schoolData, setSchoolData] = useState({});
+  const navigate = useNavigate();
 
   const handleSchoolOnboardSubmit = (data) => {
     setSchoolData(data);
@@ -43,23 +45,20 @@ export default function SchoolRegistration() {
     }
 
     try {
-      // Pass userId and hasCompletedOnboarding separately
-      await updateOnboardingStatus(userId, true);
-      toast({
-        title: "Success",
-        description: "Registration completed successfully!",
-        variant: "success",
-      });
+      const response = await createSchool({ ...completeData, userId });
+
+      if (response.data.status === "success") {
+        localStorage.setItem("schoolHasCompletedOnboarding", "true");
+        navigate("/dashboard");
+      }
     } catch (error) {
       console.error("Registration failed:", error);
-
       toast({
         title: "Registration Failed",
         description: error.message || "Something went wrong. Please try again.",
         variant: "destructive",
       });
     }
-    console.log(completeData);
   };
 
   return (

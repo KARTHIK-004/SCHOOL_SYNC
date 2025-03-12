@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import BookNow from "./pages/BookNow";
 import HowItWorks from "./pages/HowItWorks";
@@ -9,7 +9,7 @@ import NotFound from "./pages/NotFound";
 // Auth
 import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
-import SchoolRegistration from "./pages/auth/SchoolRegistration";
+import SchoolRegistration from "./pages/school-onboard/SchoolRegistration";
 
 // Dashboard & Sidebar
 import Sidebar from "./pages/dashboard/Sidebar";
@@ -45,7 +45,7 @@ import StudentList from "./pages/dashboard/academics/students/StudentList";
 export default function App() {
   const userRole = localStorage.getItem("role");
   const hasCompletedOnboarding =
-    localStorage.getItem("hasCompletedOnboarding") === "true";
+    localStorage.getItem("schoolHasCompletedOnboarding") === "true";
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -60,7 +60,7 @@ export default function App() {
           <Route path="/school-onboard" element={<SchoolRegistration />} />
 
           {/* Conditional Redirect for School Admin */}
-          {userRole === "schoolAdmin" && hasCompletedOnboarding === false ? (
+          {userRole === "schoolAdmin" && !hasCompletedOnboarding ? (
             <Route
               path="/dashboard"
               element={<Navigate to="/school-onboard" />}
@@ -115,7 +115,6 @@ export default function App() {
               <Route path="schools/create" element={<CreateSchool />} />
             </Route>
           )}
-
           {/* 404 Page */}
           <Route path="*" element={<NotFound />} />
         </Routes>

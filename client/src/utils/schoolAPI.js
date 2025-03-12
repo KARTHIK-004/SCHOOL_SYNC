@@ -30,4 +30,13 @@ export const getSchoolById = async (id) => {
   }
 };
 
-// Additional functions for updating and deleting schools can be added here
+export const getSchoolsByUserId = async (userId) => {
+  try {
+    const response = await api.get("/schools", {
+      params: { userId },
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : error.message;
+  }
+};

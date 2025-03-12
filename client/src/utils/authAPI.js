@@ -40,7 +40,20 @@ export const getCurrentUser = async () => {
   try {
     const response = await api.get("/users/me");
     if (response.data.status === "success" && response.data.data.user) {
-      return response.data.data.user;
+      const user = response.data.data.user;
+
+      // Add school status check
+      if (user.role === "schoolAdmin") {
+        const schoolRes = await api.get(`/schools?userId=${user.id}`);
+        if (schoolRes.data.data.schools.length > 0) {
+          localStorage.setItem(
+            "schoolHasCompletedOnboarding",
+            schoolRes.data.data.schools[0].hasCompletedOnboarding
+          );
+        }
+      }
+
+      return user;
     } else {
       throw new Error("User data not found in the response");
     }
