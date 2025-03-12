@@ -12,7 +12,6 @@ export const createSchool = async (req, res) => {
       phone,
     } = req.body;
 
-    // Get user ID from authenticated request
     const userId = req.user.id;
 
     // Check if user exists
@@ -61,10 +60,7 @@ export const createSchool = async (req, res) => {
 
 export const getSchoolById = async (req, res) => {
   try {
-    const school = await School.findById(req.params.id).populate(
-      "userId",
-      "email role"
-    );
+    const school = await School.findById(req.params.id);
 
     if (!school) {
       return res.status(404).json({
@@ -89,13 +85,38 @@ export const getSchoolById = async (req, res) => {
 
 export const getSchools = async (req, res) => {
   try {
-    const schools = await School.find().populate("userId", "email role");
+    const schools = await School.find();
 
     res.status(200).json({
       status: "success",
       results: schools.length,
       data: {
         schools,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+};
+
+export const getMySchool = async (req, res) => {
+  try {
+    const school = await School.findOne({ userId: req.user.id });
+
+    if (!school) {
+      return res.status(404).json({
+        status: "error",
+        message: "School not found for this user",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        school,
       },
     });
   } catch (error) {

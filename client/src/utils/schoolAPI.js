@@ -20,21 +20,20 @@ export const getAllSchools = async () => {
   }
 };
 
-// Function to get a school by ID
-export const getSchoolById = async (id) => {
+export const getSchoolsByUserId = async (userId) => {
   try {
-    const response = await api.get(`/schools/${id}`);
+    const response = await api.get("/schools", {
+      params: { userId },
+    });
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : error.message;
   }
 };
 
-export const getSchoolsByUserId = async (userId) => {
+export const getMySchool = async () => {
   try {
-    const response = await api.get("/schools", {
-      params: { userId },
-    });
+    const response = await api.get("/schools/my-school");
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : error.message;

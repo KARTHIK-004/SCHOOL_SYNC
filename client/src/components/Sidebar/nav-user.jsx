@@ -16,15 +16,8 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { logout, getCurrentUser } from "@/utils/authAPI";
-import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
-  LogOut,
-  Sparkles,
-} from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Bell, ChevronsUpDown, LogOut, Settings } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
 export const NavUser = () => {
@@ -145,25 +138,18 @@ export const NavUser = () => {
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  <Sparkles className="mr-2 h-4 w-4" />
-                  <span>Upgrade to Pro</span>
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  <BadgeCheck className="mr-2 h-4 w-4" />
-                  <span>Account</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <CreditCard className="mr-2 h-4 w-4" />
-                  <span>Billing</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Bell className="mr-2 h-4 w-4" />
-                  <span>Notifications</span>
-                </DropdownMenuItem>
+                <Link to="/dashboard/notifications">
+                  <DropdownMenuItem>
+                    <Bell className="mr-2 h-4 w-4" />
+                    <span>Notifications</span>
+                  </DropdownMenuItem>
+                </Link>
+                <Link to="/dashboard/settings">
+                  <DropdownMenuItem>
+                    <Settings className="mr-2 h-4 w-4" />
+                    <span>Settings</span>
+                  </DropdownMenuItem>
+                </Link>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuItem onSelect={handleLogout}>

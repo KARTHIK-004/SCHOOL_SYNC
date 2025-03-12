@@ -1,6 +1,6 @@
 import React from "react";
 import Logo from "@/components/ui/logo";
-import SignInForm from "@/components/Forms/Onboard.jsx/SignInForm";
+import SignInForm from "@/components/Forms/Auth/SignInForm";
 
 const SignIn = () => {
   return (

@@ -11,14 +11,13 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import WelcomeBanner from "@/components/Dashboard/SchoolAdmin/WelcomeBanner";
 
 export default function SchoolAdminDashboard() {
   return (
     <ScrollArea className="sm:h-full lg:h-[calc(100vh-4rem)]">
       <div className="flex-1 space-y-4 p-4 md:p-8">
-        <div className="flex items-center justify-between space-y-2">
-          <h2 className="text-3xl font-bold tracking-tight">School Overview</h2>
-        </div>
+        <WelcomeBanner />
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card>

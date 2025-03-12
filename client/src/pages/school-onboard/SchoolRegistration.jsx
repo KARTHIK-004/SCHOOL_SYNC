@@ -7,11 +7,13 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { CheckCircle2 } from "lucide-react";
-import SchoolDetailsForm from "@/components/Forms/Auth/SchoolDetailsForm";
-import SchoolOnboardForm from "@/components/Forms/Auth/SchoolOnboardForm";
+
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { createSchool } from "@/utils/schoolAPI";
+
+import SchoolDetailsForm from "@/components/Forms/Onboard.jsx/SchoolDetailsForm";
+import SchoolOnboardForm from "@/components/Forms/Onboard.jsx/SchoolOnboardForm";
 
 export default function SchoolRegistration() {
   const { toast } = useToast();
