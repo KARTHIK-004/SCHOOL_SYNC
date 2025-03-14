@@ -20,8 +20,9 @@ const userSchema = mongoose.Schema(
       enum: ["student", "teacher", "admin", "parent", "schoolAdmin"],
       default: "student",
     },
-    hasCompletedOnboarding: {
-      type: Boolean,
+    school: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "School",
       default: false,
     },
   },

@@ -18,12 +18,6 @@ export default function WelcomeBanner() {
         setSchool(response.data.school);
       } catch (error) {
         console.error("Error fetching school:", error.response?.data);
-
-        toast({
-          title: "Error",
-          description: "Failed to load school information",
-          variant: "destructive",
-        });
       } finally {
         setLoading(false);
       }

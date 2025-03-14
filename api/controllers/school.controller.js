@@ -2,56 +2,76 @@ import School from "../models/school.model.js";
 import User from "../models/user.model.js";
 
 export const createSchool = async (req, res) => {
+  const {
+    schoolName,
+    adminName,
+    schoolType,
+    curriculum,
+    contactEmail,
+    phone,
+    schoolLogo,
+  } = req.body;
+
+  const userId = req.user.id;
+
   try {
-    const {
-      schoolName,
-      adminName,
-      schoolType,
-      curriculum,
-      contactEmail,
-      phone,
-    } = req.body;
+    const user = await User.findById(userId);
 
-    const userId = req.user.id;
-
-    // Check if user exists
-    const existingUser = await User.findById(userId);
-    if (!existingUser) {
+    if (!user) {
       return res.status(404).json({
         status: "error",
         message: "User not found",
       });
     }
 
-    // Prevent duplicate school registration
-    const existingSchool = await School.findOne({ userId });
-    if (existingSchool) {
+    if (user.role !== "schoolAdmin") {
+      return res.status(403).json({
+        status: "error",
+        message: "Only school admins can create schools",
+      });
+    }
+    if (user.school) {
       return res.status(409).json({
         status: "error",
         message: "School already registered for this user",
       });
     }
 
-    // Create new school
-    const newSchool = await School.create({
+    if (
+      !schoolName ||
+      !adminName ||
+      !schoolType ||
+      !curriculum ||
+      !contactEmail ||
+      !phone
+    ) {
+      return res.status(400).json({
+        status: "error",
+        message: "All required fields must be provided",
+      });
+    }
+
+    const school = new School({
       userId,
       schoolName,
+      schoolLogo,
       adminName,
       schoolType,
       curriculum,
       contactEmail,
       phone,
-      hasCompletedOnboarding: true,
     });
+    await school.save();
+
+    user.school = school._id;
+    await user.save();
 
     res.status(201).json({
       status: "success",
-      data: {
-        school: newSchool,
-      },
+      data: school,
     });
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
       status: "error",
       message: error.message,
     });
@@ -59,21 +79,19 @@ export const createSchool = async (req, res) => {
 };
 
 export const getSchoolById = async (req, res) => {
-  try {
-    const school = await School.findById(req.params.id);
+  const schoolId = req.params.id;
 
+  try {
+    const school = await School.findById(schoolId);
     if (!school) {
       return res.status(404).json({
         status: "error",
         message: "School not found",
       });
     }
-
     res.status(200).json({
       status: "success",
-      data: {
-        school,
-      },
+      data: school,
     });
   } catch (error) {
     res.status(400).json({

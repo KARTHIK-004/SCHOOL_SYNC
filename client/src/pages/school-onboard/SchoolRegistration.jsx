@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -7,19 +7,67 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { CheckCircle2 } from "lucide-react";
-
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+
 import { createSchool } from "@/utils/schoolAPI";
+import { getCurrentUser } from "@/utils/authAPI";
 
 import SchoolDetailsForm from "@/components/Forms/Onboard.jsx/SchoolDetailsForm";
 import SchoolOnboardForm from "@/components/Forms/Onboard.jsx/SchoolOnboardForm";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function SchoolRegistration() {
   const { toast } = useToast();
   const [step, setStep] = useState(1);
   const [schoolData, setSchoolData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkUserStatus = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          navigate("/sign-in");
+          return;
+        }
+
+        const user = await getCurrentUser();
+
+        if (user.schoolId) {
+          toast({
+            title: "School Already Registered",
+            description: "You already have a school registered.",
+          });
+          navigate("/dashboard");
+          return;
+        }
+
+        if (user.role !== "schoolAdmin") {
+          toast({
+            title: "Access Restricted",
+            description: "Only school administrators can register schools.",
+          });
+          navigate("/dashboard");
+          return;
+        }
+
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        toast({
+          title: "Authentication Error",
+          description: "Please sign in again to continue.",
+          variant: "destructive",
+        });
+        localStorage.removeItem("token");
+        navigate("/sign-in");
+      }
+    };
+
+    checkUserStatus();
+  }, [navigate, toast]);
 
   const handleSchoolOnboardSubmit = (data) => {
     setSchoolData(data);
@@ -27,32 +75,27 @@ export default function SchoolRegistration() {
   };
 
   const handleSchoolDetailsSubmit = async (detailsData) => {
-    // Combine data from both steps
-    const completeData = {
-      ...schoolData,
-      ...detailsData,
-    };
-
-    // Retrieve userId from localStorage or another reliable source
-    const userId = localStorage.getItem("userId");
-
-    if (!userId) {
-      console.error("User ID is not available.");
-      toast({
-        title: "Error",
-        description: "User ID is not available. Please try again.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     try {
-      const response = await createSchool({ ...completeData, userId });
+      setIsLoading(true);
+      const completeData = {
+        ...schoolData,
+        ...detailsData,
+      };
 
-      if (response.data.status === "success") {
-        localStorage.setItem("schoolHasCompletedOnboarding", "true");
-        navigate("/dashboard");
+      const user = await getCurrentUser();
+
+      if (!user || !user.id) {
+        throw new Error("User ID is not available.");
       }
+
+      const response = await createSchool({ ...completeData, userId: user.id });
+
+      toast({
+        title: "School Registration Successful",
+        description: "Your school has been registered successfully.",
+      });
+
+      navigate("/dashboard");
     } catch (error) {
       console.error("Registration failed:", error);
       toast({
@@ -60,8 +103,39 @@ export default function SchoolRegistration() {
         description: error.message || "Something went wrong. Please try again.",
         variant: "destructive",
       });
+      setIsLoading(false);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen p-4 bg-background">
+        <Card className="w-full max-w-md border-primary/20 border rounded-lg shadow-sm">
+          <CardHeader className="space-y-1 text-center pb-2">
+            <Skeleton className="h-8 w-64 mx-auto" />
+            <Skeleton className="h-4 w-72 mx-auto" />
+
+            {/* Stepper Component Skeleton */}
+            <div className="flex items-center justify-center mt-4">
+              <div className="flex items-center space-x-2">
+                <Skeleton className="w-8 h-8 rounded-full" />
+                <Skeleton className="w-12 h-1" />
+                <Skeleton className="w-8 h-8 rounded-full" />
+              </div>
+            </div>
+          </CardHeader>
+
+          <CardContent className="space-y-4 pt-4">
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-full" />
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen p-4 bg-background">

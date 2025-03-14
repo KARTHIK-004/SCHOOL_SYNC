@@ -5,7 +5,6 @@ export const signIn = async (email, password) => {
     const response = await api.post(`/users/signin`, { email, password });
     if (response.data.token) {
       localStorage.setItem("token", response.data.token);
-      localStorage.setItem("role", response.data.data.user.role); // Store role in localStorage
     }
     return response.data;
   } catch (error) {
@@ -18,7 +17,6 @@ export const signUp = async (userData) => {
     const response = await api.post(`/users/signup`, userData);
     if (response.data.token) {
       localStorage.setItem("token", response.data.token);
-      localStorage.setItem("role", response.data.data.user.role); // Store role in localStorage
     }
     return response.data;
   } catch (error) {
@@ -40,20 +38,7 @@ export const getCurrentUser = async () => {
   try {
     const response = await api.get("/users/me");
     if (response.data.status === "success" && response.data.data.user) {
-      const user = response.data.data.user;
-
-      // Add school status check
-      if (user.role === "schoolAdmin") {
-        const schoolRes = await api.get(`/schools?userId=${user.id}`);
-        if (schoolRes.data.data.schools.length > 0) {
-          localStorage.setItem(
-            "schoolHasCompletedOnboarding",
-            schoolRes.data.data.schools[0].hasCompletedOnboarding
-          );
-        }
-      }
-
-      return user;
+      return response.data.data.user;
     } else {
       throw new Error("User data not found in the response");
     }

@@ -1,29 +1,32 @@
-import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
-import TextInput from "@/components/FormInputs/TextInput";
-import SubmitButton from "@/components/FormInputs/SubmitButton";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import PasswordInput from "@/components/FormInputs/PasswordInput";
 import { Lock, LogIn, Mail } from "lucide-react";
-import { signIn } from "@/utils/authAPI";
-import { useToast } from "@/hooks/use-toast";
-import { getCurrentUser } from "@/utils/authAPI";
-import { getSchoolsByUserId } from "@/utils/schoolAPI";
+
+import TextInput from "@/components/FormInputs/TextInput";
+import PasswordInput from "@/components/FormInputs/PasswordInput";
+import SubmitButton from "@/components/FormInputs/SubmitButton";
 import { Skeleton } from "@/components/ui/skeleton";
 
+import { signIn } from "@/utils/authAPI";
+import { useToast } from "@/hooks/use-toast";
+
 export default function SignInForm() {
+  // State management
   const [isLoading, setIsLoading] = useState(false);
   const [isFormLoading, setIsFormLoading] = useState(true);
+
+  // Form handling
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm();
+
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Simulate form loading (you can replace this with actual data loading if needed)
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsFormLoading(false);
@@ -34,6 +37,7 @@ export default function SignInForm() {
 
   async function onSubmit(data) {
     setIsLoading(true);
+
     if (!data.email || !data.password) {
       toast({
         title: "Missing Information",
@@ -43,29 +47,17 @@ export default function SignInForm() {
       setIsLoading(false);
       return;
     }
+
     try {
-      const response = await signIn(data.email, data.password);
-      localStorage.setItem("token", response.token);
-      localStorage.setItem("role", response.data.user.role);
-
-      // Check onboarding status for school admins
-      if (response.data.user.role === "schoolAdmin") {
-        const user = await getCurrentUser();
-        const schoolRes = await getSchoolsByUserId(user.id);
-
-        if (schoolRes?.data?.schools?.length > 0) {
-          navigate("/dashboard");
-        } else {
-          navigate("/school-onboard");
-        }
-      } else {
-        navigate("/dashboard");
-      }
-
-      toast({ title: "Success", description: "Welcome back!" });
+      await signIn(data.email, data.password);
+      toast({
+        title: "Success",
+        description: "Welcome back!",
+      });
       reset();
+      navigate("/dashboard");
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast({
         title: "Sign In Failed",
         description: error.message || "An error occurred during sign in",
@@ -76,9 +68,10 @@ export default function SignInForm() {
     }
   }
 
+  // Loading state
   if (isFormLoading) {
     return (
-      <div className="space-y-8 w-full max-w-md">
+      <div className="space-y-8 w-full max-w-md mx-auto p-6 rounded-lg shadow-sm">
         <div className="grid gap-4">
           <div className="space-y-2">
             <Skeleton className="h-5 w-32" />
@@ -93,8 +86,8 @@ export default function SignInForm() {
           </div>
           <Skeleton className="h-10 w-full mt-2" />
         </div>
-        <div className="text-center lg:text-left">
-          <Skeleton className="h-5 w-48 mx-auto lg:mx-0" />
+        <div className="text-center">
+          <Skeleton className="h-5 w-48 mx-auto" />
         </div>
       </div>
     );

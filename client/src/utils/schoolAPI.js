@@ -19,20 +19,20 @@ export const getAllSchools = async () => {
   }
 };
 
-export const getSchoolsByUserId = async (userId) => {
+export const getSchool = async (schoolId) => {
   try {
-    const response = await api.get("/schools", {
-      params: { userId },
-    });
+    const response = await api.get(`/schools/${schoolId}`);
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : error.message;
   }
 };
 
-export const getMySchool = async () => {
+export const getSchoolsByUserId = async (userId) => {
   try {
-    const response = await api.get("/schools/my-school");
+    const response = await api.get("/schools", {
+      params: { userId },
+    });
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : error.message;

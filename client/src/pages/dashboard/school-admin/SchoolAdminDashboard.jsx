@@ -1,178 +1,200 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getCurrentUser } from "@/utils/authAPI";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import {
-  Users,
-  GraduationCap,
-  UserCircle,
-  BookOpen,
-  CalendarDays,
-  Bell,
-} from "lucide-react";
-import { Link } from "react-router-dom";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import WelcomeBanner from "@/components/Dashboard/SchoolAdmin/WelcomeBanner";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { User, Mail, Building, Key, Calendar } from "lucide-react";
 
-export default function SchoolAdminDashboard() {
-  return (
-    <ScrollArea className="sm:h-full lg:h-[calc(100vh-4rem)]">
-      <div className="flex-1 space-y-4 p-4 md:p-8">
-        <WelcomeBanner />
+export default function Dashboard() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [userData, setUserData] = useState(null);
+  const navigate = useNavigate();
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Total Students
-              </CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">2,350</div>
-              <Button
-                variant="link"
-                className="px-0 text-xs text-muted-foreground"
-              >
-                <Link to="/dashboard/students">View Details</Link>
-              </Button>
-            </CardContent>
-          </Card>
+  useEffect(() => {
+    const checkUserStatus = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          navigate("/sign-in");
+          return;
+        }
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Total Teachers
-              </CardTitle>
-              <GraduationCap className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">145</div>
-              <Button
-                variant="link"
-                className="px-0 text-xs text-muted-foreground"
-              >
-                <Link to="/dashboard/teachers">View Details</Link>
-              </Button>
-            </CardContent>
-          </Card>
+        const user = await getCurrentUser();
+        setUserData(user);
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Total Classes
-              </CardTitle>
-              <BookOpen className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">48</div>
-              <Button
-                variant="link"
-                className="px-0 text-xs text-muted-foreground"
-              >
-                <Link to="/dashboard/academics/classes">View Details</Link>
-              </Button>
-            </CardContent>
-          </Card>
+        // Check if user is a school admin without a schoolId
+        if (user.role === "schoolAdmin" && !user.schoolId) {
+          navigate("/school-onboard");
+          return;
+        }
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Total Parents
-              </CardTitle>
-              <UserCircle className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">1,890</div>
-              <Button
-                variant="link"
-                className="px-0 text-xs text-muted-foreground"
-              >
-                <Link to="/dashboard/parents">View Details</Link>
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        // If there's an authentication error, redirect to sign in
+        localStorage.removeItem("token");
+        navigate("/sign-in");
+      }
+    };
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-          <Card className="col-span-4">
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent className="grid gap-2 md:grid-cols-2">
-              <Button variant="outline" asChild className="justify-start">
-                <Link to="/dashboard/students/create">
-                  <Users className="mr-2 h-4 w-4" />
-                  Add Student
-                </Link>
-              </Button>
-              <Button variant="outline" asChild className="justify-start">
-                <Link to="/dashboard/teachers/create">
-                  <GraduationCap className="mr-2 h-4 w-4" />
-                  Add Teacher
-                </Link>
-              </Button>
-              <Button variant="outline" asChild className="justify-start">
-                <Link to="/dashboard/academics/classes/create">
-                  <BookOpen className="mr-2 h-4 w-4" />
-                  Create Class
-                </Link>
-              </Button>
-              <Button variant="outline" asChild className="justify-start">
-                <Link to="/dashboard/parents/create">
-                  <UserCircle className="mr-2 h-4 w-4" />
-                  Add Parent
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
+    checkUserStatus();
+  }, [navigate]);
 
-          <Card className="col-span-3">
-            <CardHeader>
-              <CardTitle>Recent Activities</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex items-center">
-                  <Users className="mr-2 h-4 w-4 text-muted-foreground" />
-                  <div className="ml-2 space-y-1">
-                    <p className="text-sm font-medium">New Student Enrolled</p>
-                    <p className="text-xs text-muted-foreground">
-                      2 minutes ago
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center">
-                  <GraduationCap className="mr-2 h-4 w-4 text-muted-foreground" />
-                  <div className="ml-2 space-y-1">
-                    <p className="text-sm font-medium">
-                      Teacher Attendance Updated
-                    </p>
-                    <p className="text-xs text-muted-foreground">1 hour ago</p>
-                  </div>
-                </div>
-                <div className="flex items-center">
-                  <Bell className="mr-2 h-4 w-4 text-muted-foreground" />
-                  <div className="ml-2 space-y-1">
-                    <p className="text-sm font-medium">
-                      New Announcement Posted
-                    </p>
-                    <p className="text-xs text-muted-foreground">3 hours ago</p>
-                  </div>
-                </div>
-                <div className="flex items-center">
-                  <CalendarDays className="mr-2 h-4 w-4 text-muted-foreground" />
-                  <div className="ml-2 space-y-1">
-                    <p className="text-sm font-medium">
-                      Class Schedule Updated
-                    </p>
-                    <p className="text-xs text-muted-foreground">5 hours ago</p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+  // Function to get initials from name
+  const getInitials = (name) => {
+    if (!name) return "U";
+    return name
+      .split(" ")
+      .map((part) => part[0])
+      .join("")
+      .toUpperCase()
+      .substring(0, 2);
+  };
+
+  // Function to format date
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  if (isLoading) {
+    return (
+      <div className="container mx-auto p-6">
+        <div className="space-y-6">
+          <Skeleton className="h-10 w-1/4" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Skeleton className="h-48 rounded-lg" />
+            <Skeleton className="h-48 rounded-lg" />
+            <Skeleton className="h-48 rounded-lg" />
+          </div>
+          <Skeleton className="h-64 w-full rounded-lg" />
         </div>
       </div>
-    </ScrollArea>
+    );
+  }
+
+  return (
+    <div className="container mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
+
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* User Profile Card */}
+        <Card className="lg:col-span-1">
+          <CardHeader className="flex flex-col items-center pb-2">
+            <Avatar className="h-24 w-24 mb-2">
+              <AvatarImage src={userData.profileImage} alt={userData.name} />
+              <AvatarFallback className="text-xl bg-primary text-primary-foreground">
+                {getInitials(userData.name)}
+              </AvatarFallback>
+            </Avatar>
+            <CardTitle className="text-xl text-center">
+              {userData.name}
+            </CardTitle>
+            <p className="text-sm text-muted-foreground text-center">
+              {userData.role}
+            </p>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex items-center">
+                <Mail className="mr-2 h-4 w-4 text-muted-foreground" />
+                <span className="text-sm">{userData.email}</span>
+              </div>
+
+              {userData.schoolId && (
+                <div className="flex items-center">
+                  <Building className="mr-2 h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm">
+                    {userData.schoolName || "School ID: " + userData.schoolId}
+                  </span>
+                </div>
+              )}
+
+              <div className="flex items-center">
+                <Key className="mr-2 h-4 w-4 text-muted-foreground" />
+                <span className="text-sm capitalize">
+                  {userData.role} Account
+                </span>
+              </div>
+
+              <div className="flex items-center">
+                <Calendar className="mr-2 h-4 w-4 text-muted-foreground" />
+                <span className="text-sm">
+                  Joined: {formatDate(userData.createdAt)}
+                </span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Dashboard Content */}
+        <div className="lg:col-span-3 space-y-6">
+          {/* Welcome Card */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Welcome, {userData.name}!</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p>
+                Your dashboard provides an overview of your account and related
+                information.
+              </p>
+
+              {userData.role === "schoolAdmin" && (
+                <div className="mt-4 p-4 bg-muted rounded-md">
+                  <h3 className="font-medium mb-2 flex items-center">
+                    <User className="mr-2 h-4 w-4" />
+                    School Administrator Controls
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    As a school administrator, you have access to manage your
+                    school's settings, users, and resources.
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Additional dashboard content can be added here */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Recent Activity</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  No recent activity to display.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Quick Actions</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <button className="w-full text-left px-4 py-2 hover:bg-muted rounded-md text-sm flex items-center">
+                    <User className="mr-2 h-4 w-4" />
+                    Edit Profile
+                  </button>
+                  {userData.role === "schoolAdmin" && (
+                    <button className="w-full text-left px-4 py-2 hover:bg-muted rounded-md text-sm flex items-center">
+                      <Building className="mr-2 h-4 w-4" />
+                      Manage School
+                    </button>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

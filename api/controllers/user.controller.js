@@ -10,7 +10,7 @@ const signToken = (id) => {
 
 export const signup = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password, role, school } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -19,6 +19,7 @@ export const signup = async (req, res) => {
       email,
       password: hashedPassword,
       role,
+      schoolId: school,
     });
 
     newUser.password = undefined;
@@ -72,6 +73,7 @@ export const signin = async (req, res) => {
           name: user.name,
           email: user.email,
           role: user.role,
+          schoolId: user.school,
         },
       },
     });

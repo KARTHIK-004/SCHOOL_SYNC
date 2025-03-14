@@ -37,10 +37,6 @@ const schoolSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    hasCompletedOnboarding: {
-      type: Boolean,
-      default: true,
-    },
   },
   {
     timestamps: true,

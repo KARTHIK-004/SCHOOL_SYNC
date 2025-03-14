@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 // Auth
 import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
+
 import SchoolRegistration from "./pages/school-onboard/SchoolRegistration";
 
 // Dashboard & Sidebar
@@ -43,10 +44,6 @@ import CreateSchool from "./pages/dashboard/school-admin/schools/CreateSchool";
 import StudentList from "./pages/dashboard/academics/students/StudentList";
 
 export default function App() {
-  const userRole = localStorage.getItem("role");
-  const hasCompletedOnboarding =
-    localStorage.getItem("schoolHasCompletedOnboarding") === "true";
-
   return (
     <div className="flex flex-col min-h-screen">
       <BrowserRouter>
@@ -59,62 +56,55 @@ export default function App() {
           <Route path="/contact-us" element={<BookNow />} />
           <Route path="/school-onboard" element={<SchoolRegistration />} />
 
-          {/* Conditional Redirect for School Admin */}
-          {userRole === "schoolAdmin" && !hasCompletedOnboarding ? (
-            <Route
-              path="/dashboard"
-              element={<Navigate to="/school-onboard" />}
-            />
-          ) : (
-            <Route path="/dashboard" element={<Sidebar />}>
-              <Route index element={<Dashboard />} />
-              <Route path="settings" element={<Settings />} />
-              <Route path="contacts" element={<ContactSubmissions />} />
-              <Route path="notifications" element={<Notifications />} />
+          <Route path="/dashboard" element={<Sidebar />}>
+            <Route index element={<Dashboard />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="contacts" element={<ContactSubmissions />} />
+            <Route path="notifications" element={<Notifications />} />
 
-              {/* Students */}
-              <Route path="students" element={<StudentDirectory />} />
-              <Route path="students/create" element={<CreateStudents />} />
-              <Route path="students/:id" element={<StudentDetails />} />
-              <Route path="students/edit/:id" element={<CreateStudents />} />
+            {/* Students */}
+            <Route path="students" element={<StudentDirectory />} />
+            <Route path="students/create" element={<CreateStudents />} />
+            <Route path="students/:id" element={<StudentDetails />} />
+            <Route path="students/edit/:id" element={<CreateStudents />} />
 
-              {/* Parents */}
-              <Route path="parents" element={<ParentDirectory />} />
-              <Route path="parents/create" element={<CreateParents />} />
-              <Route path="parents/:id" element={<ParentDetails />} />
-              <Route path="parents/edit/:id" element={<CreateParents />} />
+            {/* Parents */}
+            <Route path="parents" element={<ParentDirectory />} />
+            <Route path="parents/create" element={<CreateParents />} />
+            <Route path="parents/:id" element={<ParentDetails />} />
+            <Route path="parents/edit/:id" element={<CreateParents />} />
 
-              {/* Teachers */}
-              <Route path="teachers" element={<TeacherDirectory />} />
-              <Route path="teachers/create" element={<CreateTeachers />} />
-              <Route path="teachers/:id" element={<TeacherDetails />} />
-              <Route path="teachers/edit/:id" element={<CreateTeachers />} />
+            {/* Teachers */}
+            <Route path="teachers" element={<TeacherDirectory />} />
+            <Route path="teachers/create" element={<CreateTeachers />} />
+            <Route path="teachers/:id" element={<TeacherDetails />} />
+            <Route path="teachers/edit/:id" element={<CreateTeachers />} />
 
-              {/* Classes and Sections Routes */}
-              <Route path="academics" element={<AcademicOverview />}>
-                {/* Classes Routes */}
-                <Route path="classes">
-                  <Route index element={<AcademicPlaceholder />} />
-                  <Route path="create" element={<CreateClasses />} />
-                  <Route path="edit/:id" element={<CreateClasses />} />
-                  {/* Sections Routes */}
-                  <Route path=":classId/sections">
-                    <Route index element={<SectionList />} />
-                    <Route path="students" element={<StudentList />} />
-                    <Route path="create" element={<CreateSection />} />
-                    <Route path="edit/:sectionId" element={<CreateSection />} />
-                  </Route>
+            {/* Classes and Sections Routes */}
+            <Route path="academics" element={<AcademicOverview />}>
+              {/* Classes Routes */}
+              <Route path="classes">
+                <Route index element={<AcademicPlaceholder />} />
+                <Route path="create" element={<CreateClasses />} />
+                <Route path="edit/:id" element={<CreateClasses />} />
+                {/* Sections Routes */}
+                <Route path=":classId/sections">
+                  <Route index element={<SectionList />} />
+                  <Route path="students" element={<StudentList />} />
+                  <Route path="create" element={<CreateSection />} />
+                  <Route path="edit/:sectionId" element={<CreateSection />} />
                 </Route>
-                <Route
-                  path="sections/:sectionId/students"
-                  element={<StudentList />}
-                />
               </Route>
-
-              {/* School Routes */}
-              <Route path="schools/create" element={<CreateSchool />} />
+              <Route
+                path="sections/:sectionId/students"
+                element={<StudentList />}
+              />
             </Route>
-          )}
+
+            {/* School Routes */}
+            <Route path="schools/create" element={<CreateSchool />} />
+          </Route>
+
           {/* 404 Page */}
           <Route path="*" element={<NotFound />} />
         </Routes>
