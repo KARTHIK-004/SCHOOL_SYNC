@@ -23,7 +23,6 @@ const userSchema = mongoose.Schema(
     school: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "School",
-      default: false,
     },
   },
   {

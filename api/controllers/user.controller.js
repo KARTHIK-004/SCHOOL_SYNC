@@ -2,10 +2,18 @@ import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
-const signToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
-  });
+const signToken = (user) => {
+  return jwt.sign(
+    {
+      id: user._id,
+      role: user.role,
+      school: user.school,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    }
+  );
 };
 
 export const signup = async (req, res) => {
@@ -19,12 +27,12 @@ export const signup = async (req, res) => {
       email,
       password: hashedPassword,
       role,
-      schoolId: school,
+      school,
     });
 
     newUser.password = undefined;
 
-    const token = signToken(newUser._id);
+    const token = signToken(newUser);
 
     res.status(201).json({
       status: "success",
@@ -61,7 +69,7 @@ export const signin = async (req, res) => {
       });
     }
 
-    const token = signToken(user._id);
+    const token = signToken(user);
     user.password = undefined;
 
     res.status(200).json({
@@ -73,7 +81,7 @@ export const signin = async (req, res) => {
           name: user.name,
           email: user.email,
           role: user.role,
-          schoolId: user.school,
+          school: user.school,
         },
       },
     });
@@ -117,6 +125,7 @@ export const getMe = async (req, res) => {
           name: user.name,
           email: user.email,
           role: user.role,
+          school: user.school,
         },
       },
     });

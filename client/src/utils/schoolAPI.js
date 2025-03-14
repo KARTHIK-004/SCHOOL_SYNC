@@ -19,7 +19,7 @@ export const getAllSchools = async () => {
   }
 };
 
-export const getSchool = async (schoolId) => {
+export const getSchoolById = async (schoolId) => {
   try {
     const response = await api.get(`/schools/${schoolId}`);
     return response.data;
@@ -28,11 +28,9 @@ export const getSchool = async (schoolId) => {
   }
 };
 
-export const getSchoolsByUserId = async (userId) => {
+export const getMySchool = async () => {
   try {
-    const response = await api.get("/schools", {
-      params: { userId },
-    });
+    const response = await api.get("/schools/my-school");
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : error.message;

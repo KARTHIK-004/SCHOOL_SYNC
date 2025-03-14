@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
-import { School, ArrowLeft, BookX, Home } from "lucide-react";
+import { ArrowLeft, BookX, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function NotFound() {
+  const handleGoBack = () => {
+    window.history.back();
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative">
       <main className="flex-1 flex flex-col items-center justify-center p-4 md:p-8">
@@ -20,10 +24,10 @@ export default function NotFound() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button asChild variant="outline">
-              <Link to="javascript:history.back()">
+            <Button asChild variant="outline" onClick={handleGoBack}>
+              <span>
                 <ArrowLeft className="mr-2 h-4 w-4" /> Go Back
-              </Link>
+              </span>
             </Button>
             <Button asChild>
               <Link to="/">

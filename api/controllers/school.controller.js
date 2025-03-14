@@ -122,20 +122,34 @@ export const getSchools = async (req, res) => {
 
 export const getMySchool = async (req, res) => {
   try {
-    const school = await School.findOne({ userId: req.user.id });
+    // Check if user is authenticated
+    if (!req.user) {
+      return res.status(401).json({
+        status: "error",
+        message: "Authentication required",
+      });
+    }
 
-    if (!school) {
+    const userId = req.user.id;
+    const user = await User.findById(userId).populate("school");
+
+    if (!user) {
       return res.status(404).json({
         status: "error",
-        message: "School not found for this user",
+        message: "User not found",
+      });
+    }
+
+    if (!user.school) {
+      return res.status(404).json({
+        status: "error",
+        message: "School not found",
       });
     }
 
     res.status(200).json({
       status: "success",
-      data: {
-        school,
-      },
+      data: user.school,
     });
   } catch (error) {
     res.status(400).json({
