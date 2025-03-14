@@ -1,6 +1,6 @@
 import api from "@/utils/apiConfig";
 
-// Function to create a new school
+// School Operations
 export const createSchool = async (schoolData) => {
   try {
     const response = await api.post("/schools/create", schoolData);
@@ -10,7 +10,6 @@ export const createSchool = async (schoolData) => {
   }
 };
 
-// Function to get all schools
 export const getAllSchools = async () => {
   try {
     const response = await api.get("/schools");

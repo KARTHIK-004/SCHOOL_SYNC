@@ -12,6 +12,7 @@ import PasswordInput from "@/components/FormInputs/PasswordInput";
 import PhoneInput from "@/components/FormInputs/PhoneInput";
 import TextArea from "@/components/FormInputs/TextAreaInput";
 import ImageInput from "@/components/FormInputs/ImageInput";
+import { createParent, updateParent } from "@/utils/parentAPI";
 
 // Form Options
 import {
@@ -41,8 +42,22 @@ export default function ParentForm({ editingId, initialData }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      firstname: initialData?.firstname || "",
-      lastname: initialData?.lastname || "",
+      title: initialData?.title || "",
+      firstname: initialData?.firstName || "",
+      lastname: initialData?.lastName || "",
+      email: initialData?.email || "",
+      password: "",
+      relationship: initialData?.relationship || "",
+      nationalId: initialData?.nationalId || "",
+      contactmethods: initialData?.contactMethods || "",
+      phoneNumber: initialData?.phone || "",
+      whatsapp: initialData?.whatsapp || "",
+      educationLevel: initialData?.educationLevel || "",
+      occupation: initialData?.occupation || "",
+      incomeRange: initialData?.incomeRange || "",
+      religion: initialData?.religion || "",
+      nationality: initialData?.nationality || "",
+      address: initialData?.address || "",
     },
   });
 
@@ -51,16 +66,36 @@ export default function ParentForm({ editingId, initialData }) {
     try {
       setLoading(true);
 
+      const parentData = {
+        title: data.title,
+        firstName: data.firstname,
+        lastName: data.lastname,
+        email: data.email,
+        password: data.password,
+        relationship: data.relationship,
+        nationalId: data.nationalId,
+        contactMethods: data.contactmethods,
+        phone: data.phoneNumber,
+        whatsapp: data.whatsapp,
+        educationLevel: data.educationLevel,
+        occupation: data.occupation,
+        incomeRange: data.incomeRange,
+        religion: data.religion,
+        nationality: data.nationality,
+        address: data.address,
+        imageUrl: imageUrl || "/parent.png",
+      };
+
       if (editingId) {
-        // Update existing parent
-        setLoading(false);
+        await updateParent(editingId, parentData);
         toast({
           title: "Success",
           description: "Parent/Guardian updated successfully!",
           variant: "success",
         });
+        setLoading(false);
       } else {
-        // Create new parent
+        await createParent(parentData);
         setLoading(false);
         toast({
           title: "Success",
@@ -69,8 +104,15 @@ export default function ParentForm({ editingId, initialData }) {
         });
       }
     } catch (error) {
-      setLoading(false);
       console.log(error);
+      setLoading(false);
+      toast({
+        title: "Error",
+        description: error.response?.data.message || "Operation failed",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
     }
     console.log(data);
   }
