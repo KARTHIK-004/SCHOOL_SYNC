@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -24,21 +24,21 @@ import { deleteContact } from "@/utils/contactAPI";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
-export default function ActionColumn({ row, model, editEndpoint, id = "" }) {
+export default function ActionColumn({ model, editEndpoint, id = "" }) {
   const { toast } = useToast();
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+
   async function handleDelete() {
     try {
-      if (model === "contact") {
-        const res = await deleteContact(id);
-        if (res?.ok) {
-          window.location.reload();
-        }
-        toast({
-          title: "Deleted Successfully",
-          description: `${model} Contact deleted sucessfully`,
-          type: "success",
-        });
+      const response = await deleteContact(id);
+      if (response?.ok) {
+        window.location.reload();
       }
+      toast({
+        title: "Deleted Successfully",
+        description: `${model} deleted sucessfully`,
+        type: "success",
+      });
     } catch (error) {
       console.log(error);
       toast({
@@ -50,50 +50,56 @@ export default function ActionColumn({ row, model, editEndpoint, id = "" }) {
     }
   }
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0">
-          <span className="sr-only">Open menu</span>
-          <MoreHorizontal className="h-4 w-4" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-destructive hover:text-destructive transition-all duration-500 cursor-pointer w-full justify-start"
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" size="icon" className="h-8">
+            <span className="sr-only">Open actions menu</span>
+            <MoreHorizontal className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-32">
+          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem asChild>
+            <Link
+              href={editEndpoint}
+              className="flex items-center cursor-pointer"
             >
-              <Trash className="w-4 h-4 flex-shrink-0" />
-              <span>Delete</span>
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete this
-                {model}.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <Button variant={"destructive"} onClick={() => handleDelete()}>
-                Permanently Delete
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-        <DropdownMenuItem>
-          <Link to="#" className="flex item gap-2">
-            <Pencil className="w-4 h-4 mr-2" />
-            <span>Edit</span>
-          </Link>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+              <Pencil className="mr-2 h-4 w-4" />
+              <span>Edit</span>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => setIsAlertOpen(true)}
+            className="text-destructive focus:text-destructive"
+          >
+            <Trash className="mr-2 h-4 w-4" />
+            <span>Delete</span>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete this{" "}
+              {model}.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDelete}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Permanently Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }

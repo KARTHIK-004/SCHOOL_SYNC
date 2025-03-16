@@ -37,6 +37,15 @@ export const getParentById = async (id) => {
   }
 };
 
+export const getAllParents = async () => {
+  try {
+    const response = await api.get("/parents");
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : error.message;
+  }
+};
+
 export const getParentsBySchool = async (schoolId) => {
   try {
     const response = await api.get(`/parents/school/${schoolId}`);

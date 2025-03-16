@@ -2,9 +2,19 @@ import mongoose from "mongoose";
 
 const parentSchema = new mongoose.Schema(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     schoolId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "School",
+      required: true,
+    },
+    role: {
+      type: String,
+      default: "parent",
       required: true,
     },
     title: {
@@ -36,7 +46,7 @@ const parentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    contactMethods: {
+    contactMethod: {
       type: String,
       required: true,
     },
@@ -74,6 +84,7 @@ const parentSchema = new mongoose.Schema(
     },
     imageUrl: {
       type: String,
+      default: "/parent.png",
     },
     children: [
       {

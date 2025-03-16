@@ -98,65 +98,6 @@ export default function SchoolAdminDashboard() {
     <ScrollArea className="sm:h-full lg:h-[calc(100vh-4rem)]">
       <div className="flex-1 space-y-4 p-4 md:p-8">
         {/* School Info Card */}
-        <Card className="mb-4">
-          <CardHeader>
-            <div className="flex items-center gap-4">
-              {school?.schoolLogo && (
-                <img
-                  src={school.schoolLogo}
-                  alt={school.schoolName}
-                  className="w-16 h-16 object-contain"
-                />
-              )}
-              <div>
-                <CardTitle className="text-2xl">{school?.schoolName}</CardTitle>
-                <p className="text-sm text-muted-foreground">
-                  Administrator: {school?.adminName}
-                </p>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              <div className="flex items-center gap-2">
-                <School className="h-4 w-4 text-muted-foreground" />
-                <div>
-                  <p className="text-sm font-medium">School Type</p>
-                  <p className="text-sm text-muted-foreground capitalize">
-                    {school?.schoolType}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <BookType className="h-4 w-4 text-muted-foreground" />
-                <div>
-                  <p className="text-sm font-medium">Curriculum</p>
-                  <p className="text-sm text-muted-foreground capitalize">
-                    {school?.curriculum}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-muted-foreground" />
-                <div>
-                  <p className="text-sm font-medium">Email</p>
-                  <p className="text-sm text-muted-foreground">
-                    {school?.contactEmail}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-muted-foreground" />
-                <div>
-                  <p className="text-sm font-medium">Phone</p>
-                  <p className="text-sm text-muted-foreground">
-                    {school?.phone}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
         <WelcomeBanner schoolData={school} />
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

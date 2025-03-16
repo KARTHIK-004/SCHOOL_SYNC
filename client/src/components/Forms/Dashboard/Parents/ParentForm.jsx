@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
 // Component Imports
@@ -28,7 +27,6 @@ import {
 
 export default function ParentForm({ editingId, initialData }) {
   // Hooks
-  const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState(
@@ -43,14 +41,14 @@ export default function ParentForm({ editingId, initialData }) {
   } = useForm({
     defaultValues: {
       title: initialData?.title || "",
-      firstname: initialData?.firstName || "",
-      lastname: initialData?.lastName || "",
+      firstName: initialData?.firstName || "",
+      lastName: initialData?.lastName || "",
       email: initialData?.email || "",
-      password: "",
+      password: initialData?.password || "",
       relationship: initialData?.relationship || "",
       nationalId: initialData?.nationalId || "",
-      contactmethods: initialData?.contactMethods || "",
-      phoneNumber: initialData?.phone || "",
+      contactMethod: initialData?.contactMethod || "",
+      phone: initialData?.phone || "",
       whatsapp: initialData?.whatsapp || "",
       educationLevel: initialData?.educationLevel || "",
       occupation: initialData?.occupation || "",
@@ -67,22 +65,7 @@ export default function ParentForm({ editingId, initialData }) {
       setLoading(true);
 
       const parentData = {
-        title: data.title,
-        firstName: data.firstname,
-        lastName: data.lastname,
-        email: data.email,
-        password: data.password,
-        relationship: data.relationship,
-        nationalId: data.nationalId,
-        contactMethods: data.contactmethods,
-        phone: data.phoneNumber,
-        whatsapp: data.whatsapp,
-        educationLevel: data.educationLevel,
-        occupation: data.occupation,
-        incomeRange: data.incomeRange,
-        religion: data.religion,
-        nationality: data.nationality,
-        address: data.address,
+        ...data,
         imageUrl: imageUrl || "/parent.png",
       };
 
@@ -93,28 +76,26 @@ export default function ParentForm({ editingId, initialData }) {
           description: "Parent/Guardian updated successfully!",
           variant: "success",
         });
-        setLoading(false);
       } else {
         await createParent(parentData);
-        setLoading(false);
         toast({
           title: "Success",
           description: "Parent/Guardian created successfully!",
           variant: "success",
         });
       }
+      reset();
     } catch (error) {
       console.log(error);
-      setLoading(false);
       toast({
         title: "Error",
-        description: error.response?.data.message || "Operation failed",
+        description:
+          error.response?.data.message || "Failed to create Parent/Guardian!",
         variant: "destructive",
       });
     } finally {
       setLoading(false);
     }
-    console.log(data);
   }
 
   return (
@@ -123,7 +104,7 @@ export default function ParentForm({ editingId, initialData }) {
       <FormHeader
         href="/parents"
         parent=""
-        title="Parent/Guardian"
+        title="Parent"
         editingId={editingId}
         loading={loading}
       />
@@ -143,14 +124,14 @@ export default function ParentForm({ editingId, initialData }) {
               />
               <TextInput
                 label="First Name"
-                name="firstname"
+                name="firstName"
                 placeholder="John"
                 register={register}
                 errors={errors}
               />
               <TextInput
                 label="Last Name"
-                name="lastname"
+                name="lastName"
                 placeholder="Doe"
                 register={register}
                 errors={errors}
@@ -200,7 +181,7 @@ export default function ParentForm({ editingId, initialData }) {
               />
               <ComboboxInput
                 label="Preferred Contact"
-                name="contactmethods"
+                name="contactMethod"
                 placeholder="Select Contact Method"
                 options={contactMethods}
                 register={register}
@@ -212,7 +193,7 @@ export default function ParentForm({ editingId, initialData }) {
             <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4">
               <PhoneInput
                 label="Parent Mobile Number"
-                name="phoneNumber"
+                name="phone"
                 register={register}
                 errors={errors}
               />
