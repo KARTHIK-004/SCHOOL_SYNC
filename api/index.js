@@ -7,6 +7,7 @@ import userRoutes from "./routes/user.routes.js";
 import contactRoutes from "./routes/contact.routes.js";
 import schoolRoutes from "./routes/school.routes.js";
 import parentRoutes from "./routes/parent.routes.js";
+import classRoutes from "./routes/class.routes.js";
 import { errorHandler } from "./middleware/error.middleware.js";
 
 dotenv.config();
@@ -21,6 +22,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/schools", schoolRoutes);
 app.use("/api/parents", parentRoutes);
+app.use("/api/classes", classRoutes);
 
 app.use(errorHandler);
 

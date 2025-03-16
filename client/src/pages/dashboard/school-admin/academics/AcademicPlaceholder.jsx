@@ -4,7 +4,7 @@ import React from "react";
 export default function AcademicPlaceholder() {
   return (
     <div>
-      <div className="h-full flex items-center justify-center lg:mt-40">
+      <div className="h-full flex items-center justify-center mt-40">
         <div className="flex flex-col items-center justify-center text-center p-4">
           <div className="bg-primary/10 p-3 rounded-full mb-4">
             <BookOpen className="h-8 w-8 text-primary" />

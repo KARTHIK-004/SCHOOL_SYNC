@@ -35,13 +35,13 @@ import TeacherDetails from "./pages/dashboard/school-admin/teachers/TeacherDetai
 import CreateTeachers from "./pages/dashboard/school-admin/teachers/CreateTeachers";
 
 // Academic
-import AcademicOverview from "./pages/dashboard/academics/AcademicOverview";
-import SectionList from "./pages/dashboard/academics/sections/SectionList";
-import AcademicPlaceholder from "./pages/dashboard/academics/AcademicPlaceholder";
-import CreateSection from "./pages/dashboard/academics/sections/CreateSections";
-import CreateClasses from "./pages/dashboard/academics/classes/CreateClasses";
+import AcademicOverview from "./pages/dashboard/school-admin/academics/AcademicOverview";
+import SectionList from "./pages/dashboard/school-admin/academics/sections/SectionList";
+import AcademicPlaceholder from "./pages/dashboard/school-admin/academics/AcademicPlaceholder";
+import CreateSection from "./pages/dashboard/school-admin/academics/sections/CreateSections";
+import CreateClasses from "./pages/dashboard/school-admin/academics/classes/CreateClasses";
 import CreateSchool from "./pages/dashboard/school-admin/schools/CreateSchool";
-import StudentList from "./pages/dashboard/academics/students/StudentList";
+import StudentList from "./pages/dashboard/school-admin/academics/students/StudentList";
 
 export default function App() {
   return (
