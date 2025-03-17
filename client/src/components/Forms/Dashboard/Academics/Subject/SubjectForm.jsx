@@ -10,7 +10,13 @@ import TextInput from "@/components/FormInputs/TextInput";
 import ComboboxInput from "@/components/FormInputs/ComboboxInput";
 
 // Form Options
-import { academicYears } from "@/lib/formOption";
+import {
+  academicYears,
+  courseTypeOptions,
+  departmentCategories,
+  hasLabs,
+  offersCourses,
+} from "@/lib/formOption";
 
 // Subject Form Component
 export function SubjectForm({ editingId, initialData }) {
@@ -28,7 +34,6 @@ export function SubjectForm({ editingId, initialData }) {
     defaultValues: {
       subjectName: initialData?.subjectName || "",
       subjectCode: initialData?.subjectCode || "",
-      description: initialData?.description || "",
     },
   });
 
@@ -77,15 +82,21 @@ export function SubjectForm({ editingId, initialData }) {
 
       <div className="grid grid-cols-12 gap-6 py-8">
         <div className="lg:col-span-12 col-span-full space-y-6">
-          {/* Basic Information */}
-          <div className="grid sm:grid-cols-2 gap-4">
+          {/* Basic Information - Three columns */}
+          <div className="grid sm:grid-cols-3 gap-4">
             <TextInput
               label="Subject Name"
               name="subjectName"
               placeholder="e.g. Mathematics"
               register={register}
               errors={errors}
-              required
+            />
+            <TextInput
+              label="Short Name"
+              name="shortName"
+              placeholder="e.g. Math"
+              register={register}
+              errors={errors}
             />
             <TextInput
               label="Subject Code"
@@ -93,20 +104,46 @@ export function SubjectForm({ editingId, initialData }) {
               placeholder="e.g. MATH01"
               register={register}
               errors={errors}
-              required
             />
           </div>
 
-          {/* Academic Details */}
+          {/* Additional Info - Two columns */}
           <div className="grid sm:grid-cols-2 gap-4">
+            <TextInput
+              label="Passing Mark"
+              name="passingMark"
+              placeholder="e.g. 40"
+              register={register}
+              errors={errors}
+            />
             <ComboboxInput
               label="Academic Year"
               name="academicYear"
               options={academicYears}
               register={register}
               errors={errors}
-              required
             />
+          </div>
+
+          {/* Academic Details - Three columns */}
+          <div className="grid sm:grid-cols-3 gap-4">
+            <ComboboxInput
+              label="Offers Courses"
+              name="offersCourses"
+              placeholder="Select yes or no"
+              options={offersCourses}
+              register={register}
+              errors={errors}
+            />
+            <ComboboxInput
+              label="Has Labs"
+              name="hasLabs"
+              placeholder="Select yes or no"
+              options={hasLabs}
+              register={register}
+              errors={errors}
+            />
+
             <ComboboxInput
               label="Department"
               name="department"
@@ -115,22 +152,30 @@ export function SubjectForm({ editingId, initialData }) {
                 { label: "Arts", value: "arts" },
                 { label: "Commerce", value: "commerce" },
               ]}
+              showSearch={true}
               register={register}
               errors={errors}
-              required
+              href="/dashboard/academics/departments"
+              toolTipText="Create a new department"
             />
           </div>
 
-          {/* Additional Information */}
-          <div className="grid sm:grid-cols-1 gap-4">
-            <TextInput
-              label="Description"
-              name="description"
-              placeholder="Enter subject description"
+          {/* Additional Flags - Two columns */}
+          <div className="grid sm:grid-cols-2 gap-4">
+            <ComboboxInput
+              label="Department Category"
+              name="departmentCategory"
+              options={departmentCategories}
               register={register}
               errors={errors}
-              multiline
-              rows={4}
+            />
+            <ComboboxInput
+              label="Course Type"
+              name="courseType"
+              placeholder="Select course type"
+              options={courseTypeOptions}
+              register={register}
+              errors={errors}
             />
           </div>
         </div>

@@ -82,12 +82,7 @@ export default function CreateDepartment() {
         <div className="container mx-auto max-w-6xl">
           <Card className="mt-4 border">
             <CardContent className="p-6">
-              <DepartmentForm
-                editingId={id}
-                initialData={departmentData}
-                onSubmit={handleSubmit}
-                isSubmitting={isSubmitting}
-              />
+              <DepartmentForm editingId={id} initialData={departmentData} />
             </CardContent>
           </Card>
         </div>

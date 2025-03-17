@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 
 const subjectSchema = new mongoose.Schema(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     schoolId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "School",
@@ -15,25 +20,10 @@ const subjectSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    description: {
-      type: String,
-    },
     academicYear: {
       type: String,
       required: true,
     },
-    classes: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Class",
-      },
-    ],
-    sections: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Section",
-      },
-    ],
     isCore: {
       type: Boolean,
       default: true,
@@ -41,11 +31,6 @@ const subjectSchema = new mongoose.Schema(
     isActive: {
       type: Boolean,
       default: true,
-    },
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
     },
   },
   {

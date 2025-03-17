@@ -245,7 +245,6 @@ export const courseTypeOptions = [
   { value: "foundation", label: "Foundation" },
   { value: "specialization", label: "Specialization" },
   { value: "general", label: "General" },
-  { value: "interdisciplinary", label: "Interdisciplinary" },
 ];
 
 export const statuses = [
