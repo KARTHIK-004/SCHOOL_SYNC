@@ -1,7 +1,7 @@
 import { BookOpen } from "lucide-react";
 import React from "react";
 
-export default function AcademicPlaceholder() {
+export default function ClassPlaceholder() {
   return (
     <div>
       <div className="h-full flex items-center justify-center mt-40">

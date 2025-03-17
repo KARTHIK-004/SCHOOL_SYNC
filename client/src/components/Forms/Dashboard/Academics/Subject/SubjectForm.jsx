@@ -10,11 +10,10 @@ import TextInput from "@/components/FormInputs/TextInput";
 import ComboboxInput from "@/components/FormInputs/ComboboxInput";
 
 // Form Options
-import { academicYears, departments } from "@/lib/formOption";
-import { createClass } from "@/utils/classAPI";
+import { academicYears } from "@/lib/formOption";
 
-// Class Form Component
-export function ClassForm({ editingId, initialData }) {
+// Subject Form Component
+export function SubjectForm({ editingId, initialData }) {
   // Hooks
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -27,10 +26,9 @@ export function ClassForm({ editingId, initialData }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      className: initialData?.className || "",
-      classCode: initialData?.classCode || "",
-      academicYear: initialData?.academicYear || "",
-      department: initialData?.department || "",
+      subjectName: initialData?.subjectName || "",
+      subjectCode: initialData?.subjectCode || "",
+      description: initialData?.description || "",
     },
   });
 
@@ -40,26 +38,26 @@ export function ClassForm({ editingId, initialData }) {
       setLoading(true);
 
       if (editingId) {
-        // await updateClass(editingId, data);
+        // await updateSubject(editingId, data);
         toast({
           title: "Success",
-          description: "Class updated successfully!",
+          description: "Subject updated successfully!",
           variant: "success",
         });
       } else {
-        await createClass(data);
+        // await createSubject(data);
         toast({
           title: "Success",
-          description: "Class created successfully!",
+          description: "Subject created successfully!",
           variant: "success",
         });
       }
-      navigate("/dashboard/academics/classes");
+      navigate("/dashboard/academics/subjects");
     } catch (error) {
       console.error(error);
       toast({
         title: "Error",
-        description: "Failed to save class",
+        description: "Failed to save subject",
         variant: "destructive",
       });
     } finally {
@@ -70,9 +68,9 @@ export function ClassForm({ editingId, initialData }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormHeader
-        href="/classes"
+        href="/subjects"
         parent="academics"
-        title="Class"
+        title="Subject"
         editingId={editingId}
         loading={loading}
       />
@@ -82,17 +80,17 @@ export function ClassForm({ editingId, initialData }) {
           {/* Basic Information */}
           <div className="grid sm:grid-cols-2 gap-4">
             <TextInput
-              label="Class Name"
-              name="className"
-              placeholder="e.g. Class 8"
+              label="Subject Name"
+              name="subjectName"
+              placeholder="e.g. Mathematics"
               register={register}
               errors={errors}
               required
             />
             <TextInput
-              label="Class Code"
-              name="classCode"
-              placeholder="e.g. C8"
+              label="Subject Code"
+              name="subjectCode"
+              placeholder="e.g. MATH01"
               register={register}
               errors={errors}
               required
@@ -104,29 +102,44 @@ export function ClassForm({ editingId, initialData }) {
             <ComboboxInput
               label="Academic Year"
               name="academicYear"
-              placeholder="Select Academic Year"
               options={academicYears}
               register={register}
               errors={errors}
+              required
             />
             <ComboboxInput
               label="Department"
               name="department"
-              placeholder="Select Department"
-              options={departments}
+              options={[
+                { label: "Science", value: "science" },
+                { label: "Arts", value: "arts" },
+                { label: "Commerce", value: "commerce" },
+              ]}
               register={register}
               errors={errors}
-              href="/dashboard/academics/departments/create"
-              toolTipText="Add a new department"
+              required
+            />
+          </div>
+
+          {/* Additional Information */}
+          <div className="grid sm:grid-cols-1 gap-4">
+            <TextInput
+              label="Description"
+              name="description"
+              placeholder="Enter subject description"
+              register={register}
+              errors={errors}
+              multiline
+              rows={4}
             />
           </div>
         </div>
       </div>
 
       <FormFooter
-        href="/classes"
+        href="/subjects"
         parent="academics"
-        title="Class"
+        title="Subject"
         editingId={editingId}
         loading={loading}
       />

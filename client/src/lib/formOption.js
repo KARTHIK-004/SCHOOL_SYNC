@@ -199,6 +199,89 @@ export const schoolLevels = [
   { label: "High School", value: "high" },
   { label: "College/University", value: "college" },
 ];
+export const departmentCategories = [
+  { value: "academic", label: "Academic" },
+  { value: "administrative", label: "Administrative" },
+  { value: "finance", label: "Finance" },
+  { value: "it", label: "Information Technology" },
+  { value: "marketing", label: "Marketing" },
+  { value: "research", label: "Research & Development" },
+  { value: "student_affairs", label: "Student Affairs" },
+  { value: "public_relations", label: "Public Relations" },
+];
+
+export const departmentTypes = [
+  { value: "core", label: "Core" },
+  { value: "support", label: "Support" },
+  { value: "technical", label: "Technical" },
+  { value: "administrative", label: "Administrative" },
+  { value: "academic", label: "Academic" },
+  { value: "operational", label: "Operational" },
+  { value: "strategic", label: "Strategic" },
+  { value: "research", label: "Research & Development" },
+  { value: "customer_service", label: "Customer Service" },
+];
+
+export const facultyOptions = [
+  { value: "science", label: "Faculty of Science" },
+  { value: "administration", label: "Faculty of Administration" },
+  { value: "engineering", label: "Faculty of Engineering" },
+  { value: "arts", label: "Faculty of Arts" },
+  { value: "medicine", label: "Faculty of Medicine" },
+  { value: "business", label: "Faculty of Business" },
+  { value: "education", label: "Faculty of Education" },
+  { value: "social_sciences", label: "Faculty of Social Sciences" },
+  { value: "history", label: "Faculty of History" },
+  { value: "technology", label: "Faculty of Technology" },
+  { value: "management", label: "Faculty of Management" },
+  { value: "environmental", label: "Faculty of Environmental Studies" },
+];
+
+export const courseTypeOptions = [
+  { value: "elective", label: "Elective" },
+  { value: "core", label: "Core" },
+  { value: "mandatory", label: "Mandatory" },
+  { value: "optional", label: "Optional" },
+  { value: "foundation", label: "Foundation" },
+  { value: "specialization", label: "Specialization" },
+  { value: "general", label: "General" },
+  { value: "interdisciplinary", label: "Interdisciplinary" },
+];
+
+export const statuses = [
+  { value: "active", label: "Active" },
+  { value: "inactive", label: "Inactive" },
+];
+
+export const offersCourses = [
+  { value: "true", label: "Yes" },
+  { value: "false", label: "No" },
+];
+
+export const hasLabs = [
+  { value: "true", label: "Yes" },
+  { value: "false", label: "No" },
+];
+
+export const optional = [
+  { value: "true", label: "Yes" },
+  { value: "false", label: "No" },
+];
+
+export const hasTheory = [
+  { value: "true", label: "Yes" },
+  { value: "false", label: "No" },
+];
+
+export const hasPractical = [
+  { value: "true", label: "Yes" },
+  { value: "false", label: "No" },
+];
+
+export const labRequired = [
+  { value: "yes", label: "Yes" },
+  { value: "no", label: "No" },
+];
 
 export const designations = [
   {

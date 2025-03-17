@@ -20,16 +20,13 @@ const classSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    description: {
-      type: String,
-    },
     academicYear: {
       type: String,
       required: true,
     },
-    isActive: {
-      type: Boolean,
-      default: true,
+    department: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Department",
     },
     sections: [
       {

@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import BookNow from "./pages/BookNow";
 import HowItWorks from "./pages/HowItWorks";
@@ -10,22 +10,29 @@ import NotFound from "./pages/NotFound";
 import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
 
+// School Onboard
 import SchoolRegistration from "./pages/school-onboard/SchoolRegistration";
 
 // Dashboard & Sidebar
 import Sidebar from "./pages/dashboard/Sidebar";
 import Dashboard from "./pages/dashboard/Dashboard";
+
+// Configuration
 import Settings from "./pages/dashboard/Setting";
-import ContactSubmissions from "./pages/dashboard/admin/contacts/Contacts";
 import Notifications from "./pages/dashboard/Notifications";
 
+// Admin
+// Contacts
+import ContactSubmissions from "./pages/dashboard/admin/contacts/Contacts";
+
+// School Admin
 // Students
 import StudentDirectory from "./pages/dashboard/school-admin/students/StudentDirectory.jsx";
 import StudentDetails from "./pages/dashboard/school-admin/students/StudentDetails";
 import CreateStudents from "./pages/dashboard/school-admin/students/CreateStudents";
 
 // Parents
-import ParentDirectory from "./pages/dashboard/school-admin/parents/ParentDirectory";
+import ParentDirectory from "./pages/dashboard/school-admin/parents/directory/ParentDirectory";
 import ParentDetails from "./pages/dashboard/school-admin/parents/ParentDetails";
 import CreateParents from "./pages/dashboard/school-admin/parents/CreateParents";
 
@@ -34,14 +41,22 @@ import TeacherDirectory from "./pages/dashboard/school-admin/teachers/TeacherDir
 import TeacherDetails from "./pages/dashboard/school-admin/teachers/TeacherDetails";
 import CreateTeachers from "./pages/dashboard/school-admin/teachers/CreateTeachers";
 
-// Academic
-import AcademicOverview from "./pages/dashboard/school-admin/academics/AcademicOverview";
-import SectionList from "./pages/dashboard/school-admin/academics/sections/SectionList";
-import AcademicPlaceholder from "./pages/dashboard/school-admin/academics/AcademicPlaceholder";
-import CreateSection from "./pages/dashboard/school-admin/academics/sections/CreateSections";
+// Academics
+// Classes
+import ClassesAndSection from "./pages/dashboard/school-admin/academics/classes/ClassesAndSection";
 import CreateClasses from "./pages/dashboard/school-admin/academics/classes/CreateClasses";
+
+// Sections
+import CreateSection from "./pages/dashboard/school-admin/academics/sections/CreateSections";
 import CreateSchool from "./pages/dashboard/school-admin/schools/CreateSchool";
-import StudentList from "./pages/dashboard/school-admin/academics/students/StudentList";
+
+// Departments
+import DepartmentManagement from "./pages/dashboard/school-admin/academics/departments/DepartmentManagement";
+import CreateDepartment from "./pages/dashboard/school-admin/academics/departments/CreateDepartment";
+
+// Subjects
+import SubjectsList from "./pages/dashboard/school-admin/academics/subjects/SubjectsList";
+import CreateSubject from "./pages/dashboard/school-admin/academics/subjects/CreateSubject";
 
 export default function App() {
   return (
@@ -58,10 +73,14 @@ export default function App() {
 
           <Route path="/dashboard" element={<Sidebar />}>
             <Route index element={<Dashboard />} />
+            {/* Configuration Routes */}
             <Route path="settings" element={<Settings />} />
-            <Route path="contacts" element={<ContactSubmissions />} />
             <Route path="notifications" element={<Notifications />} />
 
+            {/* Admin Routes */}
+            <Route path="contacts" element={<ContactSubmissions />} />
+
+            {/* School Admin Routes */}
             {/* Students */}
             <Route path="students" element={<StudentDirectory />} />
             <Route path="students/create" element={<CreateStudents />} />
@@ -80,25 +99,30 @@ export default function App() {
             <Route path="teachers/:id" element={<TeacherDetails />} />
             <Route path="teachers/edit/:id" element={<CreateTeachers />} />
 
-            {/* Classes and Sections Routes */}
-            <Route path="academics" element={<AcademicOverview />}>
-              {/* Classes Routes */}
-              <Route path="classes">
-                <Route index element={<AcademicPlaceholder />} />
-                <Route path="create" element={<CreateClasses />} />
-                <Route path="edit/:id" element={<CreateClasses />} />
-                {/* Sections Routes */}
-                <Route path=":classId/sections">
-                  <Route index element={<SectionList />} />
-                  <Route path="students" element={<StudentList />} />
-                  <Route path="create" element={<CreateSection />} />
-                  <Route path="edit/:sectionId" element={<CreateSection />} />
-                </Route>
-              </Route>
+            {/* Academic Routes */}
+            <Route path="academics">
+              {/* Department Routes */}
+              <Route path="departments" element={<DepartmentManagement />} />
+              <Route path="departments/create" element={<CreateDepartment />} />
               <Route
-                path="sections/:sectionId/students"
-                element={<StudentList />}
+                path="departments/edit/:id"
+                element={<CreateDepartment />}
               />
+
+              {/* Subject Routes */}
+              <Route path="subjects" element={<SubjectsList />} />
+              <Route path="subjects/create" element={<CreateSubject />} />
+
+              {/* Classes Routes */}
+              <Route path="classes" element={<ClassesAndSection />} />
+              <Route path="classes/create" element={<CreateClasses />} />
+              <Route path="classes/edit/:id" element={<CreateClasses />} />
+
+              {/* Sections Routes */}
+              <Route path="classes">
+                <Route path="sections/create" element={<CreateSection />} />
+                <Route path="sections/edit/:id" element={<CreateSection />} />
+              </Route>
             </Route>
 
             {/* School Routes */}

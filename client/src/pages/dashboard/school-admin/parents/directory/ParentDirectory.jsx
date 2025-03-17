@@ -7,6 +7,7 @@ import { getCurrentUser } from "@/utils/authAPI";
 import { getAllParents } from "@/utils/parentAPI";
 import DataTable from "@/components/DataTable/TableComponents/DataTable";
 import TableHeader from "@/components/DataTable/TableHeader/TableHeader";
+import ParentsSkeleton from "./ParentsSkeleton";
 
 export default function ParentDirectory() {
   const [parents, setParents] = useState([]);
@@ -36,12 +37,7 @@ export default function ParentDirectory() {
   }, [toast]);
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-        <span>Loading parents...</span>
-      </div>
-    );
+    return <ParentsSkeleton />;
   }
 
   return (

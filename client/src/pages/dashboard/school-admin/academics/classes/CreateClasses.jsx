@@ -49,8 +49,8 @@ export default function CreateClasses() {
   };
 
   return (
-    <ScrollArea className="h-[calc(100vh-4rem)]">
-      <div className="container mx-auto py-8 px-4 max-w-6xl">
+    <ScrollArea className="sm:h-full md:h-[calc(100vh-4rem)]">
+      <div className="container flex-1 space-y-4 p-4 md:p-8 max-w-6xl">
         <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">
