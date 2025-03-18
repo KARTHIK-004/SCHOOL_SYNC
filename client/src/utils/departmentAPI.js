@@ -11,7 +11,7 @@ export const createDepartment = async (departmentData) => {
 
 export const getAllDepartments = async (userData) => {
   try {
-    const response = await api.get("/departments");
+    const response = await api.get("/departments", userData);
     return response;
   } catch (error) {
     throw error.response ? error.response.data : error.message;

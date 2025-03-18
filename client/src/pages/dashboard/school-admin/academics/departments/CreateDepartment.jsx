@@ -13,7 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import InfoBanner from "@/components/ui/info-banner";
 import { DepartmentForm } from "@/components/Forms/Dashboard/Academics/Department/DepartmentForm";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { createDepartment } from "@/utils/department";
+import { createDepartment } from "@/utils/departmentAPI";
 
 export default function CreateDepartment() {
   const { id } = useParams();

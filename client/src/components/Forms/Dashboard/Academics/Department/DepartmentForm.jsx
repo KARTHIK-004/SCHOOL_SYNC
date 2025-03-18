@@ -17,7 +17,7 @@ import {
   statuses,
 } from "@/lib/formOption";
 import TextArea from "@/components/FormInputs/TextAreaInput";
-import { createDepartment } from "@/utils/department";
+import { createDepartment } from "@/utils/departmentAPI";
 
 // Department Form Component
 export function DepartmentForm({ editingId, initialData }) {
