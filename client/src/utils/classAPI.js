@@ -1,8 +1,8 @@
-import axios from "axios";
+import api from "./apiConfig";
 
 export const createClass = async (classData) => {
   try {
-    const response = await axios.post("/classes", classData);
+    const response = await api.post("/classes/create", classData);
     return response.data;
   } catch (error) {
     throw error.response.data;
@@ -11,7 +11,7 @@ export const createClass = async (classData) => {
 
 export const getAllClasses = async () => {
   try {
-    const response = await axios.get("/classes");
+    const response = await api.get("/classes");
     return response.data;
   } catch (error) {
     throw error.response.data;
@@ -20,7 +20,7 @@ export const getAllClasses = async () => {
 
 export const getClassById = async (id) => {
   try {
-    const response = await axios.get(`/classes/${id}`);
+    const response = await api.get(`/classes/${id}`);
     return response.data;
   } catch (error) {
     throw error.response.data;
@@ -29,7 +29,7 @@ export const getClassById = async (id) => {
 
 export const updateClass = async (id, classData) => {
   try {
-    const response = await axios.put(`/classes/${id}`, classData);
+    const response = await api.put(`/classes/${id}`, classData);
     return response.data;
   } catch (error) {
     throw error.response.data;
@@ -38,7 +38,7 @@ export const updateClass = async (id, classData) => {
 
 export const deleteClass = async (id) => {
   try {
-    const response = await axios.delete(`/classes/${id}`);
+    const response = await api.delete(`/classes/${id}`);
     return response.data;
   } catch (error) {
     throw error.response.data;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -12,12 +12,15 @@ import TextArea from "@/components/FormInputs/TextAreaInput";
 
 // Form Options
 import { academicYears } from "@/lib/formOption";
+import { getAllClasses } from "@/utils/classAPI";
+import { getCurrentUser } from "@/utils/authAPI";
 
 export function SectionForm({ editingId, initialData }) {
   // Hooks
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [classes, setClasses] = useState([]);
 
   const {
     register,
@@ -28,9 +31,37 @@ export function SectionForm({ editingId, initialData }) {
     defaultValues: {
       sectionName: initialData?.sectionName || "",
       sectionCode: initialData?.sectionCode || "",
-      description: initialData?.description || "",
     },
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const userData = await getCurrentUser();
+        const response = await getAllClasses(userData);
+        const classesData = response.data || [];
+        const classOptions = classesData.map((classItem) => ({
+          value: classItem._id,
+          label: classItem.className,
+        }));
+        console.log(classOptions);
+        setClasses(classOptions);
+      } catch (error) {
+        console.error("Error fetching classes:", error);
+        toast({
+          variant: "destructive",
+          title: "Error fetching classes",
+          description: error.message || "Please try again later.",
+        });
+        setClasses([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [toast]);
 
   // Form submission handler
   async function onSubmit(data) {
@@ -102,44 +133,24 @@ export function SectionForm({ editingId, initialData }) {
             <ComboboxInput
               label="Associated Class"
               name="classId"
-              options={[]} // This would be populated from your API
+              options={classes}
               register={register}
               errors={errors}
               required
               toolTipText="Add New Class"
               href="/dashboard/academics/classes/create"
             />
-            <TextInput
-              label="Capacity"
-              name="capacity"
-              placeholder="Enter section capacity"
-              register={register}
-              errors={errors}
-            />
-          </div>
-
-          {/* Teacher Assignment */}
-          <div className="grid sm:grid-cols-2 gap-4">
             <ComboboxInput
               label="Class Teacher"
               name="teacherId"
-              options={[]} // This would be populated from your API
+              options={[]}
               register={register}
               errors={errors}
               toolTipText="Add New Teacher"
               href="/dashboard/staff/create"
             />
-            <ComboboxInput
-              label="Academic Year"
-              name="academicYear"
-              options={academicYears}
-              register={register}
-              errors={errors}
-              required
-            />
           </div>
 
-          {/* Schedule */}
           <div className="grid sm:grid-cols-2 gap-4">
             <TextInput
               label="Room Number"
@@ -149,9 +160,9 @@ export function SectionForm({ editingId, initialData }) {
               errors={errors}
             />
             <TextInput
-              label="Time Slot"
-              name="timeSlot"
-              placeholder="e.g. 9:00 AM - 3:00 PM"
+              label="Capacity"
+              name="capacity"
+              placeholder="Enter section capacity"
               register={register}
               errors={errors}
             />

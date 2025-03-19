@@ -9,12 +9,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import MultiCombobox from "@/components/ui/multi-combobox";
+import AddNewButton from "./AddNewButton";
 
 const MultiComboboxInput = ({
   register,
   errors = {},
   label = "",
   name = "",
+  href,
   toolTipText,
   options = [],
   placeholder = "Select options...",
@@ -61,16 +63,21 @@ const MultiComboboxInput = ({
           </TooltipProvider>
         )}
       </div>
+      <div className="flex gap-2">
+        <MultiCombobox
+          values={values}
+          onValuesChange={handleValuesChange}
+          options={options}
+          placeholder={placeholder}
+          emptyText={emptyText}
+          label={label}
+          showSearch={showSearch}
+        />
 
-      <MultiCombobox
-        values={values}
-        onValuesChange={handleValuesChange}
-        options={options}
-        placeholder={placeholder}
-        emptyText={emptyText}
-        label={label}
-        showSearch={showSearch}
-      />
+        {href && toolTipText && (
+          <AddNewButton toolTipText={toolTipText} href={href} />
+        )}
+      </div>
 
       {errors[name] && (
         <p className="text-xs text-destructive">{errors[name].message}</p>

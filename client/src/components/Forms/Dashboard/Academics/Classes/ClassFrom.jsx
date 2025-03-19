@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -10,8 +10,10 @@ import TextInput from "@/components/FormInputs/TextInput";
 import ComboboxInput from "@/components/FormInputs/ComboboxInput";
 
 // Form Options
-import { academicYears, departments } from "@/lib/formOption";
+import { academicYears } from "@/lib/formOption";
 import { createClass } from "@/utils/classAPI";
+import { getAllDepartments } from "@/utils/departmentAPI";
+import { getCurrentUser } from "@/utils/authAPI";
 
 // Class Form Component
 export function ClassForm({ editingId, initialData }) {
@@ -19,6 +21,7 @@ export function ClassForm({ editingId, initialData }) {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [departments, setDepartments] = useState([]);
 
   const {
     register,
@@ -33,6 +36,37 @@ export function ClassForm({ editingId, initialData }) {
       department: initialData?.department || "",
     },
   });
+
+  // Fetch departments on component mount
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        setLoading(true);
+        const userData = await getCurrentUser();
+        const response = await getAllDepartments(userData);
+        const departments = response.data.data;
+
+        const departmentOptions = departments.map((department) => ({
+          value: department._id,
+          label: department.departmentName,
+        }));
+
+        setDepartments(departmentOptions);
+      } catch (error) {
+        console.error("Error fetching departments:", error);
+        toast({
+          variant: "destructive",
+          title: "Error fetching departments",
+          description: error.message || "Please try again later.",
+        });
+        setDepartments([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDepartments();
+  }, [toast]);
 
   // Form submission handler
   async function onSubmit(data) {
@@ -54,7 +88,7 @@ export function ClassForm({ editingId, initialData }) {
           variant: "success",
         });
       }
-      navigate("/dashboard/academics/classes");
+      // navigate("/dashboard/academics/classes");
     } catch (error) {
       console.error(error);
       toast({

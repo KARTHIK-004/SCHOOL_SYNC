@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -14,21 +14,25 @@ import ImageInput from "@/components/FormInputs/ImageInput";
 
 import {
   titles,
-  subjects,
-  departments,
   countries,
   educationLevels,
   qualifications,
   teachingLevels,
   contractTypes,
 } from "@/lib/formOption";
+import { getCurrentUser } from "@/utils/authAPI";
+import { getAllDepartments } from "@/utils/departmentAPI";
+import { getAllSubjects } from "@/utils/subjectAPI";
+import { createTeacher } from "@/utils/teacherAPI";
 
 export default function TeacherForm({ editingId, initialData }) {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [departments, setDepartments] = useState([]);
+  const [subjects, setSubjects] = useState([]);
   const [imageUrl, setImageUrl] = useState(
-    initialData?.imageUrl || "/parent.png"
+    initialData?.imageUrl || "/teacher.png"
   );
 
   const {
@@ -38,32 +42,101 @@ export default function TeacherForm({ editingId, initialData }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      firstname: initialData?.firstname || "",
-      lastname: initialData?.lastname || "",
+      title: initialData?.title || "",
+      firstName: initialData?.firstName || "",
+      lastName: initialData?.lastName || "",
+      email: initialData?.email || "",
+      password: initialData?.password || "",
+      phoneNumber: initialData?.phoneNumber || "",
+      emergencyContact: initialData?.emergencyContact || "",
+      employeeId: initialData?.employeeId || "",
+      department: initialData?.department || "",
+      educationLevel: initialData?.educationLevel || "",
+      qualification: initialData?.qualification || "",
+      teachingLevel: initialData?.teachingLevel || "",
+      mainSubject: initialData?.mainSubject || "",
+      additionalSubject: initialData?.additionalSubject || "",
+      contractType: initialData?.contractType || "",
+      nationality: initialData?.nationality || "",
+      address: initialData?.address || "",
+      imageUrl: initialData?.imageUrl || "",
     },
   });
 
-  async function onSubmit(data) {
+  // Fetch departments on component mount
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        setLoading(true);
+        const userData = await getCurrentUser();
+
+        // Get departments
+        const deptResponse = await getAllDepartments(userData);
+        const departments = deptResponse.data.data || [];
+        const departmentOptions = departments.map((department) => ({
+          value: department._id,
+          label: department.departmentName,
+        }));
+        setDepartments(departmentOptions);
+
+        // Get subjects
+        const subjectResponse = await getAllSubjects(userData);
+        const subjects = subjectResponse.data || [];
+        const subjectOptions = subjects.map((subject) => ({
+          value: subject._id,
+          label: subject.subjectName,
+        }));
+        setSubjects(subjectOptions);
+      } catch (error) {
+        console.error("Error fetching departments:", error);
+        toast({
+          variant: "destructive",
+          title: "Error fetching departments",
+          description: error.message || "Please try again later.",
+        });
+        setDepartments([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDepartments();
+  }, [toast]);
+
+  async function onSubmit(formData) {
     try {
       setLoading(true);
       if (editingId) {
+        // await updateTeacher(formData);
         setLoading(false);
         toast({
           title: "Success",
           description: "Teacher updated successfully!",
           variant: "success",
         });
+        navigate("/dashboard/teachers");
       } else {
+        await createTeacher(formData);
         setLoading(false);
         toast({
           title: "Success",
           description: "Teacher created successfully!",
           variant: "success",
         });
+        // navigate("/dashboard/teachers");
+        // reset();
       }
     } catch (error) {
       setLoading(false);
-      console.log(error);
+      console.error(error);
+      console.error(error);
+      toast({
+        title: "Error",
+        description: "Failed to save subject",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -71,7 +144,7 @@ export default function TeacherForm({ editingId, initialData }) {
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormHeader
         href="/teachers"
-        parent=""
+        parent="academics"
         title="Teacher"
         editingId={editingId}
         loading={loading}
@@ -81,7 +154,7 @@ export default function TeacherForm({ editingId, initialData }) {
         <div className="lg:col-span-12 col-span-full space-y-3">
           <div className="grid gap-6">
             {/* Personal Information */}
-            <div className="grid sm:grid-cols-3 gap-4">
+            <div className="grid sm:grid-cols-1 lg:grid-cols-3 gap-4">
               <ComboboxInput
                 label="Title"
                 name="title"
@@ -92,14 +165,14 @@ export default function TeacherForm({ editingId, initialData }) {
               />
               <TextInput
                 label="First Name"
-                name="firstname"
+                name="firstName"
                 placeholder="John"
                 register={register}
                 errors={errors}
               />
               <TextInput
                 label="Last Name"
-                name="lastname"
+                name="lastName"
                 placeholder="Doe"
                 register={register}
                 errors={errors}
@@ -107,7 +180,7 @@ export default function TeacherForm({ editingId, initialData }) {
             </div>
 
             {/* Login Information */}
-            <div className="grid sm:grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4">
               <TextInput
                 label="School Email"
                 name="email"
@@ -128,35 +201,8 @@ export default function TeacherForm({ editingId, initialData }) {
               />
             </div>
 
-            {/* Professional Information */}
-            <div className="grid sm:grid-cols-3 gap-4">
-              <TextInput
-                label="Employee ID"
-                name="employeeId"
-                placeholder="Enter Employee ID"
-                register={register}
-                errors={errors}
-              />
-              <ComboboxInput
-                label="Department"
-                name="department"
-                placeholder="Select Department"
-                options={departments}
-                register={register}
-                errors={errors}
-              />
-              <ComboboxInput
-                label="Contract Type"
-                name="contractType"
-                placeholder="Select Contract Type"
-                options={contractTypes}
-                register={register}
-                errors={errors}
-              />
-            </div>
-
             {/* Contact Information */}
-            <div className="grid sm:grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4">
               <PhoneInput
                 label="Mobile Number"
                 name="phoneNumber"
@@ -172,8 +218,29 @@ export default function TeacherForm({ editingId, initialData }) {
               />
             </div>
 
+            {/* Professional Information */}
+            <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4">
+              <TextInput
+                label="Employee ID"
+                name="employeeId"
+                placeholder="Enter Employee ID"
+                register={register}
+                errors={errors}
+              />
+              <ComboboxInput
+                label="Department"
+                name="department"
+                placeholder="Select Department"
+                options={departments}
+                register={register}
+                errors={errors}
+                href="/dashboard/academics/departments/create"
+                toolTipText="Department where teacher works"
+              />
+            </div>
+
             {/* Academic Information */}
-            <div className="grid sm:grid-cols-3 gap-4">
+            <div className="grid sm:grid-cols-1 lg:grid-cols-3 gap-4">
               <ComboboxInput
                 label="Highest Education"
                 name="educationLevel"
@@ -201,29 +268,28 @@ export default function TeacherForm({ editingId, initialData }) {
             </div>
 
             {/* Subject Information */}
-            <div className="grid sm:grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4">
               <ComboboxInput
                 label="Main Subject"
                 name="mainSubject"
                 placeholder="Select Main Subject"
                 showSearch="true"
-                options={[]}
+                options={subjects}
                 register={register}
                 errors={errors}
                 toolTipText="Add New Subject"
-                href="/dashboard/academics/subject"
+                href="/dashboard/academics/subjects/create"
               />
-
               <ComboboxInput
-                label="Secondary Subject"
-                name="secondarySubject"
-                placeholder="Select Secondary Subject"
+                label="Additional Subject"
+                name="additionalSubject"
+                placeholder="Select Additional Subject"
                 showSearch="true"
-                options={[]}
+                options={subjects}
                 register={register}
                 errors={errors}
                 toolTipText="Add New Subject"
-                href="/dashboard/academics/subject"
+                href="/dashboard/academics/subjects/create"
               />
             </div>
 
@@ -231,10 +297,10 @@ export default function TeacherForm({ editingId, initialData }) {
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="space-y-4">
                 <ComboboxInput
-                  label="Subject Specialization"
-                  name="subjects"
-                  placeholder="Select Subjects"
-                  options={subjects}
+                  label="Contract Type"
+                  name="contractType"
+                  placeholder="Select Contract Type"
+                  options={contractTypes}
                   register={register}
                   errors={errors}
                 />
@@ -270,7 +336,7 @@ export default function TeacherForm({ editingId, initialData }) {
 
       <FormFooter
         href="/teachers"
-        parent=""
+        parent="academics"
         title="Teacher"
         editingId={editingId}
         loading={loading}
