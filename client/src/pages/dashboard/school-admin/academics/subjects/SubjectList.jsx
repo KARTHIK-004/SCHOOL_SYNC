@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Building, Pencil, Plus, Trash } from "lucide-react";
+import { BookOpen, Pencil, Plus, Trash } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-export default function DepartmentList({
-  departments = [],
-  selectedDepartment,
+export default function SubjectList({
+  subjects = [],
+  selectedSubject,
   onSelect,
   isLoading,
   searchQuery = "",
@@ -21,27 +21,27 @@ export default function DepartmentList({
       <div className="px-4 h-full flex flex-col">
         <div className="flex items-center justify-between py-4">
           <div className="flex items-center gap-2">
-            <Building className="h-5 w-5" />
-            <h2 className="text-xl font-semibold">Departments</h2>
+            <BookOpen className="h-5 w-5" />
+            <h2 className="text-xl font-semibold">Subjects</h2>
           </div>
           <Button
             variant="ghost"
             size="icon"
             asChild
-            aria-label="Add new department"
+            aria-label="Add new subject"
           >
-            <Link to="/dashboard/academics/departments/create">
+            <Link to="/dashboard/academics/subjects/create">
               <Plus className="h-5 w-5" />
             </Link>
           </Button>
         </div>
         <Input
           type="search"
-          placeholder="Search departments..."
+          placeholder="Search subjects..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="my-3"
-          aria-label="Search departments"
+          aria-label="Search subjects"
         />
         <ScrollArea className="flex-1">
           {isLoading ? (
@@ -56,30 +56,30 @@ export default function DepartmentList({
                 </div>
               ))}
             </div>
-          ) : departments.length > 0 ? (
+          ) : subjects.length > 0 ? (
             <ul className="space-y-1">
-              {departments.map((department) => (
-                <li key={department._id}>
+              {subjects.map((subject) => (
+                <li key={subject._id}>
                   <div className="relative group">
                     <button
                       className={`block w-full text-left p-3 rounded-lg transition ${
-                        selectedDepartment?._id === department._id
+                        selectedSubject?._id === subject._id
                           ? "bg-primary/10"
                           : "hover:bg-muted"
                       }`}
-                      onClick={() => onSelect(department)}
-                      aria-label={`Select ${department.departmentName}`}
+                      onClick={() => onSelect(subject)}
+                      aria-label={`Select ${subject.subjectName}`}
                     >
                       <div className="flex-1 min-w-0">
                         <h3 className="text-base font-medium truncate">
-                          {department.departmentName}
+                          {subject.subjectName}
                         </h3>
                         <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
-                          <Building className="w-3 h-3 mr-1" />
-                          <span>Dept ID -</span>
-                          {department.departmentCode && (
+                          <BookOpen className="w-3 h-3 mr-1" />
+                          <span>Subject ID -</span>
+                          {subject.subjectCode && (
                             <span className="px-1.5 py-0.5 bg-secondary/20 rounded text-secondary-foreground">
-                              {department.departmentCode}
+                              {subject.subjectCode}
                             </span>
                           )}
                         </div>
@@ -90,10 +90,10 @@ export default function DepartmentList({
                         variant="ghost"
                         size="icon"
                         asChild
-                        aria-label="Edit department"
+                        aria-label="Edit subject"
                       >
                         <Link
-                          to={`/dashboard/academics/departments/edit/${department._id}`}
+                          to={`/dashboard/academics/subjects/edit/${subject._id}`}
                         >
                           <Pencil className="h-4 w-4" />
                         </Link>
@@ -101,7 +101,7 @@ export default function DepartmentList({
                       <Button
                         variant="ghost"
                         size="icon"
-                        aria-label="Delete department"
+                        aria-label="Delete subject"
                       >
                         <Trash className="h-4 w-4" />
                       </Button>
@@ -111,7 +111,7 @@ export default function DepartmentList({
               ))}
             </ul>
           ) : (
-            <div className="flex justify-center p-4">No departments found</div>
+            <div className="flex justify-center p-4">No subjects found</div>
           )}
         </ScrollArea>
       </div>

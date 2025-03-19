@@ -2,9 +2,62 @@ import mongoose from "mongoose";
 
 const subjectSchema = new mongoose.Schema(
   {
-    userId: {
+    subjectName: {
+      type: String,
+      required: [true, "Subject name is required"],
+    },
+    subjectCode: {
+      type: String,
+      unique: true,
+      uppercase: true,
+    },
+    shortName: {
+      type: String,
+      required: true,
+    },
+    passingMark: {
+      type: Number,
+      min: [0, "Passing mark cannot be negative"],
+      required: true,
+    },
+    academicYear: {
+      type: String,
+      required: true,
+    },
+    offersCourses: {
+      type: Boolean,
+      default: true,
+    },
+    hasLabs: {
+      type: Boolean,
+      default: false,
+    },
+    hasTheory: {
+      type: Boolean,
+      default: false,
+    },
+    hasPractical: {
+      type: Boolean,
+      default: true,
+    },
+    optional: {
+      type: Boolean,
+      default: true,
+    },
+    department: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Department",
+    },
+    departmentCategory: {
+      type: String,
+      required: true,
+    },
+    departmentType: {
+      type: String,
+      required: true,
+    },
+    courseType: {
+      type: String,
       required: true,
     },
     schoolId: {
@@ -12,31 +65,13 @@ const subjectSchema = new mongoose.Schema(
       ref: "School",
       required: true,
     },
-    subjectName: {
-      type: String,
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
-    },
-    subjectCode: {
-      type: String,
-      required: true,
-    },
-    academicYear: {
-      type: String,
-      required: true,
-    },
-    isCore: {
-      type: Boolean,
-      default: true,
-    },
-    isActive: {
-      type: Boolean,
-      default: true,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-const Subject = mongoose.model("Subject", subjectSchema);
-export default Subject;
+export default mongoose.model("Subject", subjectSchema);

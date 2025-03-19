@@ -1,7 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+
+// API Imports
+import { getAllDepartments } from "@/utils/departmentAPI";
+import { getCurrentUser } from "@/utils/authAPI";
+import { createSubject } from "@/utils/subjectAPI";
 
 // Component Imports
 import FormHeader from "../../FormHeader";
@@ -14,8 +19,12 @@ import {
   academicYears,
   courseTypeOptions,
   departmentCategories,
+  departmentTypes,
   hasLabs,
+  hasPractical,
+  hasTheory,
   offersCourses,
+  optional,
 } from "@/lib/formOption";
 
 // Subject Form Component
@@ -24,6 +33,7 @@ export function SubjectForm({ editingId, initialData }) {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [departments, setDepartments] = useState([]);
 
   const {
     register,
@@ -34,8 +44,51 @@ export function SubjectForm({ editingId, initialData }) {
     defaultValues: {
       subjectName: initialData?.subjectName || "",
       subjectCode: initialData?.subjectCode || "",
+      shortName: initialData?.shortName || "",
+      passingMark: initialData?.passingMark || "",
+      department: initialData?.department?._id || "",
+      academicYear: initialData?.academicYear || "",
+      offersCourses: initialData?.offersCourses || "",
+      hasLabs: initialData?.hasLabs || "",
+      hasTheory: initialData?.hasTheory || "",
+      hasPractical: initialData?.hasPractical || "",
+      optional: initialData?.optional || "",
+      departmentCategory: initialData?.departmentCategory || "",
+      departmentType: initialData?.departmentType || "",
+      courseType: initialData?.courseType || "",
     },
   });
+
+  // Fetch departments on component mount
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        setLoading(true);
+        const userData = await getCurrentUser();
+        const response = await getAllDepartments(userData);
+        const departments = response.data.data;
+
+        const departmentOptions = departments.map((department) => ({
+          value: department._id,
+          label: department.departmentName,
+        }));
+
+        setDepartments(departmentOptions);
+      } catch (error) {
+        console.error("Error fetching departments:", error);
+        toast({
+          variant: "destructive",
+          title: "Error fetching departments",
+          description: error.message || "Please try again later.",
+        });
+        setDepartments([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDepartments();
+  }, [toast]);
 
   // Form submission handler
   async function onSubmit(data) {
@@ -50,14 +103,15 @@ export function SubjectForm({ editingId, initialData }) {
           variant: "success",
         });
       } else {
-        // await createSubject(data);
+        await createSubject(data);
         toast({
           title: "Success",
           description: "Subject created successfully!",
           variant: "success",
         });
       }
-      navigate("/dashboard/academics/subjects");
+      // navigate("/dashboard/academics/subjects");
+      // reset();
     } catch (error) {
       console.error(error);
       toast({
@@ -82,7 +136,7 @@ export function SubjectForm({ editingId, initialData }) {
 
       <div className="grid grid-cols-12 gap-6 py-8">
         <div className="lg:col-span-12 col-span-full space-y-6">
-          {/* Basic Information - Three columns */}
+          {/* Basic Information Section */}
           <div className="grid sm:grid-cols-3 gap-4">
             <TextInput
               label="Subject Name"
@@ -107,7 +161,7 @@ export function SubjectForm({ editingId, initialData }) {
             />
           </div>
 
-          {/* Additional Info - Two columns */}
+          {/* Subject Details Section */}
           <div className="grid sm:grid-cols-2 gap-4">
             <TextInput
               label="Passing Mark"
@@ -117,21 +171,67 @@ export function SubjectForm({ editingId, initialData }) {
               errors={errors}
             />
             <ComboboxInput
+              label="Department"
+              name="department" // Changed from departmentName
+              options={departments}
+              showSearch={true}
+              register={register}
+              errors={errors}
+              href="/dashboard/academics/departments"
+              toolTipText="Create a new department"
+            />
+          </div>
+
+          {/* Academic Properties Section */}
+          <div className="grid sm:grid-cols-3 gap-4">
+            <ComboboxInput
               label="Academic Year"
               name="academicYear"
               options={academicYears}
               register={register}
               errors={errors}
             />
-          </div>
-
-          {/* Academic Details - Three columns */}
-          <div className="grid sm:grid-cols-3 gap-4">
+            <ComboboxInput
+              label="Course Type"
+              name="courseType"
+              placeholder="Select course type"
+              options={courseTypeOptions}
+              register={register}
+              errors={errors}
+            />
             <ComboboxInput
               label="Offers Courses"
               name="offersCourses"
               placeholder="Select yes or no"
               options={offersCourses}
+              register={register}
+              errors={errors}
+            />
+          </div>
+
+          {/* Subject Characteristics Section */}
+          <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <ComboboxInput
+              label="Optional"
+              name="optional"
+              placeholder="Select yes or no"
+              options={optional}
+              register={register}
+              errors={errors}
+            />
+            <ComboboxInput
+              label="Has Theory"
+              name="hasTheory"
+              placeholder="Select yes or no"
+              options={hasTheory}
+              register={register}
+              errors={errors}
+            />
+            <ComboboxInput
+              label="Has Practical"
+              name="hasPractical"
+              placeholder="Select yes or no"
+              options={hasPractical}
               register={register}
               errors={errors}
             />
@@ -143,24 +243,9 @@ export function SubjectForm({ editingId, initialData }) {
               register={register}
               errors={errors}
             />
-
-            <ComboboxInput
-              label="Department"
-              name="department"
-              options={[
-                { label: "Science", value: "science" },
-                { label: "Arts", value: "arts" },
-                { label: "Commerce", value: "commerce" },
-              ]}
-              showSearch={true}
-              register={register}
-              errors={errors}
-              href="/dashboard/academics/departments"
-              toolTipText="Create a new department"
-            />
           </div>
 
-          {/* Additional Flags - Two columns */}
+          {/* Department Classification Section */}
           <div className="grid sm:grid-cols-2 gap-4">
             <ComboboxInput
               label="Department Category"
@@ -170,10 +255,11 @@ export function SubjectForm({ editingId, initialData }) {
               errors={errors}
             />
             <ComboboxInput
-              label="Course Type"
-              name="courseType"
-              placeholder="Select course type"
-              options={courseTypeOptions}
+              label="Department Type"
+              name="departmentType"
+              placeholder="Select department type"
+              showSearch={true}
+              options={departmentTypes}
               register={register}
               errors={errors}
             />

@@ -1,17 +1,17 @@
-import axios from "axios";
+import api from "./apiConfig";
 
 export const createSubject = async (subjectData) => {
   try {
-    const response = await axios.post("/subjects/create", subjectData);
+    const response = await api.post("/subjects/create", subjectData);
     return response.data;
   } catch (error) {
     throw error.response.data;
   }
 };
 
-export const getSubjects = async () => {
+export const getAllSubjects = async () => {
   try {
-    const response = await axios.get("/subjects");
+    const response = await api.get("/subjects");
     return response.data;
   } catch (error) {
     throw error.response.data;
