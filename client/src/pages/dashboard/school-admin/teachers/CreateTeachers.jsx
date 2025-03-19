@@ -47,7 +47,7 @@ export default function CreateTeachers() {
   };
 
   return (
-    <ScrollArea className="sm:h-full lg:h-[calc(100vh-4rem)]">
+    <ScrollArea className="sm:h-full md:h-[calc(100vh-4rem)]">
       <div className="container flex-1 space-y-4 p-4 md:p-8 max-w-6xl">
         <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>

@@ -37,7 +37,7 @@ import ParentDetails from "./pages/dashboard/school-admin/parents/ParentDetails"
 import CreateParents from "./pages/dashboard/school-admin/parents/CreateParents";
 
 // Teachers
-import TeacherDirectory from "./pages/dashboard/school-admin/teachers/TeacherDirectory";
+import TeacherDirectory from "./pages/dashboard/school-admin/teachers/directory/TeacherDirectory";
 import TeacherDetails from "./pages/dashboard/school-admin/teachers/TeacherDetails";
 import CreateTeachers from "./pages/dashboard/school-admin/teachers/CreateTeachers";
 

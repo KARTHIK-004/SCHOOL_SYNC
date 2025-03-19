@@ -184,14 +184,44 @@ export const createTeacher = async (req, res) => {
   }
 };
 
-export const getTeachers = async (req, res) => {
+export const getAllTeachers = async (req, res) => {
   try {
-    const schoolId = req.user.school;
-    const teachers = await Teacher.find({ schoolId });
+    const school = await School.findOne({ userId: req.user.id });
+    if (!school) {
+      return res.status(403).json({
+        status: "error",
+        message: "School admin must be associated with a school",
+      });
+    }
+
+    const teachers = await Teacher.find({ schoolId: school._id });
 
     res.status(200).json({
       status: "success",
       data: teachers,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+};
+
+export const getTeacherById = async (req, res) => {
+  try {
+    const teacher = await Teacher.findById(req.params.id);
+
+    if (!teacher) {
+      return res.status(404).json({
+        status: "error",
+        message: "Teacher not found",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: teacher,
     });
   } catch (error) {
     res.status(500).json({
