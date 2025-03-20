@@ -9,7 +9,7 @@ import {
   SheetDescription,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import ClassList from "./ClassList";
+import ClassList from "./classes/ClassList";
 // import ClassDetails from "./ClassDetails";
 import { useToast } from "@/hooks/use-toast";
 import { getCurrentUser } from "@/utils/authAPI";

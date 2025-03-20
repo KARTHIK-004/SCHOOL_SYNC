@@ -1,33 +1,55 @@
 import Section from "../models/section.model.js";
 import Class from "../models/class.model.js";
+import School from "../models/school.model.js";
+import Teacher from "../models/teacher.model.js";
 import User from "../models/user.model.js";
 
 export const createSection = async (req, res) => {
   try {
     const {
       classId,
+      teacherId,
       sectionName,
       sectionCode,
+      roomNumber,
       capacity,
       description,
-      academicYear,
+      students = [],
     } = req.body;
 
     const userId = req.user.id;
     const schoolId = req.user.school;
 
-    if (!classId || !sectionName || !sectionCode || !academicYear) {
+    if (
+      !userId ||
+      !teacherId ||
+      !sectionName ||
+      !sectionCode ||
+      !roomNumber ||
+      !description ||
+      !capacity
+    ) {
       return res.status(400).json({
         status: "error",
         message: "Please provide all required fields",
       });
     }
 
+    // Validate user
     const user = await User.findById(userId);
     if (!user || (user.role !== "schoolAdmin" && user.role !== "admin")) {
       return res.status(403).json({
         status: "error",
-        message: "You are not authorized to create sections",
+        message: "Unauthorized to create subjects",
+      });
+    }
+
+    // Check if school exists
+    const school = await School.findById(schoolId);
+    if (!school) {
+      return res.status(404).json({
+        status: "error",
+        message: "School not found",
       });
     }
 
@@ -39,17 +61,17 @@ export const createSection = async (req, res) => {
       });
     }
 
-    if (classData.schoolId.toString() !== schoolId.toString()) {
-      return res.status(403).json({
+    const validTeacher = await Teacher.findById(teacherId);
+    if (!validTeacher) {
+      return res.status(400).json({
         status: "error",
-        message: "You can only create sections for your school's classes",
+        message: "Invalid teacher ID",
       });
     }
 
     const existingSection = await Section.findOne({
       classId,
       sectionCode,
-      academicYear,
     });
 
     if (existingSection) {
@@ -66,9 +88,11 @@ export const createSection = async (req, res) => {
       schoolId,
       sectionName,
       sectionCode,
-      capacity: capacity || 30,
+      teacherId,
+      roomNumber,
+      capacity,
       description,
-      academicYear,
+      students,
     });
 
     const savedSection = await newSection.save();
@@ -174,14 +198,7 @@ export const getSectionById = async (req, res) => {
 export const updateSection = async (req, res) => {
   try {
     const { id } = req.params;
-    const {
-      sectionName,
-      sectionCode,
-      capacity,
-      description,
-      academicYear,
-      isActive,
-    } = req.body;
+    const { sectionName, sectionCode, capacity, description } = req.body;
 
     const userId = req.user.id;
     const schoolId = req.user.school;
@@ -213,7 +230,6 @@ export const updateSection = async (req, res) => {
       const existingSection = await Section.findOne({
         classId: section.classId,
         sectionCode,
-        academicYear,
         _id: { $ne: id },
       });
 
@@ -233,8 +249,6 @@ export const updateSection = async (req, res) => {
         sectionCode,
         capacity,
         description,
-        academicYear,
-        isActive,
       },
       { new: true }
     );

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const sectionSchema = new mongoose.Schema(
   {
-    userID: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
@@ -25,20 +25,18 @@ const sectionSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    capacity: {
-      type: Number,
-      default: 30,
-    },
-    description: {
-      type: String,
-    },
-    academicYear: {
+    roomNumber: {
       type: String,
       required: true,
     },
-    isActive: {
-      type: Boolean,
-      default: true,
+    capacity: {
+      type: Number,
+      default: 30,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
     },
     students: [
       {
@@ -46,12 +44,10 @@ const sectionSchema = new mongoose.Schema(
         ref: "Student",
       },
     ],
-    teachers: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Teacher",
-      },
-    ],
+    teacherId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Teacher",
+    },
   },
   {
     timestamps: true,

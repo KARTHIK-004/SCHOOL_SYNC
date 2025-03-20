@@ -6,8 +6,6 @@ import {
   Phone,
   User,
   Calendar,
-  MapPin,
-  Flag,
   AlertCircle,
   Briefcase,
   BookOpen,
@@ -488,7 +486,7 @@ const TeacherProfile = () => {
                         <span className="font-medium text-sm text-muted-foreground">
                           Total:
                         </span>
-                        <span className="text-sm font-medium font-bold">
+                        <span className="text-sm font-medium">
                           {salaryDetails.basic && salaryDetails.allowances
                             ? `$${(
                                 salaryDetails.basic + salaryDetails.allowances

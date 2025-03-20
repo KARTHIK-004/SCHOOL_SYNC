@@ -10,10 +10,10 @@ import TextInput from "@/components/FormInputs/TextInput";
 import ComboboxInput from "@/components/FormInputs/ComboboxInput";
 import TextArea from "@/components/FormInputs/TextAreaInput";
 
-// Form Options
-import { academicYears } from "@/lib/formOption";
 import { getAllClasses } from "@/utils/classAPI";
 import { getCurrentUser } from "@/utils/authAPI";
+import { getAllTeachers } from "@/utils/teacherAPI";
+import { createSection } from "@/utils/sectionAPI";
 
 export function SectionForm({ editingId, initialData }) {
   // Hooks
@@ -21,6 +21,7 @@ export function SectionForm({ editingId, initialData }) {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [classes, setClasses] = useState([]);
+  const [teachers, setTeachers] = useState([]);
 
   const {
     register,
@@ -31,6 +32,11 @@ export function SectionForm({ editingId, initialData }) {
     defaultValues: {
       sectionName: initialData?.sectionName || "",
       sectionCode: initialData?.sectionCode || "",
+      classId: initialData?.classId || "",
+      teacherId: initialData?.teacherId || "",
+      roomNumber: initialData?.roomNumber || "",
+      capacity: initialData?.capacity || "",
+      description: initialData?.description || "",
     },
   });
 
@@ -39,14 +45,23 @@ export function SectionForm({ editingId, initialData }) {
       try {
         setLoading(true);
         const userData = await getCurrentUser();
-        const response = await getAllClasses(userData);
-        const classesData = response.data || [];
+        // Fetch Classes
+        const classResponse = await getAllClasses(userData);
+        const classesData = classResponse.data || [];
         const classOptions = classesData.map((classItem) => ({
           value: classItem._id,
           label: classItem.className,
         }));
-        console.log(classOptions);
         setClasses(classOptions);
+
+        // Fetch Teachers
+        const teacherResponse = await getAllTeachers(userData);
+        const teachersData = teacherResponse.data || [];
+        const teacherOptions = teachersData.map((teacher) => ({
+          value: teacher._id,
+          label: `${teacher.firstName} ${teacher.lastName}`,
+        }));
+        setTeachers(teacherOptions);
       } catch (error) {
         console.error("Error fetching classes:", error);
         toast({
@@ -76,14 +91,15 @@ export function SectionForm({ editingId, initialData }) {
           variant: "success",
         });
       } else {
-        // await createSection(data);
+        await createSection(data);
         toast({
           title: "Success",
           description: "Section created successfully!",
           variant: "success",
         });
       }
-      navigate("/dashboard/academics/sections");
+      // navigate("/dashboard/academics/classes");
+      // reset();
     } catch (error) {
       console.error(error);
       toast({
@@ -133,49 +149,55 @@ export function SectionForm({ editingId, initialData }) {
             <ComboboxInput
               label="Associated Class"
               name="classId"
+              placeholder="Select Class"
+              showSearch={true}
               options={classes}
               register={register}
               errors={errors}
-              required
               toolTipText="Add New Class"
               href="/dashboard/academics/classes/create"
             />
             <ComboboxInput
               label="Class Teacher"
               name="teacherId"
-              options={[]}
+              placeholder="Select Teacher"
+              showSearch={true}
+              options={teachers}
               register={register}
               errors={errors}
               toolTipText="Add New Teacher"
-              href="/dashboard/staff/create"
+              href="/dashboard/teachers/create"
             />
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4">
-            <TextInput
-              label="Room Number"
-              name="roomNumber"
-              placeholder="e.g. 101"
+            <div className="space-y-4">
+              <TextInput
+                label="Room Number"
+                name="roomNumber"
+                placeholder="e.g. 101"
+                register={register}
+                errors={errors}
+              />
+              <TextInput
+                label="Capacity"
+                name="capacity"
+                placeholder="eg. 30"
+                register={register}
+                errors={errors}
+              />
+            </div>
+
+            {/* Description */}
+            <TextArea
+              label="Description"
+              name="description"
+              placeholder="Enter section description"
               register={register}
               errors={errors}
-            />
-            <TextInput
-              label="Capacity"
-              name="capacity"
-              placeholder="Enter section capacity"
-              register={register}
-              errors={errors}
+              rows={5}
             />
           </div>
-
-          {/* Description */}
-          <TextArea
-            label="Description"
-            name="description"
-            placeholder="Enter section description"
-            register={register}
-            errors={errors}
-          />
         </div>
       </div>
 

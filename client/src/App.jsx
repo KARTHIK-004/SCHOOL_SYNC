@@ -44,10 +44,10 @@ import CreateTeachers from "./pages/dashboard/school-admin/teachers/CreateTeache
 // Academics
 // Classes
 import ClassesAndSection from "./pages/dashboard/school-admin/academics/classes/ClassesAndSection";
-import CreateClasses from "./pages/dashboard/school-admin/academics/classes/CreateClasses";
+import CreateClasses from "./pages/dashboard/school-admin/academics/class-section/classes/CreateClasses";
 
 // Sections
-import CreateSection from "./pages/dashboard/school-admin/academics/sections/CreateSections";
+import CreateSection from "./pages/dashboard/school-admin/academics/class-section/sections/CreateSections";
 import CreateSchool from "./pages/dashboard/school-admin/schools/CreateSchool";
 
 // Departments
@@ -57,7 +57,7 @@ import CreateDepartment from "./pages/dashboard/school-admin/academics/departmen
 // Subjects
 import SubjectManagement from "./pages/dashboard/school-admin/academics/subjects/SubjectManagement";
 import CreateSubject from "./pages/dashboard/school-admin/academics/subjects/CreateSubject";
-import ClassManagement from "./pages/dashboard/school-admin/academics/classes/class-section/ClassManagement";
+import ClassManagement from "./pages/dashboard/school-admin/academics/class-section/ClassManagement";
 
 export default function App() {
   return (

@@ -69,7 +69,7 @@ export default function SubjectDetails({ selectedSubject, isLoading }) {
           </Button>
         </div>
       </header>
-      <ScrollArea className="h-[calc(100vh-9rem)]">
+      <ScrollArea className="md:h-[calc(100vh-9rem)]">
         <main className="p-4 lg:p-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 mb-6">
             {isLoading ? (
