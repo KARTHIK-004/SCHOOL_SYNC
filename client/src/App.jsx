@@ -27,7 +27,7 @@ import ContactSubmissions from "./pages/dashboard/admin/contacts/Contacts";
 
 // School Admin
 // Students
-import StudentDirectory from "./pages/dashboard/school-admin/students/StudentDirectory.jsx";
+import StudentDirectory from "./pages/dashboard/school-admin/students/directory/StudentDirectory";
 import StudentDetails from "./pages/dashboard/school-admin/students/StudentDetails";
 import CreateStudents from "./pages/dashboard/school-admin/students/CreateStudents";
 

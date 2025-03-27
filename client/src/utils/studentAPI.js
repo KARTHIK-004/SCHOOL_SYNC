@@ -18,7 +18,7 @@ export const updateStudent = async (id, studentData) => {
   }
 };
 
-export const getStudents = async () => {
+export const getAllStudents = async () => {
   try {
     const response = await api.get("/students");
     return response.data;
