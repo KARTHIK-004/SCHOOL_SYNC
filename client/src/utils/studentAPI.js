@@ -2,7 +2,7 @@ import api from "@/utils/apiConfig";
 
 export const createStudent = async (studentData) => {
   try {
-    const response = await api.post("/students", studentData);
+    const response = await api.post("/students/create", studentData);
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : error.message;

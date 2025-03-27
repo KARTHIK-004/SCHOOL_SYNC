@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
@@ -15,37 +15,126 @@ import TextArea from "@/components/FormInputs/TextAreaInput";
 import ImageInput from "@/components/FormInputs/ImageInput";
 
 // Form Options
-import {
-  bloodGroups,
-  classes,
-  countries,
-  genders,
-  parents,
-  religions,
-  sections,
-  titles,
-} from "@/lib/formOption";
+import { bloodGroups, countries, genders, religions } from "@/lib/formOption";
+import { getCurrentUser } from "@/utils/authAPI";
+import { getAllClasses } from "@/utils/classAPI";
+import { getSectionsByClass } from "@/utils/sectionAPI";
+import { getAllParents } from "@/utils/parentAPI";
+import { createStudent } from "@/utils/studentAPI";
 
 export default function SingleStudent({ editingId, initialData }) {
   // Hooks
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  // State
   const [loading, setLoading] = useState(false);
+  const [parents, setParents] = useState([]);
+  const [classes, setClasses] = useState([]);
+  const [sections, setSections] = useState([]);
   const [imageUrl, setImageUrl] = useState(
     initialData?.imageUrl || "/student.png"
   );
+  const [selectedClassId, setSelectedClassId] = useState(null);
 
   const {
     register,
     handleSubmit,
     reset,
+    control,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      firstname: initialData?.firstname || "",
-      lastname: initialData?.lastname || "",
+      firstName: initialData?.firstName || "",
+      lastName: initialData?.lastName || "",
+      classId: initialData?.class || "",
+      sectionId: initialData?.section || "",
+      parentId: initialData?.parent || "",
     },
   });
+
+  // Watch for changes to the class field
+  const selectedClass = watch("classId");
+
+  // Fetch initial data (classes and parents)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const userData = await getCurrentUser();
+
+        // Fetch Classes
+        const classResponse = await getAllClasses(userData);
+        const classesData = classResponse.data || [];
+        const classOptions = classesData.map((classItem) => ({
+          value: classItem._id,
+          label: classItem.className,
+        }));
+        setClasses(classOptions);
+
+        // Fetch Parents
+        const parentResponse = await getAllParents(userData);
+        const parentsData = parentResponse.data || [];
+        const parentOptions = parentsData.map((parent) => ({
+          value: parent._id,
+          label: `${parent.firstName} ${parent.lastName}`,
+        }));
+        setParents(parentOptions);
+
+        // Set initial class ID if available in initialData
+        if (initialData?.class) {
+          setSelectedClassId(initialData.class);
+        }
+      } catch (error) {
+        console.error("Error fetching initial data:", error);
+        toast({
+          variant: "destructive",
+          title: "Error fetching data",
+          description: error.message || "Please try again later.",
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [toast, initialData]);
+
+  // Update sections when class selection changes
+  useEffect(() => {
+    const fetchSections = async () => {
+      if (!selectedClass) return;
+
+      try {
+        setLoading(true);
+        const sectionResponse = await getSectionsByClass(selectedClass);
+        const sectionsData = sectionResponse.data || [];
+        const sectionOptions = sectionsData.map((section) => ({
+          value: section._id,
+          label: section.sectionName,
+        }));
+        setSections(sectionOptions);
+
+        setValue("sectionId", "");
+      } catch (error) {
+        console.error("Error fetching sections:", error);
+        toast({
+          variant: "destructive",
+          title: "Error fetching sections",
+          description: error.message || "Please try again later.",
+        });
+        setSections([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (selectedClass) {
+      fetchSections();
+    }
+  }, [selectedClass, toast, setValue]);
 
   // Form submission handler
   async function onSubmit(data) {
@@ -53,27 +142,33 @@ export default function SingleStudent({ editingId, initialData }) {
       setLoading(true);
 
       if (editingId) {
-        // await updateCategoryById(editingId, data);
-        setLoading(false);
-        toast({
-          title: "Success",
-          description: "Student created successfully!",
-          variant: "success",
-        });
-      } else {
-        // await createCategory(data);
+        // await updateStudent(editingId, data);
         setLoading(false);
         toast({
           title: "Success",
           description: "Student updated successfully!",
           variant: "success",
         });
+      } else {
+        await createStudent(data);
+        setLoading(false);
+        toast({
+          title: "Success",
+          description: "Student created successfully!",
+          variant: "success",
+        });
       }
+      // navigate("/dashboard/students");
+      // reset
     } catch (error) {
       setLoading(false);
-      console.log(error);
+      console.error("Error submitting form:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message || "Something went wrong. Please try again.",
+      });
     }
-    console.log(data);
   }
 
   return (
@@ -93,14 +188,14 @@ export default function SingleStudent({ editingId, initialData }) {
             <div className="grid sm:grid-cols-2 gap-4">
               <TextInput
                 label="First Name"
-                name="firstname"
+                name="firstName"
                 placeholder="John"
                 register={register}
                 errors={errors}
               />
               <TextInput
                 label="Last Name"
-                name="lastname"
+                name="lastName"
                 placeholder="Doe"
                 register={register}
                 errors={errors}
@@ -165,14 +260,14 @@ export default function SingleStudent({ editingId, initialData }) {
               />
               <TextInput
                 label="Birth Certificate No"
-                name="birthcertificateno"
+                name="birthCertificateNo"
                 placeholder="Enter Birth Certificate Number"
                 register={register}
                 errors={errors}
               />
               <TextInput
                 label="Register No"
-                name="regno"
+                name="regNo"
                 placeholder="Enter Register Number"
                 register={register}
                 errors={errors}
@@ -181,19 +276,29 @@ export default function SingleStudent({ editingId, initialData }) {
 
             {/* Academic Information */}
             <div className="grid sm:grid-cols-2 gap-4">
-              <ComboboxInput
-                label="Class"
-                name="class"
-                showSearch
-                options={classes}
-                register={register}
-                errors={errors}
-                toolTipText="Add New Class"
-                href="/dashboard/academics/classes"
+              <Controller
+                name="classId"
+                control={control}
+                render={({ field }) => (
+                  <ComboboxInput
+                    label="Class"
+                    name="classId"
+                    showSearch
+                    options={classes}
+                    register={register}
+                    errors={errors}
+                    toolTipText="Add New Class"
+                    href="/dashboard/academics/classes"
+                    onChange={(value) => {
+                      field.onChange(value);
+                    }}
+                    value={field.value}
+                  />
+                )}
               />
               <ComboboxInput
                 label="Section"
-                name="section"
+                name="sectionId"
                 showSearch
                 options={sections}
                 register={register}
@@ -207,7 +312,7 @@ export default function SingleStudent({ editingId, initialData }) {
             <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4">
               <ComboboxInput
                 label="Parent Name"
-                name="parent"
+                name="parentId"
                 placeholder="Select a parent"
                 showSearch
                 options={parents}
