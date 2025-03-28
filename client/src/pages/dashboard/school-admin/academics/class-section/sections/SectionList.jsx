@@ -80,6 +80,8 @@ export default function SectionList({ selectedClass }) {
     fetchData();
   }, [selectedClass]);
 
+  console.log(sections);
+
   return (
     <div className="flex-1 h-full overflow-hidden">
       {/* Header */}
@@ -156,7 +158,7 @@ export default function SectionList({ selectedClass }) {
                       <div className="flex justify-between text-sm">
                         <span className="text-muted-foreground">Students:</span>
                         <span className="font-medium">
-                          {section.studentId?.length || 0}
+                          {section.students?.length || 0}
                         </span>
                       </div>
                     </div>

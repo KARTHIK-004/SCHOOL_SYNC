@@ -7,7 +7,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export default function WelcomeBanner({ schoolData }) {
   const [school, setSchool] = useState(null);
   const [loading, setLoading] = useState(true);
-  console.log(schoolData);
 
   useEffect(() => {
     if (schoolData) {

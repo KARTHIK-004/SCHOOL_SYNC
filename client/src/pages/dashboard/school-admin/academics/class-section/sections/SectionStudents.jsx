@@ -39,7 +39,7 @@ import { useToast } from "@/hooks/use-toast";
 import { getSectionById } from "@/utils/sectionAPI";
 import { getClassById } from "@/utils/classAPI";
 import { getParentById } from "@/utils/parentAPI";
-import { getAllStudents } from "@/utils/studentAPI";
+import { getAllStudents, getStudentById } from "@/utils/studentAPI";
 import { getCurrentUser } from "@/utils/authAPI";
 
 const SectionStudents = () => {
@@ -61,21 +61,19 @@ const SectionStudents = () => {
         const sectionData = sectionResponse.data;
         setSection(sectionData);
 
-        const userData = await getCurrentUser();
-        const allStudentsResponse = await getAllStudents(userData);
-        const allStudents = allStudentsResponse.data || [];
-
-        const sectionStudents = allStudents.filter(
-          (student) => student.sectionId === sectionData._id
+        const studentPromises = sectionData.students.map((studentId) =>
+          getStudentById(studentId).then((res) => res.data)
         );
 
-        setStudents(sectionStudents);
-        setFilteredStudents(sectionStudents);
+        const studentsData = await Promise.all(studentPromises);
+
+        setStudents(studentsData);
+        setFilteredStudents(studentsData);
       } catch (error) {
         console.error("Error fetching section details:", error);
         toast({
           title: "Section Data Fetch Error",
-          description: "Failed to load section information",
+          description: error.message || "Failed to load section information",
           variant: "destructive",
         });
       } finally {
@@ -89,8 +87,6 @@ const SectionStudents = () => {
   if (isLoading) {
     return <SectionStudentsSkeleton />;
   }
-
-  console.log(section);
 
   if (!section) {
     return (
@@ -236,7 +232,8 @@ const SectionStudents = () => {
                   <Separator />
                   <div className="p-4 flex justify-between items-center">
                     <div className="text-sm text-muted-foreground">
-                      {student.parentId ? 1 : 0} Parent(s)
+                      {student.parents?.length || student.parentId ? 1 : 0}{" "}
+                      Parent(s)
                     </div>
                     <Button variant="outline" size="sm" asChild>
                       <Link to={`/dashboard/students/${student._id}`}>

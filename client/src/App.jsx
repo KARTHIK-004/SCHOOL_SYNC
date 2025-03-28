@@ -58,6 +58,7 @@ import CreateDepartment from "./pages/dashboard/school-admin/academics/departmen
 import SubjectManagement from "./pages/dashboard/school-admin/academics/subjects/SubjectManagement";
 import CreateSubject from "./pages/dashboard/school-admin/academics/subjects/CreateSubject";
 import SectionStudents from "./pages/dashboard/school-admin/academics/class-section/sections/SectionStudents";
+import EventsPage from "./pages/dashboard/school-admin/EventsPage";
 
 export default function App() {
   return (
@@ -77,6 +78,7 @@ export default function App() {
             {/* Configuration Routes */}
             <Route path="settings" element={<Settings />} />
             <Route path="notifications" element={<Notifications />} />
+            <Route path="announcements" element={<EventsPage />} />
 
             {/* Admin Routes */}
             <Route path="contacts" element={<ContactSubmissions />} />

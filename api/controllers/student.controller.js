@@ -198,6 +198,12 @@ export const createStudent = async (req, res) => {
         { new: true }
       );
 
+      await Section.findByIdAndUpdate(
+        sectionId,
+        { $push: { students: student._id } },
+        { new: true }
+      );
+
       res.status(201).json({
         status: "success",
         data: {
