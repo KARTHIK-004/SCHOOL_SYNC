@@ -57,6 +57,7 @@ import CreateDepartment from "./pages/dashboard/school-admin/academics/departmen
 // Subjects
 import SubjectManagement from "./pages/dashboard/school-admin/academics/subjects/SubjectManagement";
 import CreateSubject from "./pages/dashboard/school-admin/academics/subjects/CreateSubject";
+import SectionStudents from "./pages/dashboard/school-admin/academics/class-section/sections/SectionStudents";
 
 export default function App() {
   return (
@@ -122,6 +123,10 @@ export default function App() {
               <Route path="classes">
                 <Route path="sections/create" element={<CreateSection />} />
                 <Route path="sections/edit/:id" element={<CreateSection />} />
+                <Route
+                  path="sections/:id/students"
+                  element={<SectionStudents />}
+                />
               </Route>
             </Route>
 

@@ -156,14 +156,14 @@ export default function SectionList({ selectedClass }) {
                       <div className="flex justify-between text-sm">
                         <span className="text-muted-foreground">Students:</span>
                         <span className="font-medium">
-                          {section.totalStudents || 0}
+                          {section.studentId?.length || 0}
                         </span>
                       </div>
                     </div>
                   </CardContent>
                   <CardFooter className="pt-0">
                     <Link
-                      to={`/dashboard/academics/sections/${section._id}/students`}
+                      to={`/dashboard/academics/classes/sections/${section._id}/students`}
                       className="w-full"
                     >
                       <Button variant="outline" className="w-full" size="sm">

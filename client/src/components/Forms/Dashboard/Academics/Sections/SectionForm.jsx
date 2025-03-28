@@ -115,7 +115,7 @@ export function SectionForm({ editingId, initialData }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormHeader
-        href="/dashboard/academics/sections"
+        href="/dashboard/academics/classes"
         parent="Academics"
         title="Section"
         editingId={editingId}
@@ -202,7 +202,7 @@ export function SectionForm({ editingId, initialData }) {
       </div>
 
       <FormFooter
-        href="/dashboard/academics/sections"
+        href="/dashboard/academics/classes"
         parent="Academics"
         title="Section"
         editingId={editingId}

@@ -35,3 +35,15 @@ export const getStudentById = async (id) => {
     throw error.response ? error.response.data : error.message;
   }
 };
+
+export const getStudentsBySection = async (sectionId) => {
+  try {
+    const response = await api.get(
+      `/students/section/${sectionId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching students by section:", error);
+    throw error;
+  }
+};
