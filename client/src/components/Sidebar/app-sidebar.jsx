@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { NavMain } from "./nav-main";
 import NavUser from "./nav-user";
 import { NavConfig } from "./nav-config";
@@ -13,11 +14,20 @@ import {
 import { navigationData } from "./nav-data";
 
 export function AppSidebar({ ...props }) {
-  // Get user role from localStorage or context
-  const userRole = localStorage.getItem("role") || "schoolAdmin"; // Default to student if no role found
+  const navigate = useNavigate();
+  const [roleNavigation, setRoleNavigation] = useState(null);
 
-  // Get navigation data based on user role
-  const roleNavigation = navigationData[userRole] || navigationData.schoolAdmin;
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      navigate("/sign-in");
+      return;
+    }
+    const filteredNav = navigationData[user.role] || navigationData.default;
+    setRoleNavigation(filteredNav);
+  }, [navigate]);
+
+  if (!roleNavigation) return null;
 
   return (
     <Sidebar collapsible="icon" {...props}>

@@ -196,19 +196,17 @@ const parentNavigation = [
     url: "#",
     icon: Users,
     items: [
-      { title: "Performance", url: "/dashboard/parent/children" },
-      { title: "Attendance", url: "/dashboard/parent/attendance" },
-      { title: "Grades", url: "/dashboard/parent/grades" },
+      { title: "Directory", url: "/dashboard/parent/childrens" },
+      { title: "Performance", url: "/dashboard/parent/childrens/performance" },
+      { title: "Attendance", url: "/dashboard/parent/childrens/attendance" },
+      { title: "Grades", url: "/dashboard/parent/children/grades" },
     ],
   },
   {
     title: "Communication",
     url: "#",
     icon: Bell,
-    items: [
-      { title: "Messages", url: "/dashboard/parent/messages" },
-      { title: "Meetings", url: "/dashboard/parent/meetings" },
-    ],
+    items: [{ title: "Messages", url: "/dashboard/parent/messages" }],
   },
 ];
 
