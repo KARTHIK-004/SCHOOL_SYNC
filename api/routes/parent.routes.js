@@ -4,6 +4,7 @@ import {
   deleteParent,
   getAllParents,
   getParentById,
+  getParentByUserId,
   getParentsBySchool,
   updateParent,
 } from "../controllers/parent.controller.js";
@@ -17,5 +18,6 @@ router.delete("/:id", protect, deleteParent);
 router.get("/", protect, getAllParents);
 router.get("'/school/:schoolId", getParentsBySchool);
 router.get("/:id", getParentById);
+router.get("/user/:id", getParentByUserId);
 
 export default router;

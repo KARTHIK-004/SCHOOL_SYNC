@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { getCurrentUser } from "@/utils/authAPI";
-import { getMySchool, getSchoolById } from "@/utils/schoolAPI";
+import { getMySchool } from "@/utils/schoolAPI";
 import WelcomeBanner from "@/components/Dashboard/SchoolAdmin/WelcomeBanner";
 import StatCard from "@/components/Dashboard/SchoolAdmin/StatCard";
 import RecentActivities from "@/components/Dashboard/SchoolAdmin/RecentActivities";

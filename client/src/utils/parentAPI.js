@@ -54,3 +54,12 @@ export const getParentsBySchool = async (schoolId) => {
     throw error.response ? error.response.data : error.message;
   }
 };
+
+export const getParentByUserId = async (userId) => {
+  try {
+    const response = await api.get(`/parents/user/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : error.message;
+  }
+};

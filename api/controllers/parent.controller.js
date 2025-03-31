@@ -236,6 +236,30 @@ export const getParentById = async (req, res) => {
   }
 };
 
+export const getParentByUserId = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const parent = await Parent.findOne({ userId });
+
+    if (!parent) {
+      return res.status(404).json({
+        status: "error",
+        message: "Parent not found for this user",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: parent,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Server error while fetching parent",
+    });
+  }
+};
+
 export const getParentsBySchool = async (req, res) => {
   try {
     const school = await School.findOne({ userId: req.user.id });
@@ -246,7 +270,7 @@ export const getParentsBySchool = async (req, res) => {
       });
     }
 
-    const parents = await Parent.find({ schoolId: school._id });
+    const parents = await Parent.find({ userId: req.user.id });
 
     res.status(200).json({
       status: "success",

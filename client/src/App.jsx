@@ -58,7 +58,14 @@ import CreateDepartment from "./pages/dashboard/school-admin/academics/departmen
 import SubjectManagement from "./pages/dashboard/school-admin/academics/subjects/SubjectManagement";
 import CreateSubject from "./pages/dashboard/school-admin/academics/subjects/CreateSubject";
 import SectionStudents from "./pages/dashboard/school-admin/academics/class-section/sections/SectionStudents";
-import EventsPage from "./pages/dashboard/school-admin/EventsPage";
+import EventDirectory from "./pages/dashboard/school-admin/events/EventDirectory";
+
+// Parents Routes
+// Children
+import ChildrenDirectory from "./pages/dashboard/parent/childrens/ChildrenDirectory";
+import CreateEvents from "./pages/dashboard/school-admin/events/CreateEvents";
+import ChildrenDetails from "./pages/dashboard/parent/childrens/ChildrenDetails";
+import MessageManagement from "./pages/dashboard/parent/messages/MessageManagement";
 
 export default function App() {
   return (
@@ -78,12 +85,21 @@ export default function App() {
             {/* Configuration Routes */}
             <Route path="settings" element={<Settings />} />
             <Route path="notifications" element={<Notifications />} />
-            <Route path="announcements" element={<EventsPage />} />
 
             {/* Admin Routes */}
             <Route path="contacts" element={<ContactSubmissions />} />
 
+            {/* Parent Routes */}
+            <Route path="parent/childrens" element={<ChildrenDirectory />} />
+            <Route path="parent/childrens/:id" element={<ChildrenDetails />} />
+            <Route path="parent/messages" element={<MessageManagement />} />
+
             {/* School Admin Routes */}
+            {/* Events */}
+            <Route path="events" element={<EventDirectory />} />
+            <Route path="events/create" element={<CreateEvents />} />
+            <Route path="events/edit/:id" element={<CreateEvents />} />
+
             {/* Students */}
             <Route path="students" element={<StudentDirectory />} />
             <Route path="students/create" element={<CreateStudents />} />

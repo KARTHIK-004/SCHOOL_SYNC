@@ -2,18 +2,7 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import {
-  Users,
-  GraduationCap,
-  UserCircle,
-  BookOpen,
-  CalendarDays,
-  Settings,
-  Mail,
-  Phone,
-  School,
-  BookType,
-} from "lucide-react";
+import { Users, GraduationCap, UserCircle, BookOpen } from "lucide-react";
 
 export default function StatCard({ schoolStats }) {
   return (
