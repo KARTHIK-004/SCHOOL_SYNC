@@ -38,8 +38,6 @@ export default function ParentDashboard() {
     getParentData();
   }, [navigate, toast]);
 
-  console.log(parent);
-
   if (loading) {
     return (
       <ScrollArea className="sm:h-full lg:h-[calc(100vh-4rem)]">

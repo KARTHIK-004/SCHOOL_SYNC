@@ -42,6 +42,10 @@ import TeacherDetails from "./pages/dashboard/school-admin/teachers/TeacherDetai
 import CreateTeachers from "./pages/dashboard/school-admin/teachers/CreateTeachers";
 
 // Academics
+// Terms
+import TermDirectory from "./pages/dashboard/school-admin/academics/terms/TermDirectory";
+import CreateTerm from "./pages/dashboard/school-admin/academics/terms/CreateTerm";
+
 // Classes
 import ClassManagement from "./pages/dashboard/school-admin/academics/class-section/ClassManagement";
 import CreateClasses from "./pages/dashboard/school-admin/academics/class-section/classes/CreateClasses";
@@ -60,12 +64,19 @@ import CreateSubject from "./pages/dashboard/school-admin/academics/subjects/Cre
 import SectionStudents from "./pages/dashboard/school-admin/academics/class-section/sections/SectionStudents";
 import EventDirectory from "./pages/dashboard/school-admin/events/EventDirectory";
 
+// Assignments
+import TeacherAssignments from "./pages/dashboard/teacher/assignments/TeacherAssignments";
+import CreateAssignment from "./pages/dashboard/teacher/assignments/CreateAssignment";
+
 // Parents Routes
 // Children
 import ChildrenDirectory from "./pages/dashboard/parent/childrens/ChildrenDirectory";
 import CreateEvents from "./pages/dashboard/school-admin/events/CreateEvents";
 import ChildrenDetails from "./pages/dashboard/parent/childrens/ChildrenDetails";
 import MessageManagement from "./pages/dashboard/parent/messages/MessageManagement";
+import TeacherClasses from "./pages/dashboard/teacher/classes/TeacherClasses";
+import TeacherCalendar from "./pages/dashboard/teacher/calendar/TeacherCalendar";
+import AddEvent from "./pages/dashboard/teacher/calendar/AddEvent";
 
 export default function App() {
   return (
@@ -88,6 +99,24 @@ export default function App() {
 
             {/* Admin Routes */}
             <Route path="contacts" element={<ContactSubmissions />} />
+
+            {/* Teacher Routes */}
+            {/* Classes */}
+            <Route path="teacher/classes" element={<TeacherClasses />} />
+
+            {/* Calender */}
+            <Route path="teacher/calendar" element={<TeacherCalendar />} />
+            <Route path="teacher/calendar/create" element={<AddEvent />} />
+
+            {/* Assignments */}
+            <Route
+              path="teacher/assignments"
+              element={<TeacherAssignments />}
+            />
+            <Route
+              path="teacher/assignments/create"
+              element={<CreateAssignment />}
+            />
 
             {/* Parent Routes */}
             <Route path="parent/childrens" element={<ChildrenDirectory />} />
@@ -120,6 +149,11 @@ export default function App() {
 
             {/* Academic Routes */}
             <Route path="academics">
+              {/* Terms Routes */}
+              <Route path="terms" element={<TermDirectory />} />
+              <Route path="terms/create" element={<CreateTerm />} />
+              <Route path="terms/edit/:id" element={<CreateTerm />} />
+
               {/* Department Routes */}
               <Route path="departments" element={<DepartmentManagement />} />
               <Route path="departments/create" element={<CreateDepartment />} />

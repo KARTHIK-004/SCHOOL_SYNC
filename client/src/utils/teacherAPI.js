@@ -37,6 +37,15 @@ export const getTeacherById = async (id) => {
   }
 };
 
+export const getTeacherByUserId = async (userId) => {
+  try {
+    const response = await api.get(`/teachers/user/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : error.message;
+  }
+};
+
 export const getAllTeachers = async () => {
   try {
     const response = await api.get("/teachers");

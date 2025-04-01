@@ -230,3 +230,27 @@ export const getTeacherById = async (req, res) => {
     });
   }
 };
+
+export const getTeacherByUserId = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const teacher = await Teacher.findOne({ userId });
+
+    if (!teacher) {
+      return res.status(404).json({
+        status: "error",
+        message: "Teacher not found for this user",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: teacher,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Server error while fetching teacher",
+    });
+  }
+};

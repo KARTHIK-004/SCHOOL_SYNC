@@ -94,6 +94,7 @@ const schoolAdminNavigation = [
       { title: "Classes and Sections", url: "/dashboard/academics/classes" },
       { title: "Departments", url: "/dashboard/academics/departments" },
       { title: "Subjects", url: "/dashboard/academics/subjects" },
+      { title: "Terms", url: "/dashboard/academics/terms" },
       { title: "Assignments", url: "/dashboard/academics/assignments" },
       { title: "Timetable", url: "/dashboard/academics/timetable" },
     ],

@@ -335,6 +335,71 @@ export const academicYears = [
   { value: "2026-2027", label: "2026-2027" },
 ];
 
+export const termTypes = [
+  {
+    label: "Semester",
+    value: "semester",
+  },
+  {
+    label: "Quarter",
+    value: "quarter",
+  },
+  {
+    label: "Trimester",
+    value: "trimester",
+  },
+  {
+    label: "Summer",
+    value: "summer",
+  },
+  {
+    label: "Winter",
+    value: "winter",
+  },
+  {
+    label: "Spring",
+    value: "spring",
+  },
+  {
+    label: "Fall",
+    value: "fall",
+  },
+];
+
+export const termStatus = [
+  {
+    label: "Upcoming",
+    value: "upcoming",
+  },
+  {
+    label: "Current",
+    value: "current",
+  },
+  {
+    label: "Completed",
+    value: "completed",
+  },
+  {
+    label: "Cancelled",
+    value: "cancelled",
+  },
+  {
+    label: "Postponed",
+    value: "postponed",
+  },
+];
+
+export const isActive = [
+  {
+    label: "Yes",
+    value: "yes",
+  },
+  {
+    label: "No",
+    value: "no",
+  },
+];
+
 export const classTypes = [
   { value: "primary", label: "Primary" },
   { value: "secondary", label: "Secondary" },

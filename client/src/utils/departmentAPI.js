@@ -17,3 +17,12 @@ export const getAllDepartments = async (userData) => {
     throw error.response ? error.response.data : error.message;
   }
 };
+
+export const getDepartmentById = async (departmentId) => {
+  try {
+    const response = await api.get(`/departments/${departmentId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
