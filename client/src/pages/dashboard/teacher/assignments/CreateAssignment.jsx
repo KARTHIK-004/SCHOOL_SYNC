@@ -3,8 +3,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Button } from "@/components/ui/button";
-import { ClipboardList } from "lucide-react";
 
 // Form Components
 import FormHeader from "@/components/Forms/Dashboard/FormHeader";
@@ -13,7 +11,6 @@ import TextInput from "@/components/FormInputs/TextInput";
 import DateInput from "@/components/FormInputs/DateInput";
 import TextareaInput from "@/components/FormInputs/TextareaInput";
 import ComboboxInput from "@/components/FormInputs/ComboboxInput";
-// import SelectInput from "@/components/FormInputs/SelectInput";
 
 export default function CreateAssignment() {
   const navigate = useNavigate();
