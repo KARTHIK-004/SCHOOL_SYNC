@@ -335,6 +335,38 @@ export const academicYears = [
   { value: "2026-2027", label: "2026-2027" },
 ];
 
+export const durationOptions = [
+  { value: "45 Mins", label: "45 Mins" },
+  { value: "1 Hour", label: "1 Hour" },
+];
+
+export const timeOptions = [
+  { value: "8:00 AM", label: "8:00 AM" },
+  { value: "8:45 AM", label: "8:45 AM" },
+  { value: "9:30 AM", label: "9:30 AM" },
+  { value: "10:15 AM", label: "10:15 AM" },
+  { value: "11:00 AM", label: "11:00 AM" },
+  { value: "11:45 AM", label: "11:45 AM" },
+  { value: "12:30 PM", label: "12:30 PM" },
+  { value: "1:15 PM", label: "1:15 PM" },
+  { value: "2:00 PM", label: "2:00 PM" },
+  { value: "2:45 PM", label: "2:45 PM" },
+  { value: "3:30 PM", label: "3:30 PM" },
+  { value: "4:15 PM", label: "4:15 PM" },
+  { value: "5:00 PM", label: "5:00 PM" },
+];
+
+export const sessionTypes = [
+  { label: "Regular Class", value: "regular" },
+  { label: "Lab Session", value: "lab" },
+  { label: "Tutorial", value: "tutorial" },
+  { label: "Assembly", value: "assembly" },
+  { label: "Break/Recess", value: "break" },
+  { label: "Lunch", value: "lunch" },
+  { label: "Extracurricular", value: "extracurricular" },
+  { label: "Special Event", value: "special" },
+];
+
 export const termTypes = [
   {
     label: "Semester",

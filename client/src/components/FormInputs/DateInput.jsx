@@ -71,7 +71,7 @@ const DateInput = ({
   const [calendarDate, setCalendarDate] = React.useState(new Date());
 
   const minYear = min ? new Date(min).getFullYear() : 1900;
-  const maxYear = max ? new Date(max).getFullYear() : new Date().getFullYear();
+  const maxYear = max ? new Date(max).getFullYear() : 2025;
   const years = Array.from(
     { length: maxYear - minYear + 1 },
     (_, i) => maxYear - i

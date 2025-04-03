@@ -77,6 +77,8 @@ import MessageManagement from "./pages/dashboard/parent/messages/MessageManageme
 import TeacherClasses from "./pages/dashboard/teacher/classes/TeacherClasses";
 import TeacherCalendar from "./pages/dashboard/teacher/calendar/TeacherCalendar";
 import AddEvent from "./pages/dashboard/teacher/calendar/AddEvent";
+import Timetable from "./pages/dashboard/school-admin/schedule/Timetable";
+import CreateTimetable from "./pages/dashboard/school-admin/schedule/CreateTimetable";
 
 export default function App() {
   return (
@@ -147,9 +149,17 @@ export default function App() {
             <Route path="teachers/:id" element={<TeacherDetails />} />
             <Route path="teachers/edit/:id" element={<CreateTeachers />} />
 
+            {/* Schedule Routes */}
+            <Route path="schedule">
+              {/* Timetable  */}
+              <Route path="timetable" element={<Timetable />} />
+              <Route path="timetable/create" element={<CreateTimetable />} />
+              <Route path="timetable/edit/:id" element={<CreateTimetable />} />
+            </Route>
+
             {/* Academic Routes */}
             <Route path="academics">
-              {/* Terms Routes */}
+              {/* Terms  */}
               <Route path="terms" element={<TermDirectory />} />
               <Route path="terms/create" element={<CreateTerm />} />
               <Route path="terms/edit/:id" element={<CreateTerm />} />
@@ -165,6 +175,7 @@ export default function App() {
               {/* Subject Routes */}
               <Route path="subjects" element={<SubjectManagement />} />
               <Route path="subjects/create" element={<CreateSubject />} />
+              <Route path="subjects/edit/:id" element={<CreateSubject />} />
 
               {/* Classes Routes */}
               <Route path="classes" element={<ClassManagement />} />

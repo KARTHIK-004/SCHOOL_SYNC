@@ -102,7 +102,6 @@ export default function SingleStudent({ editingId, initialData }) {
     fetchData();
   }, [toast, initialData]);
 
-  // Update sections when class selection changes
   useEffect(() => {
     const fetchSections = async () => {
       if (!selectedClass) return;
